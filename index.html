@@ -16,6 +16,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
+        /* Estils personalitzats per a la barra de desplaçament */
         .custom-scrollbar::-webkit-scrollbar {
             height: 14px;
         }
@@ -46,14 +47,12 @@
         const { useState, useEffect, useCallback } = React;
 
         // --- SISTEMA D'ICONES SVG MANUAL ---
-        // Utilitzem React.Fragment per agrupar icones amb múltiples camins
         const Icon = ({ name, size = 24, className = "", ...props }) => {
             const icons = {
                 RotateCw: <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 12M21 3v9h-9"/>,
                 Trash2: <React.Fragment><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></React.Fragment>,
                 Dices: <React.Fragment><rect width="12" height="12" x="2" y="10" rx="2" ry="2"/><path d="m17.92 14 3.5-3.5a2.24 2.24 0 0 0 0-3l-5-4.92a2.24 2.24 0 0 0-3 0L10 6"/><path d="M6 18h.01"/><path d="M10 14h.01"/><path d="M15 6h.01"/><path d="M18 9h.01"/></React.Fragment>,
                 Database: <React.Fragment><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></React.Fragment>,
-                GripVertical: <React.Fragment><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></React.Fragment>,
                 BookOpen: <React.Fragment><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></React.Fragment>,
                 ArrowRight: <React.Fragment><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></React.Fragment>,
                 ArrowLeft: <React.Fragment><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></React.Fragment>,
@@ -69,10 +68,9 @@
                 MoveDownLeft: <path d="M11 19H5V13M19 5L5 19"/>,
                 MoveUpLeft: <path d="M5 11V5H11M5 5L19 19"/>,
                 MoveUpRight: <path d="M13 5H19V11M19 5L5 19"/>,
-                Link: <React.Fragment><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></React.Fragment>,
-                Lock: <React.Fragment><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></React.Fragment>,
                 Repeat: <React.Fragment><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></React.Fragment>,
-                X: <path d="M18 6 6 18M6 6l12 12"/>
+                X: <path d="M18 6 6 18M6 6l12 12"/>,
+                Lock: <React.Fragment><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></React.Fragment>
             };
 
             return (
@@ -104,7 +102,7 @@
             SOUL: { id: 'SOUL', label: 'Una Ànima Dividida', slots: ['agent', 'engine', 'conflict', 'anchor', 'engine', 'conflict', 'anchor'] }
         };
 
-        // --- COMPONENTS VISUALS ---
+        // --- COMPONENTS VISUALS DE CARTA ---
 
         const CardText = ({ position, text, color }) => {
             const textStyle = "text-center font-bold text-[10px] md:text-xs leading-tight tracking-wide pointer-events-none select-none";
@@ -177,6 +175,7 @@
 
         const CardSlot = ({ card, activeAspects, toggleAspect, changeCard, rotateCard, canSwapType, onSwapType }) => {
             const [hoverTarget, setHoverTarget] = useState(null); 
+            
             if (!card) return null; 
 
             const catConfig = CATEGORY_STYLES[card.category];
@@ -673,19 +672,44 @@
                     <div className="w-full max-w-7xl flex flex-col items-center pb-20 mt-8 gap-8">
                         {renderLayout()}
                     </div>
-                    {/* MODAL INSTRUCCIONS (simplified) */}
+                    {/* MODAL INSTRUCCIONS */}
                     {showInstructions && (
                         <div className="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
                             <div className="bg-[#1a1a1a] border-2 border-[#d4af37] rounded-lg max-w-2xl w-full p-6 relative shadow-[0_0_50px_rgba(212,175,55,0.2)] max-h-[90vh] overflow-y-auto">
                                 <button onClick={() => setShowInstructions(false)} className="absolute top-4 right-4 text-gray-400 hover:text-white"><Icon name="X" size={24} /></button>
                                 <h2 className="text-2xl font-bold text-[#d4af37] mb-6 uppercase tracking-widest border-b border-gray-700 pb-2">Guia d'ús</h2>
-                                <div className="text-gray-300 space-y-4 text-sm">
-                                    <p>Instruccions bàsiques:</p>
-                                    <ul className="list-disc pl-5">
-                                        <li>Gira les cartes clicant-hi.</li>
-                                        <li>Canvia-les clicant al centre.</li>
-                                        <li>Fes servir el menú desplegable per canviar de mode.</li>
-                                    </ul>
+                                
+                                <div className="text-gray-300 space-y-6 text-sm leading-relaxed p-2">
+                                    <p>Benvingut al Generador d'Històries. Aquesta eina està dissenyada per desbloquejar la teva creativitat.</p>
+                                    <section>
+                                        <h3 className="text-lg font-bold text-[#d4af37] mb-3 border-b border-[#d4af37]/30 pb-1">1. Els Tipus de Cartes</h3>
+                                        <div className="grid gap-3">
+                                            <div className="flex gap-2"><span className="text-blue-400 font-bold min-w-[80px]">AGENT:</span> <span>El protagonista (El Qui).</span></div>
+                                            <div className="flex gap-2"><span className="text-yellow-400 font-bold min-w-[80px]">MOTOR:</span> <span>La motivació o objectiu (El Per què).</span></div>
+                                            <div className="flex gap-2"><span className="text-emerald-400 font-bold min-w-[80px]">ÀNCORA:</span> <span>L'objecte, lloc o persona on va l'acció (El Què/On).</span></div>
+                                            <div className="flex gap-2"><span className="text-red-400 font-bold min-w-[80px]">CONFLICTE:</span> <span>L'obstacle o preu a pagar (El Però).</span></div>
+                                            <div className="flex gap-2"><span className="text-purple-400 font-bold min-w-[80px]">ASPECTE:</span> <span>Un modificador o adjectiu (El Com).</span></div>
+                                        </div>
+                                    </section>
+                                    <section>
+                                        <h3 className="text-lg font-bold text-[#d4af37] mb-3 border-b border-[#d4af37]/30 pb-1">2. Com fer servir l'App</h3>
+                                        <ul className="list-disc pl-5 space-y-2">
+                                            <li><strong className="text-white">Girar:</strong> Clica la carta per veure una nova opció del mateix tipus (4 opcions per carta).</li>
+                                            <li><strong className="text-white">Canviar:</strong> Clica al cercle central (paperera) per obtenir una carta totalment nova.</li>
+                                            <li><strong className="text-white">Aspectes:</strong> Marca la casella superior dreta (Agent/Àncora) per afegir un modificador.</li>
+                                            <li><strong className="text-white">Intercanvi (↔):</strong> En modes avançats, pots canviar el tipus de carta (Agent ↔ Àncora).</li>
+                                            <li><strong className="text-white">Arrossegar:</strong> Als modes avançats, pots reordenar les frases del prompt (excepte a "Llavor").</li>
+                                        </ul>
+                                    </section>
+                                    <section>
+                                        <h3 className="text-lg font-bold text-[#d4af37] mb-3 border-b border-[#d4af37]/30 pb-1">3. Esquemes Narratius</h3>
+                                        <div className="space-y-4">
+                                            <div><h4 className="font-bold text-white">🌱 Llavor de la Història</h4><p className="text-gray-400">Estructura lineal bàsica. Ideal per a premisses ràpides.</p></div>
+                                            <div><h4 className="font-bold text-white">⭕ Cercle del Destí</h4><p className="text-gray-400">Cicle tancat entre dos agents. L'acció d'un afecta l'altre i viceversa.</p></div>
+                                            <div><h4 className="font-bold text-white">⚔️ Xoc de Voluntats</h4><p className="text-gray-400">Dos agents competeixen per la mateixa Àncora amb motivacions oposades.</p></div>
+                                            <div><h4 className="font-bold text-white">💔 Una Ànima Dividida</h4><p className="text-gray-400">Un sol agent al centre es debat entre dos desitjos o camins incompatibles.</p></div>
+                                        </div>
+                                    </section>
                                 </div>
                             </div>
                         </div>
