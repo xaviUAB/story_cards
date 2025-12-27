@@ -44,9 +44,8 @@
     <script type="text/babel">
         const { useState, useEffect, useCallback } = React;
 
-        // --- SISTEMA D'ICONES SVG MANUAL (Per evitar errors de dependències) ---
+        // --- SISTEMA D'ICONES SVG MANUAL ---
         const Icon = ({ name, size = 24, className = "", ...props }) => {
-            // Nota: Els elements amb múltiples fills han d'estar en un fragment <>...</>
             const icons = {
                 RotateCw: <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 12M21 3v9h-9"/>,
                 Trash2: <><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></>,
@@ -338,6 +337,7 @@
                 const newHand = [];
                 let currentUsedIndices = { ...usedIndices };
 
+                // Funció local per no dependre de l'estat asíncron durant el loop
                 const getItemsLocally = (cat, cnt) => {
                    if (!cardPool[cat]) return Array(cnt).fill("...");
                    const pool = cardPool[cat];
@@ -518,12 +518,11 @@
                 }
 
                 if (currentMode === 'SOUL') {
-                    // [0:Agent, 1:Mot1, 2:Conf1, 3:Anc1, 4:Mot2, 5:Conf2, 6:Anc2]
                     return (
-                        <div className="w-full overflow-x-auto pb-10 pt-20 px-4 custom-scrollbar"> 
-                            <div className="flex flex-col items-center gap-8 min-w-[1200px] relative mx-auto justify-start md:justify-center">
-                                <div className="flex flex-nowrap justify-center items-center gap-8 w-full">
-                                    {/* Left (Desig 2) */}
+                        <div className="w-full overflow-x-auto pb-10 pt-24 px-8 custom-scrollbar"> 
+                            <div className="flex flex-col items-center gap-8 min-w-max mx-auto">
+                                <div className="flex flex-nowrap items-center gap-8">
+                                    {/* Left */}
                                     <div className="flex flex-row items-center gap-4 order-1">
                                         <CardSlot card={hand[6]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
                                         <Icon name="ArrowLeft" className="text-[#d4af37] shrink-0" size={24} />
@@ -536,7 +535,7 @@
                                     <div className="order-2 z-20 transform scale-110 mx-4">
                                         <CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
                                     </div>
-                                    {/* Right (Desig 1) */}
+                                    {/* Right */}
                                     <div className="flex flex-row items-center gap-4 order-3">
                                         <Icon name="ArrowRight" className="text-[#d4af37] shrink-0" size={24} />
                                         <CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
