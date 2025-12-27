@@ -1,0 +1,298 @@
+import React, { useState, useEffect } from 'react';
+import { RotateCw, RefreshCw, Dices, Info } from 'lucide-react';
+
+/* DADES DE LA BARALLA (DECK)
+  Inspirades en l'edició bàsica, ampliades per oferir molta varietat.
+*/
+const CARD_DATA = {
+  agent: [
+    { id: 'ag1', options: ['UN DETECTIU CANSAT', 'UN ARTISTA EXCENTRIC', 'UN FANTASMA OBLIDAT', 'UN MERCENARI AMB HONOR'] },
+    { id: 'ag2', options: ['UNA REINA DESTRONADA', 'UN ROBOT AMB ÀNIMA', 'UN LLADRE DE GUANT BLANC', 'UN MAG SENSE MÀGIA'] },
+    { id: 'ag3', options: ['UN VIATGER DEL TEMPS', 'UN METGE DE PESTA', 'UN NEN PRODIGI', 'UN DÉU MENOR'] },
+    { id: 'ag4', options: ['UNA BRUIXA DEL BOSC', 'UN CAPITÀ PIRATA', 'UNA INTEL·LIGÈNCIA ARTIFICIAL', 'UN ARQUEÒLEG MALEÏT'] },
+    { id: 'ag5', options: ['UN MÚSIC SORD', 'UN ASSASSÍ JUBILAT', 'UN DIPLOMÀTIC ALIENÍGENA', 'UN GUARDIÀ DE FAR'] },
+    { id: 'ag6', options: ['UN CAVALLER DESHONRAT', 'UNA MUSA INSPIRADORA', 'UN CIENTÍFIC BOIG', 'UN PISTOLER SOLITARI'] },
+    { id: 'ag7', options: ['UN ESPIA DOBLE', 'UN MONJO GUERRER', 'UN COMERCIANT DE SOMNIS', 'UN CAÇADOR DE MOSTRES'] },
+    { id: 'ag8', options: ['UN VAMPIR ARREPENTIT', 'UNA PRINCESA REBEL', 'UN INVENTOR FRACASSAT', 'UN POLÍTIC CORRUPTE'] },
+    { id: 'ag9', options: ['UN NÀUFRAG ESPACIAL', 'UN MEDIUM ESPIRITUAL', 'UN GLADIADOR ESCAPAT', 'UN ARQUITECTE DE REALITATS'] },
+    { id: 'ag10', options: ['UN PERIODISTA CURIÓS', 'UN MAFIÓS SENTIMENTAL', 'UN JOGLAR MÀGIC', 'UN EXPLORADOR POLAR'] },
+    { id: 'ag11', options: ['UN GUARDIÀ DEL BOSC', 'UN RELLOTGER CEC', 'UN ALQUIMISTA IMPRUDENT', 'UN DRAC DISFRESSAT D\'HUMÀ'] },
+    { id: 'ag12', options: ['UN SOLDAT DE JOGUINA', 'UNA IA REBEL', 'UN PASTISSER ENVERINADOR', 'UN BIBLIOTECARI ARCÀ'] },
+    { id: 'ag13', options: ['UN GRANGER AMB UN SECRET', 'UN TAXISTA NOCTURN', 'UN ÀNGEL CAIGUT', 'UN BANDOLER GENERÓS'] },
+    { id: 'ag14', options: ['UN JUTGE IMPLACABLE', 'UN PINTOR DE FUTURS', 'UN MESTRE D\'ESGRIMA', 'UN SUPERVIVENT DE L\'APOCALIPSI'] },
+    { id: 'ag15', options: ['UN MARINER DE TERRA FERMA', 'UN FERRER LLEGENDARI', 'UN GOLEM D\'ARGILA', 'UN HERBOLARI SAVI'] }
+  ],
+  engine: [
+    { id: 'en1', options: ['VOL RECUPERAR UN RECORD', 'VOL VENJAR LA SEVA FAMÍLIA', 'VOL TRENCAR UNA MALEDICCIÓ', 'VOL TROBAR LA VERITAT'] },
+    { id: 'en2', options: ['INTENTA SALVAR EL MÓN', 'FUIG DEL SEU PASSAT', 'BUSCA UN TRESOR PERDUT', 'VOL GUANYAR UN TORNEIG'] },
+    { id: 'en3', options: ['VOL DEMOSTRAR LA SEVA INNOCÈNCIA', 'VOL CONQUERIR UN REGNE', 'INTENTA SOBREVIURE A L\'HIVERN', 'VOL ROBAR EL SOL'] },
+    { id: 'en4', options: ['VOL ESCRIURE UNA OBRA MESTRA', 'BUSCA EL PERDÓ', 'VOL MATAR UN DÉU', 'INTENTA TORNAR A CASA'] },
+    { id: 'en5', options: ['VOL PROTEGIR UN SECRET', 'VOL FER-SE RIC RÀPIDAMENT', 'INTENTA EVITAR UNA GUERRA', 'VOL TORNAR A SER HUMÀ'] },
+    { id: 'en6', options: ['VOL TROBAR L\'AMOR VERITABLE', 'VOL DESTRUIR UNA RELÍQUIA', 'INTENTA FUGIR D\'UNA PRESÓ', 'VOL RESUSCITAR UN MORT'] },
+    { id: 'en7', options: ['BUSCA LA FONT DE LA JOVENTUT', 'VOL COMPLIR UNA PROFECIA', 'INTENTA AMAGAR UN CADÀVER', 'VOL REUNIR UNA BANDA'] },
+    { id: 'en8', options: ['VOL SABOTEJAR UN CASAMENT', 'INTENTA CONTROLAR ELS SEUS PODERS', 'BUSCA EL SEU GERMÀ PERDUT', 'VOL ESCAPAR D\'UN BUCLE TEMPORAL'] },
+    { id: 'en9', options: ['VOL FUNDAR UNA NOVA COLÒNIA', 'INTENTA GUANYAR UNA APOSTA', 'VOL CAÇAR UNA BÈSTIA MÍTICA', 'VOL DESCOBRIR UNA NOVA ESPÈCIE'] },
+    { id: 'en10', options: ['VOL VENÇRE LA POR', 'INTENTA RECONSTRUIR EL SEU HONOR', 'VOL DERROCAR UN TIRÀ', 'VOL TANCAR UN PORTAL'] },
+    { id: 'en11', options: ['BUSCA EL SENTIT DE LA VIDA', 'VOL FER UN PACTE AMB EL DIABLE', 'INTENTA SALVAR EL SEU NEGOCI', 'VOL TROBAR LA CURA'] },
+    { id: 'en12', options: ['VOL ROBAR LES JOIES DE LA CORONA', 'INTENTA ENTENDRE ELS HUMANS', 'VOL CONSTRUIR UNA MÀQUINA VOLADORA', 'VOL VIATJAR A LA LLUNA'] },
+    { id: 'en13', options: ['VOL VENJAR EL SEU MESTRE', 'INTENTA ESCRIURE LA HISTÒRIA', 'VOL ESBORRAR EL SEU NOM', 'VOL PROTEGIR L\'ÚLTIM DRAC'] },
+    { id: 'en14', options: ['VOL TROBAR L\'ATLÀNTIDA', 'INTENTA SOBREVIURE A UNA TEMPESTA', 'VOL GUANYAR EL COR D\'ALGÚ', 'VOL SOLUCIONAR UN MISTERI'] },
+    { id: 'en15', options: ['VOL CREAR VIDA', 'INTENTA SORTIR D\'UN LABERINT', 'VOL APRENDRE MÀGIA PROHIBIDA', 'VOL UNIFICAR LES TRIBUS'] }
+  ],
+  anchor: [
+    { id: 'an1', options: ['UNA ESPASA ROVELLADA', 'UN RELLOTGE ATURAT', 'UNA CARTA SENSE ENVIAR', 'UNA CLAU MESTRA'] },
+    { id: 'an2', options: ['UN MAPA DEL TRESOR FALS', 'UNA MÀSCARA DE PORCELLANA', 'UN ANELL DE PODER', 'UN DIARI CREMAT'] },
+    { id: 'an3', options: ['UNA NAU ESPACIAL AVARIADA', 'UN MIRALL MÀGIC', 'UNA FOTO ANTIGA', 'UNA POCIÓ BUIDA'] },
+    { id: 'an4', options: ['UN FAR ABANDONAT', 'UNA CIUTAT SUBMERGIDA', 'UN ARBRE SAGRAT', 'UNA BIBLIOTECA INFINITA'] },
+    { id: 'an5', options: ['UNA CAIXA DE MÚSICA', 'UN OS DE SANT', 'UNA PISTOLA DE RAIGS', 'UNA CORONA DE FLORS'] },
+    { id: 'an6', options: ['UN VIOLÍ MALEÏT', 'UNA PLOMA DE FÈNIX', 'UN CODI ENCRIPTAT', 'UNA BRÚIXOLA TRENCADA'] },
+    { id: 'an7', options: ['UN VESTIT DE NÚVIA TACAT', 'UNA MÀQUINA D\'ESCRIURE', 'UN POT DE CENDRES', 'UNA PEDRA FILOSOFAL'] },
+    { id: 'an8', options: ['UNA RÀDIO D\'ONA CURTA', 'UN COLLAR DE PERLES', 'UNA DAGUA CERIMONIAL', 'UN TESTAMENT CONTESTAD'] },
+    { id: 'an9', options: ['UN TELESCOPI ANTIC', 'UNA LLAVOR EXTRATERRESTRE', 'UN AMULET PROTECTOR', 'UNA RECEPTA SECRETA'] },
+    { id: 'an10', options: ['UN JOC D\'ESCACS INACABAT', 'UNA FLAMA ETERNA', 'UN GUANT DE METALL', 'UNA SABATA DE CRISTALL'] },
+    { id: 'an11', options: ['UNA CÀMERA DE FOTOS', 'UN PORTAL DIMENSIONAL', 'UN LLIBRE EN BLANC', 'UNA MONEDA D\'OR'] },
+    { id: 'an12', options: ['UNA ESPELMA NEGRA', 'UN PONT TRENCAT', 'UNA CATEDRAL GÒTICA', 'UN BUNQUER NUCLEAR'] },
+    { id: 'an13', options: ['UNA ROSA ETERNA', 'UN PROGRAMARI VIRAL', 'UNA CORONA D\'ESPINA', 'UN MAPA D\'ESTRELLES'] },
+    { id: 'an14', options: ['UN FRAGMENT DE METEORIT', 'UNA CARTA DEL TAROT', 'UNA AMPOLLA DE VI ANELL', 'UNA CAIXA FORTA'] },
+    { id: 'an15', options: ['UN PERGAMIN ANTIC', 'UNA CINTA DE VIDEO', 'UN MANIQUÍ', 'UNA LLAUNA DE CONSERVA'] }
+  ],
+  obstacle: [
+    { id: 'ob1', options: ['UNA TEMPESTA ETERNA', 'LA TRAÏCIÓ D\'UN AMIC', 'LA MANCA DE TEMPS', 'UN MONSTRE ANTIC'] },
+    { id: 'ob2', options: ['UNA MALALTIA MORTAL', 'UNA GUERRA CIVIL', 'UNA LLEI INJUSTA', 'LA PÈRDUA DE MEMÒRIA'] },
+    { id: 'ob3', options: ['UN RIVAL PODERÓS', 'UNA TRAMPA MORTAL', 'LA SOLEDAT ABSOLUTA', 'UNA PROFECIA NEFASTA'] },
+    { id: 'ob4', options: ['LA GRAVETAT INVERTIDA', 'UN EXÈRCIT DE ZOMBIS', 'UN LABERINT SENSE SORTIDA', 'LA POR AL FRACÀS'] },
+    { id: 'ob5', options: ['UN PACTE AMB EL DIABLE', 'LA BUROCRÀCIA INFERNAL', 'UN VOLCÀ EN ERUPCIÓ', 'UNA MENTIDA PIADOSA'] },
+    { id: 'ob6', options: ['UNA MALEDICCIÓ GENERACIONAL', 'UN BLOQUEIG CREATIU', 'UNA DEUTE IMPAGABLE', 'UNA INVASIÓ ALIENÍGENA'] },
+    { id: 'ob7', options: ['UN FANTASMA DEL PASSAT', 'LA FALTA DE RECURSOS', 'UN MUR IMPOSSIBLE', 'UNA PLAGA D\'INSECTES'] },
+    { id: 'ob8', options: ['UN DÉU ENFADAT', 'UNA GLACIACIÓ REPENTINA', 'EL CONTROL MENTAL', 'UNA CRISI DE FE'] },
+    { id: 'ob9', options: ['UNA BOMBA DE RELLOTGERIA', 'UN SEGRESTATOR', 'UNA AVALANXA', 'LA FOSCOR TOTAL'] },
+    { id: 'ob10', options: ['UN IDIOMA DESCONEGUT', 'UNA AL·LÈRGIA GREU', 'UN MERCAT NEGRE', 'LA POLICIA SECRETA'] },
+    { id: 'ob11', options: ['UN ERROR INFORMÀTIC', 'UN PONT LLEVADÍS', 'UNA SELVA IMPENETRABLE', 'EL CANT DE LES SIRENES'] },
+    { id: 'ob12', options: ['LA GRAVETAT ZERO', 'UNA DOUBLE IDENTITAT', 'UN JUTGE CORRUPTE', 'UN FOC FORESTAL'] },
+    { id: 'ob13', options: ['LA PRESSIÓ SOCIAL', 'UN ENIGMA SENSE SOLUCIÓ', 'UNA MÀQUINA AVARIADA', 'LA TRAÏCIÓ D\'UN GERMÀ'] },
+    { id: 'ob14', options: ['UN DRAC ADORMIT', 'UNA TEMPESTA DE SORRA', 'LA PÈRDUA DELS SENTITS', 'UN CAMP DE MINES'] },
+    { id: 'ob15', options: ['UNA PROMESA TRENCADA', 'UN RELLOTGE QUE CORRE ENRERE', 'UNA OMBRA QUE PERSEGUEIX', 'EL SILENCI DELS INNOCENTS'] }
+  ],
+  aspect: [
+    { id: 'as1', options: ['DURANT UNA FESTA DE MÀSCARES', 'EN UN SOMNI LÚCID', 'SOTA L\'AIGUA', 'EN UN FUTUR DISTÒPIC'] },
+    { id: 'as2', options: ['MENTRE TOT CREMA', 'EN SILENCI ABSOLUT', 'DINS D\'UNA MENT VIRTUAL', 'DURANT UN ECLIPSI'] },
+    { id: 'as3', options: ['SENSE GRAVETAT', 'AMB ELS ULLS VENATS', 'EN CAIGUDA LLIURE', 'DINS D\'UN QUADRE'] },
+    { id: 'as4', options: ['A LA LLUM DE LA LLUNA', 'DURANT L\'APOCALIPSI', 'EN UN MÓN DE VIDRE', 'MENTRE NEVA CENDRA'] },
+    { id: 'as5', options: ['EN UN TREN EN MARXA', 'DINS D\'UNA BALENA', 'AL CIM D\'UNA MUNTANYA', 'EN UNA ALTRA DIMENSIÓ'] },
+    { id: 'as6', options: ['SOTA LA PLUJA ÀCIDA', 'DINS D\'UN MIRALL', 'DURANT UNA REVOLUCIÓ', 'EN UN CEMENTIRI OBLIDAT'] },
+    { id: 'as7', options: ['AMB LES MANS LLIGADES', 'DINS D\'UN SUBMARÍ', 'MENTRE SONA UNA CAMPANA', 'EN UN BOSC ENCANTAT'] },
+    { id: 'as8', options: ['DURANT UN CASAMENT', 'A LA VORA D\'UN PRECIPICI', 'DINS D\'UNA COVA DE GEL', 'EN UN MERCAT PLE DE GENT'] },
+    { id: 'as9', options: ['SOBRE UNA CATIFA VOLADORA', 'EN UN MÓN EN BLANC I NEGRE', 'DURANT UNA TEMPESTA ELÈCTRICA', 'EN UN CASTELL FLOTANT'] },
+    { id: 'as10', options: ['DINS D\'UN RELLOTGE GEGANT', 'SOTA UN SOL VERMELL', 'EN UN CIRC ABANDONAT', 'DURANT UN DUEL A MORT'] },
+    { id: 'as11', options: ['EN UN PLANETA DESERT', 'DINS D\'UN SOMNI ALIÈ', 'AL FONS D\'UN POU', 'MENTRE EL MÓN S\'ACABA'] },
+    { id: 'as12', options: ['EN UN JARDÍ LABERÍNTIC', 'DURANT UNA NEVADA ETERNA', 'EN UNA CIUTAT DE NEÓ', 'SOTA L\'AIGUA CONGELADA'] },
+    { id: 'as13', options: ['DINS D\'UNA PRESÓ DE CRISTALL', 'AL LLOM D\'UN DRAC', 'EN UN ASCENSOR AVARIAT', 'DURANT L\'HORA DE LES BRUIXES'] },
+    { id: 'as14', options: ['EN UN CAMP DE BATALLA', 'DINS D\'UNA BIBLIOTECA CREMANT', 'EN UNA CASA ENCANTADA', 'DURANT UNA CERIMÒNIA SECRETA'] },
+    { id: 'as15', options: ['EN UN VAILLE FANTASMA', 'DINS D\'UNA COMPUTADORA', 'A LA TORRE MÉS ALTA', 'EN UN POBLE ON NINGÚ PARLA'] }
+  ]
+};
+
+const CATEGORIES = [
+  { key: 'agent', label: 'AGENT', color: 'border-blue-400', bg: 'bg-blue-900/20', text: 'text-blue-200' },
+  { key: 'engine', label: 'MOTOR', color: 'border-amber-500', bg: 'bg-amber-900/20', text: 'text-amber-200' },
+  { key: 'anchor', label: 'ÀNCORA', color: 'border-emerald-500', bg: 'bg-emerald-900/20', text: 'text-emerald-200' },
+  { key: 'obstacle', label: 'OBSTACLE', color: 'border-red-500', bg: 'bg-red-900/20', text: 'text-red-200' },
+  { key: 'aspect', label: 'ASPECTE', color: 'border-purple-500', bg: 'bg-purple-900/20', text: 'text-purple-200' },
+];
+
+const getRandomCard = (categoryKey) => {
+  const cards = CARD_DATA[categoryKey];
+  return cards[Math.floor(Math.random() * cards.length)];
+};
+
+export default function StoryEngineApp() {
+  const [hand, setHand] = useState({});
+  const [rotations, setRotations] = useState({});
+
+  useEffect(() => {
+    generateFullHand();
+  }, []);
+
+  const generateFullHand = () => {
+    const newHand = {};
+    const newRotations = {};
+    CATEGORIES.forEach(cat => {
+      newHand[cat.key] = getRandomCard(cat.key);
+      newRotations[cat.key] = 0; 
+    });
+    setHand(newHand);
+    setRotations(newRotations);
+  };
+
+  const changeCard = (categoryKey) => {
+    setHand(prev => ({
+      ...prev,
+      [categoryKey]: getRandomCard(categoryKey)
+    }));
+  };
+
+  const rotateCard = (categoryKey) => {
+    setRotations(prev => ({
+      ...prev,
+      [categoryKey]: prev[categoryKey] + 90 // Ara sumem 90 per girar a la dreta (sentit horari)
+    }));
+  };
+
+  return (
+    <div className="min-h-screen bg-[#1a1a1a] text-gray-200 font-serif flex flex-col items-center py-8 px-4 overflow-x-hidden">
+      
+      {/* Header */}
+      <header className="mb-10 text-center space-y-4">
+        <h1 className="text-4xl md:text-6xl font-bold tracking-widest text-[#d4af37] uppercase border-b-2 border-[#d4af37] pb-2 inline-block">
+          The Story Engine
+        </h1>
+        <p className="text-gray-400 text-sm md:text-base max-w-2xl mx-auto italic">
+          Generador d'històries. Gira les cartes per seleccionar el teu camí.
+        </p>
+        <button 
+          onClick={generateFullHand}
+          className="mt-4 px-6 py-2 bg-[#2a2a2a] border border-[#d4af37] text-[#d4af37] rounded hover:bg-[#d4af37] hover:text-black transition-all flex items-center gap-2 mx-auto font-bold tracking-wider"
+        >
+          <Dices size={20} />
+          NOVA BARALLA
+        </button>
+      </header>
+
+      {/* Cards Grid */}
+      <div className="w-full max-w-7xl flex flex-wrap justify-center gap-6 md:gap-8 pb-20">
+        {CATEGORIES.map((category) => (
+          <div key={category.key} className="flex flex-col items-center gap-4">
+            
+            {/* Label */}
+            <div className={`text-xs tracking-[0.2em] font-bold ${category.text} uppercase`}>
+              {category.label}
+            </div>
+
+            {/* Card Container */}
+            <div className="relative group perspective-1000">
+              
+              {/* Active Indicator Arrow */}
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20 text-[#d4af37] animate-bounce">
+                ▼
+              </div>
+
+              {/* The Card */}
+              <div 
+                className={`relative w-48 h-48 md:w-56 md:h-56 bg-[#0f0f0f] border-2 ${category.color} rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-transform duration-500 ease-in-out`}
+                style={{ 
+                  transform: `rotate(${rotations[category.key]}deg)`,
+                  boxShadow: `0 0 20px ${category.color.replace('border-', '')}20` 
+                }}
+              >
+                {/* Texture Overlay */}
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] opacity-20 pointer-events-none"></div>
+                
+                {/* Inner Border Design (Slightly transparent frame to mark text areas) */}
+                <div className="absolute inset-2 border border-white/5 rounded pointer-events-none"></div>
+
+                {hand[category.key] && (
+                  <>
+                    {/* Utilitzem el nou sistema de posicionament per evitar solapaments */}
+                    <CardText position="top" text={hand[category.key].options[0]} color={category.text} />
+                    <CardText position="right" text={hand[category.key].options[1]} color={category.text} />
+                    <CardText position="bottom" text={hand[category.key].options[2]} color={category.text} />
+                    <CardText position="left" text={hand[category.key].options[3]} color={category.text} />
+                  </>
+                )}
+
+                {/* Center Decoration */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-30">
+                  <div className={`w-12 h-12 rounded-full border-2 ${category.color} flex items-center justify-center`}>
+                    <div className={`w-8 h-8 rounded-full border ${category.color}`}></div>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Controls */}
+              <div className="mt-6 flex gap-4 justify-center">
+                <button 
+                  onClick={() => rotateCard(category.key)}
+                  className="p-2 rounded-full bg-[#222] text-gray-300 hover:text-white hover:bg-[#333] border border-gray-700 transition-colors"
+                  title="Girar carta"
+                >
+                  <RotateCw size={18} />
+                </button>
+                <button 
+                  onClick={() => changeCard(category.key)}
+                  className="p-2 rounded-full bg-[#222] text-gray-300 hover:text-white hover:bg-[#333] border border-gray-700 transition-colors"
+                  title="Canviar carta"
+                >
+                  <RefreshCw size={18} />
+                </button>
+              </div>
+
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Footer / Instructions */}
+      <footer className="fixed bottom-0 w-full bg-[#111] border-t border-gray-800 py-4 px-6 flex justify-between items-center text-xs text-gray-500 z-50">
+        <div className="flex items-center gap-2">
+          <Info size={14} />
+          <span>Llegeix l'opció que apunta cap a la fletxa superior.</span>
+        </div>
+        <div>
+          Inspirat en The Story Engine Deck.
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+// Component auxiliar optimitzat per evitar solapaments
+const CardText = ({ position, text, color }) => {
+  // Ajustem la mida de la font per a textos llargs i assegurem que no surti del contenidor
+  const textStyle = "text-center font-bold text-[10px] md:text-xs leading-tight tracking-wide";
+  
+  // Posicionament absolut millorat
+  // Lògica: Cada àrea de text ocupa un trapezi/rectangle a prop de la vora, deixant les cantonades lliures.
+  // Els marges laterals (left/right en top/bottom) eviten que xoqui amb els textos laterals.
+  
+  if (position === 'top') {
+    return (
+      <div className={`absolute top-0 left-[15%] right-[15%] h-[25%] flex items-start justify-center pt-2 ${color}`}>
+        <span className={textStyle}>{text}</span>
+      </div>
+    );
+  }
+  
+  if (position === 'bottom') {
+    return (
+      <div className={`absolute bottom-0 left-[15%] right-[15%] h-[25%] flex items-end justify-center pb-2 ${color}`}>
+        <span className={`${textStyle} transform rotate-180`}>{text}</span>
+      </div>
+    );
+  }
+  
+  if (position === 'right') {
+    return (
+      <div className={`absolute top-[15%] bottom-[15%] right-0 w-[25%] flex items-center justify-end pr-1 ${color}`}>
+        {/* Utilitzem writing-mode per a text vertical o rotació. 
+            La rotació 90deg és més estàndard per a aquest joc. 
+            El contenidor està centrat verticalment. */}
+        <div className="w-[140px] h-8 flex items-center justify-center transform rotate-90 origin-center translate-x-[35%]">
+            <span className={textStyle}>{text}</span>
+        </div>
+      </div>
+    );
+  }
+  
+  if (position === 'left') {
+    return (
+      <div className={`absolute top-[15%] bottom-[15%] left-0 w-[25%] flex items-center justify-start pl-1 ${color}`}>
+        <div className="w-[140px] h-8 flex items-center justify-center transform -rotate-90 origin-center -translate-x-[35%]">
+            <span className={textStyle}>{text}</span>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+};
