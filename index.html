@@ -1,5 +1,38 @@
+/* INSTRUCCIONS D'ÚS PER A GITHUB / WEB:
+  Si vols publicar això com una pàgina web independent, crea un fitxer 'index.html' 
+  i enganxa el següent codi, substituint el comentari {EL_TEU_CODI_REACT_AQUI} 
+  pel contingut complet d'aquest component (o compilant-lo adequadament).
+
+  <!DOCTYPE html>
+  <html lang="ca">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador d'Històries</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lucide Icons (si cal via CDN, tot i que aquest codi fa servir importació de mòdul) -->
+    <!-- Nota: En un entorn standalone sense bundler, necessitaràs una versió UMD de Lucide o SVG inlines -->
+  </head>
+  <body class="bg-[#1a1a1a] text-white">
+    <div id="root"></div>
+    <script type="text/babel">
+      const { useState, useEffect, useCallback } = React;
+      // ... EL CODIG REACT D'AQUEST FITXER ...
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<StoryEngineApp />);
+    </script>
+  </body>
+  </html>
+*/
+
 import React, { useState, useEffect, useCallback } from 'react';
-import { RotateCw, Trash2, Dices, Database, GripVertical, BookOpen, ArrowRight, ArrowDown, ArrowUp, ArrowUpRight, CheckSquare, Square, ArrowDownLeft, ArrowUpLeft, MoveRight, MoveDownRight, MoveDownLeft, MoveUpLeft, MoveUpRight, MoveDown, MoveUp, Link, Lock, Repeat } from 'lucide-react';
+import { RotateCw, Trash2, Dices, Database, GripVertical, BookOpen, ArrowRight, ArrowDown, ArrowUp, ArrowUpRight, CheckSquare, Square, ArrowDownLeft, ArrowUpLeft, MoveRight, MoveDownRight, MoveDownLeft, MoveUpLeft, MoveUpRight, MoveDown, MoveUp, Link, Lock, Repeat, ArrowLeft } from 'lucide-react';
 
 // Dades extretes del fitxer "New Document de text.txt"
 const RAW_CSV_CONTENT = `Agent;Motor;Àncora;Conflicte;Aspecte
@@ -582,8 +615,8 @@ export default function StoryEngineApp() {
                     </div>
 
                     <div className="relative p-4 border-2 border-dashed border-[#d4af37]/30 rounded-xl bg-[#d4af37]/5 mx-4">
+                        <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs text-[#d4af37] uppercase tracking-widest font-bold whitespace-nowrap">Objecte de Conflicte</div>
                         <CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
-                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-[#d4af37] uppercase tracking-widest font-bold whitespace-nowrap">Objecte de Conflicte</div>
                     </div>
 
                     <div className="flex flex-col-reverse md:flex-row items-center gap-6">
@@ -600,41 +633,45 @@ export default function StoryEngineApp() {
     }
 
     if (currentMode === 'SOUL') {
-        // Updated Visual Order: Conf2 (5), Anc2 (6), Mot2 (4), Agent (0), Mot1 (1), Anc1 (3), Conf1 (2)
-        // Arrows should point outwards from center
+        // [0:Agent(Center), 1:Mot1, 2:Conf1, 3:Anc1, 4:Mot2, 5:Conf2, 6:Anc2]
         return (
             <div className="flex flex-col items-center gap-8 w-full max-w-[1600px] relative">
                 
-                <div className="flex flex-wrap xl:flex-nowrap justify-center items-center gap-4 w-full">
+                <div className="flex flex-wrap lg:flex-nowrap justify-center items-center gap-8 w-full">
                     
-                    {/* LEFT GROUP: Conf2 <- Anc2 <- Mot2 <-- AGENT */}
-                    <div className="flex flex-col md:flex-row items-center gap-4 order-2 xl:order-1">
+                    {/* LEFT GROUP (Desire 2): Anc2 <- Conf2 <- Mot2 <-- AGENT */}
+                    <div className="flex flex-col-reverse md:flex-row items-center gap-4 order-2 lg:order-1">
+                        <CardSlot 
+                            card={hand[6]} 
+                            activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} 
+                            canSwapType={true} onSwapType={swapCardCategory} 
+                        />
+                        <ArrowLeft className="text-[#d4af37] rotate-90 md:rotate-0" size={24} />
                         <CardSlot card={hand[5]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
-                        <ArrowUpLeft className="text-[#d4af37] rotate-[-45deg] md:rotate-[-45deg]" size={24} />
-                        <CardSlot card={hand[6]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
-                        <ArrowUpLeft className="text-[#d4af37] rotate-[-45deg] md:rotate-[-45deg]" size={24} />
+                        <ArrowLeft className="text-[#d4af37] rotate-90 md:rotate-0" size={24} />
                         <CardSlot card={hand[4]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
-                        <ArrowUpLeft className="text-[#d4af37] rotate-[-45deg] md:rotate-[-45deg]" size={24} />
+                        <ArrowLeft className="text-[#d4af37] rotate-90 md:rotate-0" size={24} />
                     </div>
 
                     {/* CENTER: AGENT */}
-                    <div className="order-1 xl:order-2 z-20 transform scale-110 mx-4">
+                    <div className="order-1 lg:order-2 z-20 transform scale-110 mx-4">
                         <CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
                     </div>
 
-                    {/* RIGHT GROUP: AGENT --> Mot1 -> Anc1 -> Conf1 */}
-                    <div className="flex flex-col md:flex-row items-center gap-4 order-3 xl:order-3">
-                        <ArrowUpRight className="text-[#d4af37] rotate-[45deg] md:rotate-[45deg]" size={24} />
+                    {/* RIGHT GROUP (Desire 1): AGENT --> Mot1 -> Conf1 -> Anc1 */}
+                    <div className="flex flex-col md:flex-row items-center gap-4 order-3 lg:order-3">
+                        <ArrowRight className="text-[#d4af37] rotate-90 md:rotate-0" size={24} />
                         <CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
-                        <ArrowUpRight className="text-[#d4af37] rotate-[45deg] md:rotate-[45deg]" size={24} />
-                        <CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
-                        <ArrowUpRight className="text-[#d4af37] rotate-[45deg] md:rotate-[45deg]" size={24} />
+                        <ArrowRight className="text-[#d4af37] rotate-90 md:rotate-0" size={24} />
                         <CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                        <ArrowRight className="text-[#d4af37] rotate-90 md:rotate-0" size={24} />
+                        <CardSlot 
+                            card={hand[3]} 
+                            activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} 
+                            canSwapType={true} onSwapType={swapCardCategory} 
+                        />
                     </div>
                 </div>
-                
-                <div className="absolute top-0 left-10 text-xs text-[#d4af37] uppercase tracking-widest hidden xl:block">Camí del Desig 2</div>
-                <div className="absolute top-0 right-10 text-xs text-[#d4af37] uppercase tracking-widest hidden xl:block">Camí del Desig 1</div>
             </div>
         );
     }
@@ -900,7 +937,9 @@ export default function StoryEngineApp() {
           });
       }
 
-      // STANDARD ORDERING (SEED) - NO DRAG
+      // STANDARD ORDERING (SEED)
+      const isDragEnabled = currentMode === 'SEED' ? false : true;
+
       return promptOrder.map((uid, index) => {
           const card = hand.find(c => c.uid === uid);
           if (!card) return null; 
@@ -911,13 +950,13 @@ export default function StoryEngineApp() {
           return (
             <div 
                 key={uid}
-                draggable
-                onDragStart={(e) => handleDragStart(e, index)}
+                draggable={isDragEnabled}
+                onDragStart={(e) => isDragEnabled && handleDragStart(e, index)}
                 onDragOver={handleDragOver}
-                onDrop={(e) => handleDrop(e, index)}
-                className="flex items-start gap-1 p-1 rounded hover:bg-white/5 transition-colors cursor-grab active:cursor-grabbing border border-transparent hover:border-white/10"
+                onDrop={(e) => isDragEnabled && handleDrop(e, index)}
+                className={`flex items-start gap-1 p-1 rounded transition-colors border border-transparent ${isDragEnabled ? 'hover:bg-white/5 cursor-grab active:cursor-grabbing hover:border-white/10' : ''}`}
             >
-                <div className="mt-2 text-white/30"><GripVertical size={14} /></div>
+                {isDragEnabled && <div className="mt-2 text-white/30"><GripVertical size={14} /></div>}
 
                 <div className="flex flex-col gap-1"> 
                     <div className={`flex flex-col items-center gap-1 p-2 rounded shadow-lg transition-all ${catConfig.promptBg} border border-white/10`}>
