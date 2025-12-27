@@ -1,298 +1,1076 @@
-import React, { useState, useEffect } from 'react';
-import { RotateCw, RefreshCw, Dices, Info } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { RotateCw, Trash2, Dices, Database, GripVertical, BookOpen, ArrowRight, ArrowDown, ArrowUp, ArrowUpRight, CheckSquare, Square, ArrowDownLeft, ArrowUpLeft, MoveRight, MoveDownRight, MoveDownLeft, MoveUpLeft, MoveUpRight, MoveDown, MoveUp, Link, Lock, Repeat } from 'lucide-react';
 
-/* DADES DE LA BARALLA (DECK)
-  Inspirades en l'edició bàsica, ampliades per oferir molta varietat.
-*/
-const CARD_DATA = {
-  agent: [
-    { id: 'ag1', options: ['UN DETECTIU CANSAT', 'UN ARTISTA EXCENTRIC', 'UN FANTASMA OBLIDAT', 'UN MERCENARI AMB HONOR'] },
-    { id: 'ag2', options: ['UNA REINA DESTRONADA', 'UN ROBOT AMB ÀNIMA', 'UN LLADRE DE GUANT BLANC', 'UN MAG SENSE MÀGIA'] },
-    { id: 'ag3', options: ['UN VIATGER DEL TEMPS', 'UN METGE DE PESTA', 'UN NEN PRODIGI', 'UN DÉU MENOR'] },
-    { id: 'ag4', options: ['UNA BRUIXA DEL BOSC', 'UN CAPITÀ PIRATA', 'UNA INTEL·LIGÈNCIA ARTIFICIAL', 'UN ARQUEÒLEG MALEÏT'] },
-    { id: 'ag5', options: ['UN MÚSIC SORD', 'UN ASSASSÍ JUBILAT', 'UN DIPLOMÀTIC ALIENÍGENA', 'UN GUARDIÀ DE FAR'] },
-    { id: 'ag6', options: ['UN CAVALLER DESHONRAT', 'UNA MUSA INSPIRADORA', 'UN CIENTÍFIC BOIG', 'UN PISTOLER SOLITARI'] },
-    { id: 'ag7', options: ['UN ESPIA DOBLE', 'UN MONJO GUERRER', 'UN COMERCIANT DE SOMNIS', 'UN CAÇADOR DE MOSTRES'] },
-    { id: 'ag8', options: ['UN VAMPIR ARREPENTIT', 'UNA PRINCESA REBEL', 'UN INVENTOR FRACASSAT', 'UN POLÍTIC CORRUPTE'] },
-    { id: 'ag9', options: ['UN NÀUFRAG ESPACIAL', 'UN MEDIUM ESPIRITUAL', 'UN GLADIADOR ESCAPAT', 'UN ARQUITECTE DE REALITATS'] },
-    { id: 'ag10', options: ['UN PERIODISTA CURIÓS', 'UN MAFIÓS SENTIMENTAL', 'UN JOGLAR MÀGIC', 'UN EXPLORADOR POLAR'] },
-    { id: 'ag11', options: ['UN GUARDIÀ DEL BOSC', 'UN RELLOTGER CEC', 'UN ALQUIMISTA IMPRUDENT', 'UN DRAC DISFRESSAT D\'HUMÀ'] },
-    { id: 'ag12', options: ['UN SOLDAT DE JOGUINA', 'UNA IA REBEL', 'UN PASTISSER ENVERINADOR', 'UN BIBLIOTECARI ARCÀ'] },
-    { id: 'ag13', options: ['UN GRANGER AMB UN SECRET', 'UN TAXISTA NOCTURN', 'UN ÀNGEL CAIGUT', 'UN BANDOLER GENERÓS'] },
-    { id: 'ag14', options: ['UN JUTGE IMPLACABLE', 'UN PINTOR DE FUTURS', 'UN MESTRE D\'ESGRIMA', 'UN SUPERVIVENT DE L\'APOCALIPSI'] },
-    { id: 'ag15', options: ['UN MARINER DE TERRA FERMA', 'UN FERRER LLEGENDARI', 'UN GOLEM D\'ARGILA', 'UN HERBOLARI SAVI'] }
-  ],
-  engine: [
-    { id: 'en1', options: ['VOL RECUPERAR UN RECORD', 'VOL VENJAR LA SEVA FAMÍLIA', 'VOL TRENCAR UNA MALEDICCIÓ', 'VOL TROBAR LA VERITAT'] },
-    { id: 'en2', options: ['INTENTA SALVAR EL MÓN', 'FUIG DEL SEU PASSAT', 'BUSCA UN TRESOR PERDUT', 'VOL GUANYAR UN TORNEIG'] },
-    { id: 'en3', options: ['VOL DEMOSTRAR LA SEVA INNOCÈNCIA', 'VOL CONQUERIR UN REGNE', 'INTENTA SOBREVIURE A L\'HIVERN', 'VOL ROBAR EL SOL'] },
-    { id: 'en4', options: ['VOL ESCRIURE UNA OBRA MESTRA', 'BUSCA EL PERDÓ', 'VOL MATAR UN DÉU', 'INTENTA TORNAR A CASA'] },
-    { id: 'en5', options: ['VOL PROTEGIR UN SECRET', 'VOL FER-SE RIC RÀPIDAMENT', 'INTENTA EVITAR UNA GUERRA', 'VOL TORNAR A SER HUMÀ'] },
-    { id: 'en6', options: ['VOL TROBAR L\'AMOR VERITABLE', 'VOL DESTRUIR UNA RELÍQUIA', 'INTENTA FUGIR D\'UNA PRESÓ', 'VOL RESUSCITAR UN MORT'] },
-    { id: 'en7', options: ['BUSCA LA FONT DE LA JOVENTUT', 'VOL COMPLIR UNA PROFECIA', 'INTENTA AMAGAR UN CADÀVER', 'VOL REUNIR UNA BANDA'] },
-    { id: 'en8', options: ['VOL SABOTEJAR UN CASAMENT', 'INTENTA CONTROLAR ELS SEUS PODERS', 'BUSCA EL SEU GERMÀ PERDUT', 'VOL ESCAPAR D\'UN BUCLE TEMPORAL'] },
-    { id: 'en9', options: ['VOL FUNDAR UNA NOVA COLÒNIA', 'INTENTA GUANYAR UNA APOSTA', 'VOL CAÇAR UNA BÈSTIA MÍTICA', 'VOL DESCOBRIR UNA NOVA ESPÈCIE'] },
-    { id: 'en10', options: ['VOL VENÇRE LA POR', 'INTENTA RECONSTRUIR EL SEU HONOR', 'VOL DERROCAR UN TIRÀ', 'VOL TANCAR UN PORTAL'] },
-    { id: 'en11', options: ['BUSCA EL SENTIT DE LA VIDA', 'VOL FER UN PACTE AMB EL DIABLE', 'INTENTA SALVAR EL SEU NEGOCI', 'VOL TROBAR LA CURA'] },
-    { id: 'en12', options: ['VOL ROBAR LES JOIES DE LA CORONA', 'INTENTA ENTENDRE ELS HUMANS', 'VOL CONSTRUIR UNA MÀQUINA VOLADORA', 'VOL VIATJAR A LA LLUNA'] },
-    { id: 'en13', options: ['VOL VENJAR EL SEU MESTRE', 'INTENTA ESCRIURE LA HISTÒRIA', 'VOL ESBORRAR EL SEU NOM', 'VOL PROTEGIR L\'ÚLTIM DRAC'] },
-    { id: 'en14', options: ['VOL TROBAR L\'ATLÀNTIDA', 'INTENTA SOBREVIURE A UNA TEMPESTA', 'VOL GUANYAR EL COR D\'ALGÚ', 'VOL SOLUCIONAR UN MISTERI'] },
-    { id: 'en15', options: ['VOL CREAR VIDA', 'INTENTA SORTIR D\'UN LABERINT', 'VOL APRENDRE MÀGIA PROHIBIDA', 'VOL UNIFICAR LES TRIBUS'] }
-  ],
-  anchor: [
-    { id: 'an1', options: ['UNA ESPASA ROVELLADA', 'UN RELLOTGE ATURAT', 'UNA CARTA SENSE ENVIAR', 'UNA CLAU MESTRA'] },
-    { id: 'an2', options: ['UN MAPA DEL TRESOR FALS', 'UNA MÀSCARA DE PORCELLANA', 'UN ANELL DE PODER', 'UN DIARI CREMAT'] },
-    { id: 'an3', options: ['UNA NAU ESPACIAL AVARIADA', 'UN MIRALL MÀGIC', 'UNA FOTO ANTIGA', 'UNA POCIÓ BUIDA'] },
-    { id: 'an4', options: ['UN FAR ABANDONAT', 'UNA CIUTAT SUBMERGIDA', 'UN ARBRE SAGRAT', 'UNA BIBLIOTECA INFINITA'] },
-    { id: 'an5', options: ['UNA CAIXA DE MÚSICA', 'UN OS DE SANT', 'UNA PISTOLA DE RAIGS', 'UNA CORONA DE FLORS'] },
-    { id: 'an6', options: ['UN VIOLÍ MALEÏT', 'UNA PLOMA DE FÈNIX', 'UN CODI ENCRIPTAT', 'UNA BRÚIXOLA TRENCADA'] },
-    { id: 'an7', options: ['UN VESTIT DE NÚVIA TACAT', 'UNA MÀQUINA D\'ESCRIURE', 'UN POT DE CENDRES', 'UNA PEDRA FILOSOFAL'] },
-    { id: 'an8', options: ['UNA RÀDIO D\'ONA CURTA', 'UN COLLAR DE PERLES', 'UNA DAGUA CERIMONIAL', 'UN TESTAMENT CONTESTAD'] },
-    { id: 'an9', options: ['UN TELESCOPI ANTIC', 'UNA LLAVOR EXTRATERRESTRE', 'UN AMULET PROTECTOR', 'UNA RECEPTA SECRETA'] },
-    { id: 'an10', options: ['UN JOC D\'ESCACS INACABAT', 'UNA FLAMA ETERNA', 'UN GUANT DE METALL', 'UNA SABATA DE CRISTALL'] },
-    { id: 'an11', options: ['UNA CÀMERA DE FOTOS', 'UN PORTAL DIMENSIONAL', 'UN LLIBRE EN BLANC', 'UNA MONEDA D\'OR'] },
-    { id: 'an12', options: ['UNA ESPELMA NEGRA', 'UN PONT TRENCAT', 'UNA CATEDRAL GÒTICA', 'UN BUNQUER NUCLEAR'] },
-    { id: 'an13', options: ['UNA ROSA ETERNA', 'UN PROGRAMARI VIRAL', 'UNA CORONA D\'ESPINA', 'UN MAPA D\'ESTRELLES'] },
-    { id: 'an14', options: ['UN FRAGMENT DE METEORIT', 'UNA CARTA DEL TAROT', 'UNA AMPOLLA DE VI ANELL', 'UNA CAIXA FORTA'] },
-    { id: 'an15', options: ['UN PERGAMIN ANTIC', 'UNA CINTA DE VIDEO', 'UN MANIQUÍ', 'UNA LLAUNA DE CONSERVA'] }
-  ],
-  obstacle: [
-    { id: 'ob1', options: ['UNA TEMPESTA ETERNA', 'LA TRAÏCIÓ D\'UN AMIC', 'LA MANCA DE TEMPS', 'UN MONSTRE ANTIC'] },
-    { id: 'ob2', options: ['UNA MALALTIA MORTAL', 'UNA GUERRA CIVIL', 'UNA LLEI INJUSTA', 'LA PÈRDUA DE MEMÒRIA'] },
-    { id: 'ob3', options: ['UN RIVAL PODERÓS', 'UNA TRAMPA MORTAL', 'LA SOLEDAT ABSOLUTA', 'UNA PROFECIA NEFASTA'] },
-    { id: 'ob4', options: ['LA GRAVETAT INVERTIDA', 'UN EXÈRCIT DE ZOMBIS', 'UN LABERINT SENSE SORTIDA', 'LA POR AL FRACÀS'] },
-    { id: 'ob5', options: ['UN PACTE AMB EL DIABLE', 'LA BUROCRÀCIA INFERNAL', 'UN VOLCÀ EN ERUPCIÓ', 'UNA MENTIDA PIADOSA'] },
-    { id: 'ob6', options: ['UNA MALEDICCIÓ GENERACIONAL', 'UN BLOQUEIG CREATIU', 'UNA DEUTE IMPAGABLE', 'UNA INVASIÓ ALIENÍGENA'] },
-    { id: 'ob7', options: ['UN FANTASMA DEL PASSAT', 'LA FALTA DE RECURSOS', 'UN MUR IMPOSSIBLE', 'UNA PLAGA D\'INSECTES'] },
-    { id: 'ob8', options: ['UN DÉU ENFADAT', 'UNA GLACIACIÓ REPENTINA', 'EL CONTROL MENTAL', 'UNA CRISI DE FE'] },
-    { id: 'ob9', options: ['UNA BOMBA DE RELLOTGERIA', 'UN SEGRESTATOR', 'UNA AVALANXA', 'LA FOSCOR TOTAL'] },
-    { id: 'ob10', options: ['UN IDIOMA DESCONEGUT', 'UNA AL·LÈRGIA GREU', 'UN MERCAT NEGRE', 'LA POLICIA SECRETA'] },
-    { id: 'ob11', options: ['UN ERROR INFORMÀTIC', 'UN PONT LLEVADÍS', 'UNA SELVA IMPENETRABLE', 'EL CANT DE LES SIRENES'] },
-    { id: 'ob12', options: ['LA GRAVETAT ZERO', 'UNA DOUBLE IDENTITAT', 'UN JUTGE CORRUPTE', 'UN FOC FORESTAL'] },
-    { id: 'ob13', options: ['LA PRESSIÓ SOCIAL', 'UN ENIGMA SENSE SOLUCIÓ', 'UNA MÀQUINA AVARIADA', 'LA TRAÏCIÓ D\'UN GERMÀ'] },
-    { id: 'ob14', options: ['UN DRAC ADORMIT', 'UNA TEMPESTA DE SORRA', 'LA PÈRDUA DELS SENTITS', 'UN CAMP DE MINES'] },
-    { id: 'ob15', options: ['UNA PROMESA TRENCADA', 'UN RELLOTGE QUE CORRE ENRERE', 'UNA OMBRA QUE PERSEGUEIX', 'EL SILENCI DELS INNOCENTS'] }
-  ],
-  aspect: [
-    { id: 'as1', options: ['DURANT UNA FESTA DE MÀSCARES', 'EN UN SOMNI LÚCID', 'SOTA L\'AIGUA', 'EN UN FUTUR DISTÒPIC'] },
-    { id: 'as2', options: ['MENTRE TOT CREMA', 'EN SILENCI ABSOLUT', 'DINS D\'UNA MENT VIRTUAL', 'DURANT UN ECLIPSI'] },
-    { id: 'as3', options: ['SENSE GRAVETAT', 'AMB ELS ULLS VENATS', 'EN CAIGUDA LLIURE', 'DINS D\'UN QUADRE'] },
-    { id: 'as4', options: ['A LA LLUM DE LA LLUNA', 'DURANT L\'APOCALIPSI', 'EN UN MÓN DE VIDRE', 'MENTRE NEVA CENDRA'] },
-    { id: 'as5', options: ['EN UN TREN EN MARXA', 'DINS D\'UNA BALENA', 'AL CIM D\'UNA MUNTANYA', 'EN UNA ALTRA DIMENSIÓ'] },
-    { id: 'as6', options: ['SOTA LA PLUJA ÀCIDA', 'DINS D\'UN MIRALL', 'DURANT UNA REVOLUCIÓ', 'EN UN CEMENTIRI OBLIDAT'] },
-    { id: 'as7', options: ['AMB LES MANS LLIGADES', 'DINS D\'UN SUBMARÍ', 'MENTRE SONA UNA CAMPANA', 'EN UN BOSC ENCANTAT'] },
-    { id: 'as8', options: ['DURANT UN CASAMENT', 'A LA VORA D\'UN PRECIPICI', 'DINS D\'UNA COVA DE GEL', 'EN UN MERCAT PLE DE GENT'] },
-    { id: 'as9', options: ['SOBRE UNA CATIFA VOLADORA', 'EN UN MÓN EN BLANC I NEGRE', 'DURANT UNA TEMPESTA ELÈCTRICA', 'EN UN CASTELL FLOTANT'] },
-    { id: 'as10', options: ['DINS D\'UN RELLOTGE GEGANT', 'SOTA UN SOL VERMELL', 'EN UN CIRC ABANDONAT', 'DURANT UN DUEL A MORT'] },
-    { id: 'as11', options: ['EN UN PLANETA DESERT', 'DINS D\'UN SOMNI ALIÈ', 'AL FONS D\'UN POU', 'MENTRE EL MÓN S\'ACABA'] },
-    { id: 'as12', options: ['EN UN JARDÍ LABERÍNTIC', 'DURANT UNA NEVADA ETERNA', 'EN UNA CIUTAT DE NEÓ', 'SOTA L\'AIGUA CONGELADA'] },
-    { id: 'as13', options: ['DINS D\'UNA PRESÓ DE CRISTALL', 'AL LLOM D\'UN DRAC', 'EN UN ASCENSOR AVARIAT', 'DURANT L\'HORA DE LES BRUIXES'] },
-    { id: 'as14', options: ['EN UN CAMP DE BATALLA', 'DINS D\'UNA BIBLIOTECA CREMANT', 'EN UNA CASA ENCANTADA', 'DURANT UNA CERIMÒNIA SECRETA'] },
-    { id: 'as15', options: ['EN UN VAILLE FANTASMA', 'DINS D\'UNA COMPUTADORA', 'A LA TORRE MÉS ALTA', 'EN UN POBLE ON NINGÚ PARLA'] }
-  ]
+// Dades extretes del fitxer "New Document de text.txt"
+const RAW_CSV_CONTENT = `Agent;Motor;Àncora;Conflicte;Aspecte
+Una escriptora;Vol divulgar una mentida sobre;Una joia;Però perdrà la seva parella;Decrèpita
+Una veïna;Vol deixar de ser;Una fàbrica;Però la seva comunitat el rebutjarà;Enganyosa
+Un esvalotador / agitador;Vol deixar l'addicció de;Una clau;Però trencarà una llei (llei arcana);Pacífica
+Un esperit;Vol deixar de ser perseguit per;Els records;Però si ho fa sap que és erroni o injust;Intel·ligent
+Un manifestant;Vol acabar/terminar;Un animal;Però ha de tenir fe en una gran mentira;Silenciosa
+Un xafarder;Vol robar el secret de;Els artefactes;Però la seva seguretat posarà en risc la seva família;Encantada
+Un canviaformes;Vol restaurar la memòria de;Els mediadors;Però ha de deixar enrere alguna cosa (el seu gos, el seu fill...);Obstinada
+Una missatgera;Vol finalitzar una guerra amb;Un cementiri;Però la seva sang farà que pateixi una malaltia;Amenaçada
+Una santa;Vol unificar;Una plataforma;Però es convertirà en allò que odia;Insistent
+Un artista de biblioteca;Vol cridar l'atenció sobre;Un vel;Però ha perdut el do de manifestar la seva (màgia/poder);Brillant
+Un gegant;Vol assumir el poder de;Una joguina;Però un déu s'hi oposarà;Trista
+Una estafadora;Vol trobar un successor per;Un medalló;Però serà perseguit per un crim que no ha comès;Rica
+Una familiar;Vol matar;Una màquina;Però haurà de sacrificar la seva humanitat;Pobra
+Una temerària;Vol fer les paus amb;Una relíquia;Però ha de trair el seu millor amic;Elegante
+Una mentora;Vol salvar la reputació de;Un mapa;Però despertarà un mal antic;Secreta
+Una punk;Vol venjar la mort de;Un rellotge de butxaca;Però quedarà atrapat en una altra dimensió;Sincera
+Una superhumana;Vol curar la malaltia de;Una arma;Però perdrà tots els seus records;Valenta
+Una profeta;Vol protegir;Un diari;Però serà oblidat per tothom qui estima;Antiga
+Una bruixa;Vol recuperar l'amor de;Una corona;Però el temps se li acaba;Lletja
+Una investigadora;Vol escapar de;Un anell;Però una profecia diu que fracassarà;Bella
+Una turista;Vol destruir;Un tòtem;Però la natura es girarà en contra seva;Mortal
+Una soldat;Vol amagar;Una carta;Però la seva mentida es farà realitat;Gelosa
+Un esperit;Vol trobar;Un mirall;Però serà maleït per sempre;Solitària
+Una política;Vol canviar el passat de;Una caixa forta;Però haurà de vendre la seva ànima;Famosa
+Una canviaformes;Vol demostrar la veritat sobre;Un instrument musical;Però provocarà una guerra civil;Anònima
+Una rata de biblioteca;Vol guanyar el cor de;Una espelma;Però el seu cos començarà a desaparèixer;Màgica
+Un geni;Vol viatjar a;Una ploma;Però quedarà cec/sord/mut;Tecnològica
+Una substituta;Vol aprendre el secret de;Una màscara;Però haurà de matar un innocent;Artificial
+Una guardiana;Vol controlar;Una llavor;Però es transformarà en un monstre;Natural
+Una comedianta;Vol alliberar;Una poció;Però perdrà la capacitat d'estimar;Graciosa
+Una màrtir;Vol capturar;Una pedra;Però el món s'acabarà si ho aconsegueix;Seriosa
+Una alien;Vol negociar amb;Una estàtua;Però quedarà sol per sempre;Ràpida
+Una ídol;Vol sabotejar;Un pont;Però haurà de viure la mateixa dia una vegada i una altra;Lenta
+Una inventora;Vol investigar;Una porta;Però la seva ombra prendrà vida pròpia;Fosca
+Una ovella negra;Vol construir;Un far;Però ningú creurà la seva història;Lluminosa
+Una mercenària;Vol defensar;Una torre;Però serà exiliat per sempre;Alta
+Una ballarina;Vol atacar;Un jardí;Però la seva veu serà robada;Baixa
+Una exploradora;Vol segrestar;Una biblioteca;Però els seus somnis el torturaran;Gran
+Una atleta;Vol enganyar;Un laboratori;Però no podrà tornar a casa mai més;Petita
+Una venjadora;Vol seduir;Un vaixell;Però una malaltia s'escamparà per culpa seva;Rencorosa
+Una cap;Vol oblidar;Un mercat;Però haurà de servir el seu enemic;Dues cares
+Una bèstia;Vol recordar;Un bosc;Però la màgia desapareixerà del món;Incomprendida
+Una treballadora;Vol perdonar;Una muntanya;Però els morts s'aixecaran de les tombes;Adornada
+Una ermitana;Vol trair;Un riu;Però el sol deixarà de sortir;Controlada
+Una estudiant;Vol jutjar;Una cova;Però l'aigua es tornarà sang;Obsessiva
+Un monstre;Vol liderar;Un temple;Però les estacions deixaran de canviar;Cauteritzada
+Una actriu;Vol seguir;Un castell;Però els animals es tornaran violents;Espantada
+Una oficinista;Vol abandonar;Una presó;Però la gravetat deixarà de funcionar;Jove
+Una nècia;Vol trobar el creador de;Un circ;Però els seus aliats es giraran en contra seva;Immortal
+Una heroïna;Vol destruir el creador de;Un museu;Però haurà de viure sota l'aigua;Estúpida
+Una marginada;Vol servir a;Una estació de tren;Però el seu veritable amor morirà;Perillosa
+Una model;Vol usurpar el lloc de;Un teatre;Però haurà de portar una màscara per sempre;Impulsiva
+Una visionària;Vol exposar;Un banc;Però la seva pell es tornarà de pedra;Humida
+Una hereje;Vol purificar;Un hospital;Però no podrà dormir mai més;Sagnant
+Una detectiu;Vol corrompre;Una escola;Però la seva presència marcirà les plantes;Atrapada
+Una pionera;Vol enterrar;Un cementiri de vaixells;Però haurà de menjar només cendres;Sancionada
+Una assassina;Vol exumar;Una mina;Però serà perseguit per la seva pròpia còpia;Desolada
+Una vigilant;Vol ressuscitar;Un observatori;Però el cel es trencarà;Bruta
+Una activista;Vol invocar;Un parc d'atraccions;Però la música no pararà de sonar mai;Tancada
+Una guia;Vol desterrar;Un abocador;Però tot el que toqui es podrirà;Desordenada
+Una mascota;Vol transformar;Un zoològic;Però la seva sang es tornarà or (i tòxica);Divertida
+Una venedora;Vol transportar;Un aeroport;Però haurà de parlar en enigmes;Avorrida
+Una professora;Vol amagar-se de;Una estació espacial;Però serà visible per tothom, sempre;Rara
+Una aprenent;Vol reunir-se amb;Un búnquer;Però haurà de caminar d'esquena;Comuna
+Un dimoni;Vol separar-se de;Una illa;Però no podrà dir mai la veritat;Vermella
+Una suplent;Vol imitar a;Un volcà;Però haurà de cantar tot el que digui;Blava
+Una portera de discoteca;Vol superar a;Un iceberg;Però el fred el seguirà allà on vagi;Verda
+Una mentidera;Vol rendir-se davant de;Un desert;Però la sorra omplirà les seves butxaques;Groga
+Una rebel;Vol guanyar la confiança de;Una selva;Però els ocells l'atacaran;Lila`;
+
+// CONFIGURACIÓ DE CATEGORIES (Estils)
+const CATEGORY_STYLES = {
+  agent: { label: 'AGENT', type: 'quad', color: 'border-blue-400', bg: 'bg-blue-900/20', text: 'text-blue-200', promptBg: 'bg-blue-900/60' },
+  engine: { label: 'MOTOR', type: 'binary', color: 'border-yellow-500', bg: 'bg-yellow-600/20', text: 'text-yellow-200', promptBg: 'bg-yellow-600/60' },
+  anchor: { label: 'ÀNCORA', type: 'quad', color: 'border-emerald-500', bg: 'bg-emerald-900/20', text: 'text-emerald-200', promptBg: 'bg-emerald-900/60' },
+  conflict: { label: 'CONFLICTE', type: 'binary', color: 'border-red-500', bg: 'bg-red-900/20', text: 'text-red-200', promptBg: 'bg-red-900/60' },
+  aspect: { label: 'ASPECTE', type: 'quad', color: 'border-purple-500', bg: 'bg-purple-900/20', text: 'text-purple-200', promptBg: 'bg-purple-900/60' },
 };
 
-const CATEGORIES = [
-  { key: 'agent', label: 'AGENT', color: 'border-blue-400', bg: 'bg-blue-900/20', text: 'text-blue-200' },
-  { key: 'engine', label: 'MOTOR', color: 'border-amber-500', bg: 'bg-amber-900/20', text: 'text-amber-200' },
-  { key: 'anchor', label: 'ÀNCORA', color: 'border-emerald-500', bg: 'bg-emerald-900/20', text: 'text-emerald-200' },
-  { key: 'obstacle', label: 'OBSTACLE', color: 'border-red-500', bg: 'bg-red-900/20', text: 'text-red-200' },
-  { key: 'aspect', label: 'ASPECTE', color: 'border-purple-500', bg: 'bg-purple-900/20', text: 'text-purple-200' },
-];
+// DEFINICIÓ DE MODES
+const GENERATION_MODES = {
+  SEED: {
+    id: 'SEED',
+    label: 'Llavor de la Història',
+    slots: ['agent', 'engine', 'anchor', 'conflict']
+  },
+  CIRCLE: {
+    id: 'CIRCLE',
+    label: 'Cercle del Destí',
+    slots: ['agent', 'engine', 'conflict', 'agent', 'engine', 'conflict'] 
+  },
+  CLASH: {
+    id: 'CLASH',
+    label: 'Xoc de Voluntats',
+    // 7 cartes: 0:Agent A, 1:Motor A, 2:Conflicte A, 3:Àncora, 4:Conflicte B, 5:Motor B, 6:Agent B
+    slots: ['agent', 'engine', 'conflict', 'anchor', 'conflict', 'engine', 'agent'] 
+  },
+  SOUL: {
+    id: 'SOUL',
+    label: 'Una Ànima Dividida',
+    // 7 cartes: 0:Agent, 1:Mot1, 2:Conf1, 3:Anc1, 4:Mot2, 5:Conf2, 6:Anc2
+    slots: ['agent', 'engine', 'conflict', 'anchor', 'engine', 'conflict', 'anchor'] 
+  }
+};
 
-const getRandomCard = (categoryKey) => {
-  const cards = CARD_DATA[categoryKey];
-  return cards[Math.floor(Math.random() * cards.length)];
+// ------------------------------------------------------------------
+// COMPONENTS AUXILIARS
+// ------------------------------------------------------------------
+
+const CardText = ({ position, text, color }) => {
+  const textStyle = "text-center font-bold text-[10px] md:text-xs leading-tight tracking-wide pointer-events-none select-none";
+  const containerStyle = { pointerEvents: 'none' };
+
+  if (position === 'top') return <div className={`absolute top-0 left-[10%] right-[10%] h-[40%] flex items-start justify-center pt-3 ${color}`} style={containerStyle}><span className={textStyle}>{text}</span></div>;
+  if (position === 'bottom') return <div className={`absolute bottom-0 left-[10%] right-[10%] h-[40%] flex items-end justify-center pb-3 ${color}`} style={containerStyle}><span className={`${textStyle} transform rotate-180`}>{text}</span></div>;
+  if (position === 'right') return <div className={`absolute top-[15%] bottom-[15%] right-0 w-[25%] flex items-center justify-end pr-1 ${color}`} style={containerStyle}><div className="w-[140px] h-8 flex items-center justify-center transform rotate-90 origin-center translate-x-[35%]"><span className={textStyle}>{text}</span></div></div>;
+  if (position === 'left') return <div className={`absolute top-[15%] bottom-[15%] left-0 w-[25%] flex items-center justify-start pl-1 ${color}`} style={containerStyle}><div className="w-[140px] h-8 flex items-center justify-center transform -rotate-90 origin-center -translate-x-[35%]"><span className={textStyle}>{text}</span></div></div>;
+  return null;
+};
+
+// El component de la carta individual
+const CardComponent = ({ data, parentUid = null, isAspect = false, onRotate, onChange, style = {}, onMouseEnter }) => {
+    if (!data) return null;
+    const catConfig = CATEGORY_STYLES[data.category];
+    if (!catConfig) return null; // Safety check
+    
+    return (
+      <div 
+          className="relative group/card perspective-1000 cursor-pointer"
+          onClick={(e) => { e.stopPropagation(); onRotate(isAspect ? data.uid : data.uid, data.category, isAspect, parentUid); }}
+          onMouseEnter={onMouseEnter}
+          style={style}
+      >
+        {!isAspect && (
+          <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20 text-[#d4af37] animate-bounce pointer-events-none">▼</div>
+        )}
+        
+        <div 
+          className={`relative w-40 h-40 md:w-48 md:h-48 bg-[#0f0f0f] border-2 ${catConfig.color} rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-transform duration-500 ease-in-out`}
+          style={{ 
+            transform: `rotate(${data.rotation}deg)`,
+            boxShadow: `0 0 20px ${catConfig.color.replace('border-', '')}20` 
+          }}
+        >
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] opacity-20 pointer-events-none"></div>
+          <div className="absolute inset-2 border border-white/5 rounded pointer-events-none"></div>
+
+          {catConfig.type === 'binary' ? (
+              <>
+                  <CardText position="top" text={data.options[0]} color={catConfig.text} />
+                  <CardText position="bottom" text={data.options[1]} color={catConfig.text} />
+                  <div className="absolute top-1/2 left-2 right-2 h-px bg-white/10 transform -translate-y-1/2"></div>
+              </>
+          ) : (
+              <>
+                  <CardText position="top" text={data.options[0]} color={catConfig.text} />
+                  <CardText position="right" text={data.options[1]} color={catConfig.text} />
+                  <CardText position="bottom" text={data.options[2]} color={catConfig.text} />
+                  <CardText position="left" text={data.options[3]} color={catConfig.text} />
+              </>
+          )}
+
+          <div className="absolute inset-0 flex items-center justify-center z-50">
+            <div 
+              className={`w-10 h-10 rounded-full border-2 ${catConfig.color} flex items-center justify-center bg-[#1a1a1a] transition-all duration-300 shadow-lg group/center pointer-events-auto hover:bg-[#333] hover:scale-125 cursor-pointer`}
+              onClick={(e) => { e.stopPropagation(); onChange(isAspect ? data.uid : data.uid, data.category, isAspect, parentUid); }}
+            >
+              <div className={`w-6 h-6 rounded-full border ${catConfig.color} block group-hover/card:hidden`}></div>
+              <div style={{ transform: `rotate(${-data.rotation}deg)`, transition: 'transform 0.5s ease-in-out' }}>
+                <RotateCw size={18} className="text-white hidden group-hover/card:block group-hover/center:hidden animate-pulse" />
+                <Trash2 size={18} className="text-red-400 hidden group-hover/center:block" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+};
+
+const CardSlot = ({ card, activeAspects, toggleAspect, changeCard, rotateCard, canSwapType, onSwapType }) => {
+    const [hoverTarget, setHoverTarget] = useState(null); 
+    
+    if (!card) return null; 
+
+    const catConfig = CATEGORY_STYLES[card.category];
+    const hasAspect = (card.category === 'agent' || card.category === 'anchor') && card.aspectData;
+    const isAspectActive = hasAspect && activeAspects[card.uid];
+
+    // Lògica de Z-Index
+    let mainZ = 20;
+    let aspectZ = 30;
+
+    if (hoverTarget === 'main') {
+        mainZ = 50;
+        aspectZ = 30;
+    } else if (hoverTarget === 'aspect') {
+        aspectZ = 50;
+        mainZ = 20;
+    }
+
+    return (
+        <div 
+            key={card.uid} 
+            className={`flex flex-col items-center gap-2 relative pointer-events-auto transition-all duration-300 ${hoverTarget ? 'z-[100]' : 'z-0'}`}
+            onMouseLeave={() => setHoverTarget(null)}
+        >
+            {/* Header */}
+            <div className="flex items-center gap-2 z-[60] bg-[#1a1a1a]/80 px-2 py-1 rounded-full border border-white/5 backdrop-blur-sm">
+                <div className={`text-[10px] tracking-[0.2em] font-bold ${catConfig.text} uppercase`}>
+                    {catConfig.label}
+                </div>
+                
+                {/* Botons d'Acció (Swap Type i Aspecte) */}
+                <div className="flex items-center gap-1 border-l border-white/20 pl-2 ml-1">
+                    {canSwapType && (
+                        <button 
+                            onClick={() => onSwapType(card.uid)}
+                            className="text-gray-400 hover:text-white transition-colors"
+                            title="Canviar tipus (Agent <-> Àncora)"
+                        >
+                            <Repeat size={14} />
+                        </button>
+                    )}
+                    {hasAspect && (
+                        <button 
+                            onClick={() => toggleAspect(card.uid)}
+                            className={`transition-colors hover:text-[#d4af37] ${isAspectActive ? 'text-[#d4af37]' : 'text-gray-600'}`}
+                            title="Activar Aspecte"
+                        >
+                            {isAspectActive ? <CheckSquare size={14} /> : <Square size={14} />}
+                        </button>
+                    )}
+                </div>
+            </div>
+            
+            <div className="relative">
+                {/* Carta d'Aspecte */}
+                {isAspectActive && (
+                    <div 
+                        className="absolute top-12 left-4 transform -rotate-3 transition-all duration-300"
+                        style={{ zIndex: aspectZ }}
+                    >
+                        <CardComponent 
+                            data={card.aspectData} 
+                            parentUid={card.uid} 
+                            isAspect={true} 
+                            onRotate={rotateCard}
+                            onChange={changeCard}
+                            onMouseEnter={(e) => { e.stopPropagation(); setHoverTarget('aspect'); }}
+                        />
+                    </div>
+                )}
+
+                {/* Carta Principal */}
+                <div 
+                    className="relative transition-all duration-300" 
+                    style={{ zIndex: mainZ }}
+                >
+                    <CardComponent 
+                        data={card} 
+                        onRotate={rotateCard}
+                        onChange={changeCard}
+                        onMouseEnter={(e) => { e.stopPropagation(); setHoverTarget('main'); }}
+                    />
+                </div>
+            </div>
+        </div>
+    );
 };
 
 export default function StoryEngineApp() {
-  const [hand, setHand] = useState({});
-  const [rotations, setRotations] = useState({});
+  const [currentMode, setCurrentMode] = useState('SEED');
+  const [hand, setHand] = useState([]); 
+  const [cardPool, setCardPool] = useState({});
+  const [usedIndices, setUsedIndices] = useState({});
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [promptOrder, setPromptOrder] = useState([]); 
+  const [manualEdits, setManualEdits] = useState({}); 
+  const [showInstructions, setShowInstructions] = useState(false);
+  const [activeAspects, setActiveAspects] = useState({}); 
+
+  // Parse CSV
+  const parseCSV = (content) => {
+    const lines = content.split('\n').filter(line => line.trim() !== '');
+    const dataRows = lines.slice(1);
+    const pools = { agent: [], engine: [], anchor: [], conflict: [], aspect: [] };
+
+    dataRows.forEach(row => {
+      const columns = row.split(';');
+      if (columns[0]) pools.agent.push(columns[0].trim());
+      if (columns[1]) pools.engine.push(columns[1].trim());
+      if (columns[2]) pools.anchor.push(columns[2].trim());
+      if (columns[3]) pools.conflict.push(columns[3].trim());
+      if (columns[4]) pools.aspect.push(columns[4].trim());
+    });
+    return pools;
+  };
 
   useEffect(() => {
-    generateFullHand();
+    const pools = parseCSV(RAW_CSV_CONTENT);
+    setCardPool(pools);
+    const initialUsed = {};
+    Object.keys(pools).forEach(key => initialUsed[key] = new Set());
+    setUsedIndices(initialUsed);
+    setIsDataLoaded(true);
   }, []);
 
-  const generateFullHand = () => {
-    const newHand = {};
-    const newRotations = {};
-    CATEGORIES.forEach(cat => {
-      newHand[cat.key] = getRandomCard(cat.key);
-      newRotations[cat.key] = 0; 
+  const getUniqueRandomItems = useCallback((categoryKey, count) => {
+    if (!cardPool[categoryKey]) return { items: [], updatedUsed: new Set() };
+    const pool = cardPool[categoryKey];
+    const used = usedIndices[categoryKey] || new Set();
+    const result = [];
+    const tempUsed = new Set(used);
+
+    for (let i = 0; i < count; i++) {
+        let availableIndices = pool.map((_, idx) => idx).filter(idx => !tempUsed.has(idx));
+        if (availableIndices.length === 0) {
+            tempUsed.clear();
+            availableIndices = pool.map((_, idx) => idx);
+        }
+        const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+        result.push(pool[randomIndex]);
+        tempUsed.add(randomIndex);
+    }
+    return { items: result, updatedUsed: tempUsed };
+  }, [cardPool, usedIndices]);
+
+  const generateFullHand = useCallback(() => {
+    if (!isDataLoaded) return;
+    
+    const modeConfig = GENERATION_MODES[currentMode];
+    const newHand = [];
+    let currentUsedIndices = { ...usedIndices };
+
+    const getItemsForCard = (cat, cnt) => {
+       const pool = cardPool[cat];
+       const used = currentUsedIndices[cat] || new Set();
+       const result = [];
+       
+       for(let i=0; i<cnt; i++) {
+          let available = pool.map((_, idx) => idx).filter(idx => !used.has(idx));
+          if(available.length === 0) {
+              used.clear();
+              available = pool.map((_, idx) => idx);
+          }
+          const randomIdx = available[Math.floor(Math.random() * available.length)];
+          result.push(pool[randomIdx]);
+          used.add(randomIdx);
+       }
+       currentUsedIndices[cat] = used;
+       return result;
+    };
+
+    modeConfig.slots.forEach((catKey, index) => {
+      const catConfig = CATEGORY_STYLES[catKey];
+      const count = catConfig.type === 'binary' ? 2 : 4;
+      
+      const items = getItemsForCard(catKey, count);
+      
+      let aspectData = null;
+      if (catKey === 'agent' || catKey === 'anchor') {
+         const aspectItems = getItemsForCard('aspect', 4);
+         aspectData = {
+             uid: `aspect-attached-${index}-${Math.random().toString(36).substr(2, 9)}`,
+             category: 'aspect',
+             options: aspectItems,
+             rotation: 0
+         };
+      }
+
+      newHand.push({
+        uid: `${catKey}-${index}-${Math.random().toString(36).substr(2, 9)}`,
+        category: catKey,
+        options: items,
+        rotation: 0,
+        aspectData: aspectData
+      });
     });
+
     setHand(newHand);
-    setRotations(newRotations);
+    setUsedIndices(currentUsedIndices);
+    setManualEdits({});
+    setPromptOrder(newHand.map(card => card.uid));
+    setActiveAspects({}); 
+
+  }, [isDataLoaded, currentMode, cardPool]); 
+
+  // Generar mà inicial
+  useEffect(() => {
+    if (isDataLoaded) {
+      generateFullHand();
+    }
+  }, [isDataLoaded, currentMode]); 
+
+  // New function to swap card category (Agent <-> Anchor)
+  const swapCardCategory = (uid) => {
+      setHand(prevHand => prevHand.map(card => {
+          if (card.uid === uid) {
+              const newCat = card.category === 'agent' ? 'anchor' : 'agent';
+              const catConfig = CATEGORY_STYLES[newCat];
+              // Fetch new items for the new category
+              const { items } = getUniqueRandomItems(newCat, catConfig.type === 'binary' ? 2 : 4);
+              
+              // Ensure aspectData exists
+              let aspectData = card.aspectData;
+              if (!aspectData) {
+                  const aspectItems = getUniqueRandomItems('aspect', 4).items;
+                  aspectData = {
+                     uid: `aspect-swapped-${Math.random().toString(36).substr(2, 9)}`,
+                     category: 'aspect',
+                     options: aspectItems,
+                     rotation: 0
+                  };
+              }
+
+              return {
+                  ...card,
+                  category: newCat,
+                  options: items,
+                  rotation: 0, 
+                  aspectData: aspectData
+              };
+          }
+          return card;
+      }));
+      setManualEdits(prev => {
+          const next = { ...prev };
+          delete next[uid];
+          return next;
+      });
   };
 
-  const changeCard = (categoryKey) => {
-    setHand(prev => ({
-      ...prev,
-      [categoryKey]: getRandomCard(categoryKey)
+  const changeCard = (uid, categoryKey, isAspect = false, parentUid = null) => {
+    const catConfig = CATEGORY_STYLES[categoryKey];
+    const count = catConfig.type === 'binary' ? 2 : 4;
+    const { items, updatedUsed } = getUniqueRandomItems(categoryKey, count);
+
+    setHand(prevHand => prevHand.map(card => {
+      if (isAspect && card.uid === parentUid && card.aspectData) {
+         return {
+             ...card,
+             aspectData: { ...card.aspectData, options: items, rotation: 0 }
+         };
+      }
+      if (!isAspect && card.uid === uid) {
+        return { 
+            ...card, 
+            options: items, 
+            rotation: 0, 
+            aspectData: card.aspectData 
+        };
+      }
+      return card;
     }));
+
+    setUsedIndices(prev => ({ ...prev, [categoryKey]: updatedUsed }));
+    setManualEdits(prev => {
+        const next = { ...prev };
+        delete next[isAspect ? (hand.find(c => c.uid === parentUid)?.aspectData?.uid) : uid];
+        return next;
+    });
   };
 
-  const rotateCard = (categoryKey) => {
-    setRotations(prev => ({
-      ...prev,
-      [categoryKey]: prev[categoryKey] + 90 // Ara sumem 90 per girar a la dreta (sentit horari)
+  const rotateCard = (uid, categoryKey, isAspect = false, parentUid = null) => {
+    const catConfig = CATEGORY_STYLES[categoryKey];
+    const degreeIncrement = catConfig.type === 'binary' ? 180 : 90;
+    
+    setHand(prevHand => prevHand.map(card => {
+      if (isAspect && card.uid === parentUid && card.aspectData) {
+          return {
+              ...card,
+              aspectData: { ...card.aspectData, rotation: card.aspectData.rotation + degreeIncrement }
+          };
+      }
+      if (!isAspect && card.uid === uid) {
+        return { ...card, rotation: card.rotation + degreeIncrement };
+      }
+      return card;
     }));
+    
+    setManualEdits(prev => {
+        const next = { ...prev };
+        let targetUid = uid;
+        if (isAspect) {
+             const parent = hand.find(c => c.uid === parentUid);
+             if (parent && parent.aspectData) targetUid = parent.aspectData.uid;
+        }
+        delete next[targetUid];
+        return next;
+    });
   };
+
+  const toggleAspect = (uid) => {
+      setActiveAspects(prev => ({
+          ...prev,
+          [uid]: !prev[uid]
+      }));
+  };
+
+  const getVisibleText = (cardOrAspectData) => {
+    if (!cardOrAspectData) return "";
+    
+    // Check if manual edits has data
+    if (manualEdits[cardOrAspectData.uid]) return manualEdits[cardOrAspectData.uid];
+    
+    // Validate category exists in styles
+    if (!CATEGORY_STYLES[cardOrAspectData.category]) return "";
+
+    const catConfig = CATEGORY_STYLES[cardOrAspectData.category];
+    
+    if (catConfig.type === 'binary') {
+        const normalizedRot = (Math.abs(cardOrAspectData.rotation) / 180) % 2;
+        return normalizedRot === 0 ? cardOrAspectData.options[0] : cardOrAspectData.options[1];
+    } else {
+        const normalizedRot = (Math.abs(cardOrAspectData.rotation) / 90) % 4;
+        let index = 0;
+        if (normalizedRot === 0) index = 0;
+        else if (normalizedRot === 1) index = 3;
+        else if (normalizedRot === 2) index = 2;
+        else if (normalizedRot === 3) index = 1;
+        return cardOrAspectData.options[index];
+    }
+  };
+
+  const handleDragStart = (e, index) => {
+    e.dataTransfer.setData('dragIndex', index);
+  };
+  const handleDragOver = (e) => e.preventDefault();
+  const handleDrop = (e, dropIndex) => {
+    const dragIndex = Number(e.dataTransfer.getData('dragIndex'));
+    if (dragIndex === dropIndex) return;
+    const newOrder = [...promptOrder];
+    const itemToMove = newOrder[dragIndex];
+    newOrder.splice(dragIndex, 1);
+    newOrder.splice(dropIndex, 0, itemToMove);
+    setPromptOrder(newOrder);
+  };
+
+  const renderLayout = () => {
+    // Wait until hand is fully populated for current mode
+    if (hand.length < GENERATION_MODES[currentMode].slots.length) return null;
+
+    if (currentMode === 'SEED') {
+        return (
+            <div className="flex flex-col items-center gap-4">
+                <div className="flex flex-wrap justify-center gap-12 items-center">
+                    {hand.map((card, i) => (
+                        <React.Fragment key={card.uid}>
+                            {i > 0 && <ArrowRight className="text-[#d4af37]/30 hidden md:block" />}
+                            <CardSlot 
+                                card={card} 
+                                activeAspects={activeAspects}
+                                toggleAspect={toggleAspect}
+                                changeCard={changeCard}
+                                rotateCard={rotateCard}
+                                canSwapType={card.category === 'agent' || card.category === 'anchor'}
+                                onSwapType={swapCardCategory}
+                            />
+                        </React.Fragment>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
+    if (currentMode === 'CLASH') {
+        return (
+            <div className="flex flex-col items-center gap-8 w-full max-w-[1400px]">
+                <div className="flex flex-wrap xl:flex-nowrap justify-center items-center gap-4 w-full">
+                    <div className="flex flex-col md:flex-row items-center gap-6">
+                        <CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
+                        <ArrowRight className="text-[#d4af37] rotate-90 md:rotate-0" size={24} />
+                        <CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                        <ArrowRight className="text-[#d4af37] rotate-90 md:rotate-0" size={24} />
+                        <CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                        <ArrowRight className="text-[#d4af37] rotate-90 md:rotate-0" size={24} />
+                    </div>
+
+                    <div className="relative p-4 border-2 border-dashed border-[#d4af37]/30 rounded-xl bg-[#d4af37]/5 mx-4">
+                        <CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
+                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-[#d4af37] uppercase tracking-widest font-bold whitespace-nowrap">Objecte de Conflicte</div>
+                    </div>
+
+                    <div className="flex flex-col-reverse md:flex-row items-center gap-6">
+                         <ArrowRight className="text-[#d4af37] rotate-90 md:rotate-180" size={24} />
+                        <CardSlot card={hand[4]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                         <ArrowRight className="text-[#d4af37] rotate-90 md:rotate-180" size={24} />
+                        <CardSlot card={hand[5]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                         <ArrowRight className="text-[#d4af37] rotate-90 md:rotate-180" size={24} />
+                        <CardSlot card={hand[6]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (currentMode === 'SOUL') {
+        // Updated Visual Order: Conf2 (5), Anc2 (6), Mot2 (4), Agent (0), Mot1 (1), Anc1 (3), Conf1 (2)
+        // Arrows should point outwards from center
+        return (
+            <div className="flex flex-col items-center gap-8 w-full max-w-[1600px] relative">
+                
+                <div className="flex flex-wrap xl:flex-nowrap justify-center items-center gap-4 w-full">
+                    
+                    {/* LEFT GROUP: Conf2 <- Anc2 <- Mot2 <-- AGENT */}
+                    <div className="flex flex-col md:flex-row items-center gap-4 order-2 xl:order-1">
+                        <CardSlot card={hand[5]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                        <ArrowUpLeft className="text-[#d4af37] rotate-[-45deg] md:rotate-[-45deg]" size={24} />
+                        <CardSlot card={hand[6]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
+                        <ArrowUpLeft className="text-[#d4af37] rotate-[-45deg] md:rotate-[-45deg]" size={24} />
+                        <CardSlot card={hand[4]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                        <ArrowUpLeft className="text-[#d4af37] rotate-[-45deg] md:rotate-[-45deg]" size={24} />
+                    </div>
+
+                    {/* CENTER: AGENT */}
+                    <div className="order-1 xl:order-2 z-20 transform scale-110 mx-4">
+                        <CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
+                    </div>
+
+                    {/* RIGHT GROUP: AGENT --> Mot1 -> Anc1 -> Conf1 */}
+                    <div className="flex flex-col md:flex-row items-center gap-4 order-3 xl:order-3">
+                        <ArrowUpRight className="text-[#d4af37] rotate-[45deg] md:rotate-[45deg]" size={24} />
+                        <CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                        <ArrowUpRight className="text-[#d4af37] rotate-[45deg] md:rotate-[45deg]" size={24} />
+                        <CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
+                        <ArrowUpRight className="text-[#d4af37] rotate-[45deg] md:rotate-[45deg]" size={24} />
+                        <CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                    </div>
+                </div>
+                
+                <div className="absolute top-0 left-10 text-xs text-[#d4af37] uppercase tracking-widest hidden xl:block">Camí del Desig 2</div>
+                <div className="absolute top-0 right-10 text-xs text-[#d4af37] uppercase tracking-widest hidden xl:block">Camí del Desig 1</div>
+            </div>
+        );
+    }
+
+    if (currentMode === 'CIRCLE') {
+        return (
+            <div className="relative w-full max-w-4xl h-[700px] md:h-[600px] flex items-center justify-center">
+                <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20 animate-[spin_60s_linear_infinite]">
+                    <circle cx="50%" cy="50%" r="35%" stroke="#d4af37" strokeWidth="2" fill="none" strokeDasharray="10,5" />
+                </svg>
+
+                {/* 0: Top (Agent A) -> 1: Top Right (Engine A) */}
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10">
+                    <CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
+                    <MoveRight className="absolute -right-16 top-1/2 text-[#d4af37] rotate-[30deg]" size={40} strokeWidth={1.5} />
+                </div>
+                
+                {/* 1: Top Right (Engine A) -> 2: Bottom Right (Conflict A) */}
+                <div className="absolute top-[20%] right-0 md:right-20 z-10">
+                    <CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                    {/* No arrow to Conflict */}
+                </div>
+
+                {/* 2: Bottom Right (Conflict A) -> 3: Bottom (Agent B) */}
+                <div className="absolute bottom-[20%] right-0 md:right-20 z-10">
+                    <CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                    <MoveDownLeft className="absolute -left-16 bottom-0 text-[#d4af37] rotate-12" size={40} strokeWidth={1.5} />
+                </div>
+
+                {/* 3: Bottom (Agent B) -> 4: Bottom Left (Engine B) */}
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10">
+                    <CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
+                    <MoveUpLeft className="absolute -left-16 top-1/2 text-[#d4af37] rotate-12" size={40} strokeWidth={1.5} />
+                </div>
+
+                {/* 4: Bottom Left (Engine B) -> 5: Top Left (Conflict B) */}
+                <div className="absolute bottom-[20%] left-0 md:left-20 z-20"> 
+                    <CardSlot card={hand[4]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                    {/* No arrow to Conflict */}
+                </div>
+
+                 {/* 5: Top Left (Conflict B) -> 0: Agent A */}
+                 <div className="absolute top-[20%] left-0 md:left-20 z-10">
+                    <CardSlot card={hand[5]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                    <MoveUpRight className="absolute -right-16 top-0 text-[#d4af37] rotate-12" size={40} strokeWidth={1.5} />
+                </div>
+            </div>
+        );
+    }
+
+    return null;
+  };
+
+  const renderPromptElements = () => {
+      // Safety check for all modes
+      if (hand.length < GENERATION_MODES[currentMode].slots.length) return null;
+
+      // CIRCLE MODE SPECIFIC ORDERING
+      if (currentMode === 'CIRCLE') {
+          // Order: Ag1 (0), Mot1 (1), Ag2 (Ref), Con1 (2), Ag2 (3), Mot2 (4), Ag1 (Ref), Con2 (5)
+          const itemsToRender = [
+              { ...hand[0], isRef: false }, // 1. Agent 1
+              { ...hand[1], isRef: false }, // 2. Motor 1
+              { ...hand[3], isRef: true, refLabel: "Agent (2)" }, // 3. Agent 2 (Ref)
+              { ...hand[2], isRef: false }, // 4. Conflict 1
+              { ...hand[3], isRef: false }, // 5. Agent 2
+              { ...hand[4], isRef: false }, // 6. Motor 2
+              { ...hand[0], isRef: true, refLabel: "Agent (1)" }, // 7. Agent 1 (Ref)
+              { ...hand[5], isRef: false }, // 8. Conflict 2
+          ];
+
+          return itemsToRender.map((item, index) => {
+              if (!item) return null;
+              const catConfig = CATEGORY_STYLES[item.category];
+              const currentText = getVisibleText(item);
+              const key = item.isRef ? `ref-${index}-${item.uid}` : item.uid;
+              const hasActiveAspect = !item.isRef && item.aspectData && activeAspects[item.uid];
+
+              return (
+                <div key={key} className="flex items-start gap-1 p-1 rounded transition-colors border border-transparent">
+                    <div className="flex flex-col gap-1">
+                        <div className={`flex flex-col items-center gap-1 p-2 rounded shadow-lg transition-all ${item.isRef ? 'bg-gray-800 border-gray-600' : catConfig.promptBg + ' border-white/10'}`}>
+                            <div className="flex items-center gap-1">
+                                {item.isRef && <Lock size={10} className="text-gray-400"/>}
+                                <span className={`text-[9px] uppercase font-bold tracking-wider ${item.isRef ? 'text-gray-400' : catConfig.text} opacity-70`}>
+                                    {item.isRef ? item.refLabel : catConfig.label}
+                                </span>
+                            </div>
+                            <div className="grid place-items-center">
+                                <span className="invisible row-start-1 col-start-1 px-1 text-sm md:text-base font-medium whitespace-pre h-0 md:h-auto overflow-hidden">
+                                {currentText || ' '}
+                                </span>
+                                <input 
+                                    type="text" 
+                                    value={currentText}
+                                    readOnly={item.isRef}
+                                    onChange={(e) => {
+                                        if(!item.isRef) setManualEdits(prev => ({ ...prev, [item.uid]: e.target.value }));
+                                    }}
+                                    className={`row-start-1 col-start-1 w-full bg-transparent border-none ${item.isRef ? 'text-gray-400 italic cursor-not-allowed' : 'text-white'} text-sm md:text-base font-medium focus:ring-0 focus:outline-none p-0 text-center min-w-[50px]`}
+                                />
+                            </div>
+                        </div>
+
+                        {hasActiveAspect && (
+                            <div className={`flex flex-col items-center gap-1 p-2 rounded shadow-lg transition-all ${CATEGORY_STYLES.aspect.promptBg} border border-white/10 scale-90 opacity-90 ml-4`}>
+                                <span className={`text-[9px] uppercase font-bold tracking-wider ${CATEGORY_STYLES.aspect.text} opacity-70`}>ASPECTE</span>
+                                <div className="grid place-items-center">
+                                    <span className="invisible row-start-1 col-start-1 px-1 text-sm md:text-base font-medium whitespace-pre h-0 md:h-auto overflow-hidden">
+                                    {getVisibleText(item.aspectData) || ' '}
+                                    </span>
+                                    <input 
+                                        type="text" 
+                                        value={getVisibleText(item.aspectData)}
+                                        onChange={(e) => setManualEdits(prev => ({ ...prev, [item.aspectData.uid]: e.target.value }))}
+                                        className="row-start-1 col-start-1 w-full bg-transparent border-none text-white text-sm md:text-base font-medium focus:ring-0 focus:outline-none p-0 text-center min-w-[50px]"
+                                    />
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+              );
+          });
+      }
+
+      // CLASH MODE SPECIFIC ORDERING
+      // Requested Order: Agent 1 (0), Motor 1 (1), Anchor (3), Conflict 1 (2), Agent 2 (6), Motor 2 (5), Anchor Ref (3), Conflict 2 (4)
+      if (currentMode === 'CLASH') {
+          const itemsToRender = [
+              { ...hand[0], isRef: false }, // Agent 1
+              { ...hand[1], isRef: false }, // Motor 1
+              { ...hand[3], isRef: false }, // Anchor (Main)
+              { ...hand[2], isRef: false }, // Conflict 1
+              { ...hand[6], isRef: false }, // Agent 2
+              { ...hand[5], isRef: false }, // Motor 2
+              { ...hand[3], isRef: true, refLabel: "Àncora (Ref)" }, // Anchor (Ref)
+              { ...hand[4], isRef: false }, // Conflict 2
+          ];
+
+          return itemsToRender.map((item, index) => {
+              if (!item) return null;
+              const catConfig = CATEGORY_STYLES[item.category];
+              const currentText = getVisibleText(item);
+              const key = item.isRef ? `ref-${index}-${item.uid}` : item.uid;
+              const hasActiveAspect = !item.isRef && item.aspectData && activeAspects[item.uid];
+
+              return (
+                <div key={key} className="flex items-start gap-1 p-1 rounded transition-colors border border-transparent">
+                    <div className="flex flex-col gap-1">
+                        <div className={`flex flex-col items-center gap-1 p-2 rounded shadow-lg transition-all ${item.isRef ? 'bg-gray-800 border-gray-600' : catConfig.promptBg + ' border-white/10'}`}>
+                            <div className="flex items-center gap-1">
+                                {item.isRef && <Lock size={10} className="text-gray-400"/>}
+                                <span className={`text-[9px] uppercase font-bold tracking-wider ${item.isRef ? 'text-gray-400' : catConfig.text} opacity-70`}>
+                                    {item.isRef ? item.refLabel : catConfig.label}
+                                </span>
+                            </div>
+                            <div className="grid place-items-center">
+                                <span className="invisible row-start-1 col-start-1 px-1 text-sm md:text-base font-medium whitespace-pre h-0 md:h-auto overflow-hidden">
+                                {currentText || ' '}
+                                </span>
+                                <input 
+                                    type="text" 
+                                    value={currentText}
+                                    readOnly={item.isRef}
+                                    onChange={(e) => {
+                                        if(!item.isRef) setManualEdits(prev => ({ ...prev, [item.uid]: e.target.value }));
+                                    }}
+                                    className={`row-start-1 col-start-1 w-full bg-transparent border-none ${item.isRef ? 'text-gray-400 italic cursor-not-allowed' : 'text-white'} text-sm md:text-base font-medium focus:ring-0 focus:outline-none p-0 text-center min-w-[50px]`}
+                                />
+                            </div>
+                        </div>
+
+                        {hasActiveAspect && (
+                            <div className={`flex flex-col items-center gap-1 p-2 rounded shadow-lg transition-all ${CATEGORY_STYLES.aspect.promptBg} border border-white/10 scale-90 opacity-90 ml-4`}>
+                                <span className={`text-[9px] uppercase font-bold tracking-wider ${CATEGORY_STYLES.aspect.text} opacity-70`}>ASPECTE</span>
+                                <div className="grid place-items-center">
+                                    <span className="invisible row-start-1 col-start-1 px-1 text-sm md:text-base font-medium whitespace-pre h-0 md:h-auto overflow-hidden">
+                                    {getVisibleText(item.aspectData) || ' '}
+                                    </span>
+                                    <input 
+                                        type="text" 
+                                        value={getVisibleText(item.aspectData)}
+                                        onChange={(e) => setManualEdits(prev => ({ ...prev, [item.aspectData.uid]: e.target.value }))}
+                                        className="row-start-1 col-start-1 w-full bg-transparent border-none text-white text-sm md:text-base font-medium focus:ring-0 focus:outline-none p-0 text-center min-w-[50px]"
+                                    />
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+              );
+          });
+      }
+
+      // SOUL MODE SPECIFIC ORDERING
+      // Requested Order: Agent, Motor 1, Anc 1, Conf 1, Agent(Ref), Motor 2, Anc 2, Conf 2
+      if (currentMode === 'SOUL') {
+          // Hand indices: 0:Ag, 1:Mot1, 2:Conf1, 3:Anc1, 4:Mot2, 5:Conf2, 6:Anc2
+          const itemsToRender = [
+              { ...hand[0], isRef: false }, // Agent
+              { ...hand[1], isRef: false }, // Mot 1
+              { ...hand[3], isRef: false }, // Anc 1 (or Agent)
+              { ...hand[2], isRef: false }, // Conf 1
+              { ...hand[0], isRef: true, refLabel: "Agent (Repetit)" }, // Agent (Ref)
+              { ...hand[4], isRef: false }, // Mot 2
+              { ...hand[6], isRef: false }, // Anc 2 (or Agent)
+              { ...hand[5], isRef: false }, // Conf 2
+          ];
+
+          return itemsToRender.map((item, index) => {
+              if (!item) return null;
+              const catConfig = CATEGORY_STYLES[item.category];
+              const currentText = getVisibleText(item);
+              const key = item.isRef ? `ref-${index}-${item.uid}` : item.uid;
+              const hasActiveAspect = !item.isRef && item.aspectData && activeAspects[item.uid];
+
+              return (
+                <div key={key} className="flex items-start gap-1 p-1 rounded transition-colors border border-transparent">
+                    <div className="flex flex-col gap-1">
+                        <div className={`flex flex-col items-center gap-1 p-2 rounded shadow-lg transition-all ${item.isRef ? 'bg-gray-800 border-gray-600' : catConfig.promptBg + ' border-white/10'}`}>
+                            <div className="flex items-center gap-1">
+                                {item.isRef && <Lock size={10} className="text-gray-400"/>}
+                                <span className={`text-[9px] uppercase font-bold tracking-wider ${item.isRef ? 'text-gray-400' : catConfig.text} opacity-70`}>
+                                    {item.isRef ? item.refLabel : catConfig.label}
+                                </span>
+                            </div>
+                            <div className="grid place-items-center">
+                                <span className="invisible row-start-1 col-start-1 px-1 text-sm md:text-base font-medium whitespace-pre h-0 md:h-auto overflow-hidden">
+                                {currentText || ' '}
+                                </span>
+                                <input 
+                                    type="text" 
+                                    value={currentText}
+                                    readOnly={item.isRef}
+                                    onChange={(e) => {
+                                        if(!item.isRef) setManualEdits(prev => ({ ...prev, [item.uid]: e.target.value }));
+                                    }}
+                                    className={`row-start-1 col-start-1 w-full bg-transparent border-none ${item.isRef ? 'text-gray-400 italic cursor-not-allowed' : 'text-white'} text-sm md:text-base font-medium focus:ring-0 focus:outline-none p-0 text-center min-w-[50px]`}
+                                />
+                            </div>
+                        </div>
+
+                        {hasActiveAspect && (
+                            <div className={`flex flex-col items-center gap-1 p-2 rounded shadow-lg transition-all ${CATEGORY_STYLES.aspect.promptBg} border border-white/10 scale-90 opacity-90 ml-4`}>
+                                <span className={`text-[9px] uppercase font-bold tracking-wider ${CATEGORY_STYLES.aspect.text} opacity-70`}>ASPECTE</span>
+                                <div className="grid place-items-center">
+                                    <span className="invisible row-start-1 col-start-1 px-1 text-sm md:text-base font-medium whitespace-pre h-0 md:h-auto overflow-hidden">
+                                    {getVisibleText(item.aspectData) || ' '}
+                                    </span>
+                                    <input 
+                                        type="text" 
+                                        value={getVisibleText(item.aspectData)}
+                                        onChange={(e) => setManualEdits(prev => ({ ...prev, [item.aspectData.uid]: e.target.value }))}
+                                        className="row-start-1 col-start-1 w-full bg-transparent border-none text-white text-sm md:text-base font-medium focus:ring-0 focus:outline-none p-0 text-center min-w-[50px]"
+                                    />
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+              );
+          });
+      }
+
+      // STANDARD ORDERING (SEED) - NO DRAG
+      return promptOrder.map((uid, index) => {
+          const card = hand.find(c => c.uid === uid);
+          if (!card) return null; 
+
+          const catConfig = CATEGORY_STYLES[card.category];
+          const hasActiveAspect = card.aspectData && activeAspects[card.uid];
+
+          return (
+            <div 
+                key={uid}
+                draggable
+                onDragStart={(e) => handleDragStart(e, index)}
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, index)}
+                className="flex items-start gap-1 p-1 rounded hover:bg-white/5 transition-colors cursor-grab active:cursor-grabbing border border-transparent hover:border-white/10"
+            >
+                <div className="mt-2 text-white/30"><GripVertical size={14} /></div>
+
+                <div className="flex flex-col gap-1"> 
+                    <div className={`flex flex-col items-center gap-1 p-2 rounded shadow-lg transition-all ${catConfig.promptBg} border border-white/10`}>
+                        <span className={`text-[9px] uppercase font-bold tracking-wider ${catConfig.text} opacity-70`}>
+                            {catConfig.label}
+                        </span>
+                        <div className="grid place-items-center">
+                            <span className="invisible row-start-1 col-start-1 px-1 text-sm md:text-base font-medium whitespace-pre h-0 md:h-auto overflow-hidden">
+                            {getVisibleText(card) || ' '}
+                            </span>
+                            <input 
+                                type="text" 
+                                value={getVisibleText(card)}
+                                onMouseDown={(e) => e.stopPropagation()} 
+                                onChange={(e) => {
+                                    setManualEdits(prev => ({ ...prev, [card.uid]: e.target.value }));
+                                }}
+                                className="row-start-1 col-start-1 w-full bg-transparent border-none text-white text-sm md:text-base font-medium focus:ring-0 focus:outline-none p-0 text-center min-w-[50px]"
+                            />
+                        </div>
+                    </div>
+
+                    {hasActiveAspect && (
+                        <div className={`flex flex-col items-center gap-1 p-2 rounded shadow-lg transition-all ${CATEGORY_STYLES.aspect.promptBg} border border-white/10 scale-90 opacity-90`}>
+                            <span className={`text-[9px] uppercase font-bold tracking-wider ${CATEGORY_STYLES.aspect.text} opacity-70`}>
+                                ASPECTE
+                            </span>
+                            <div className="grid place-items-center">
+                                <span className="invisible row-start-1 col-start-1 px-1 text-sm md:text-base font-medium whitespace-pre h-0 md:h-auto overflow-hidden">
+                                {getVisibleText(card.aspectData) || ' '}
+                                </span>
+                                <input 
+                                    type="text" 
+                                    value={getVisibleText(card.aspectData)}
+                                    onMouseDown={(e) => e.stopPropagation()}
+                                    onChange={(e) => {
+                                        setManualEdits(prev => ({ ...prev, [card.aspectData.uid]: e.target.value }));
+                                    }}
+                                    className="row-start-1 col-start-1 w-full bg-transparent border-none text-white text-sm md:text-base font-medium focus:ring-0 focus:outline-none p-0 text-center min-w-[50px]"
+                                />
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+          );
+      });
+  };
+
+  if (!isDataLoaded) return <div className="text-white text-center p-10">Carregant cartes...</div>;
 
   return (
     <div className="min-h-screen bg-[#1a1a1a] text-gray-200 font-serif flex flex-col items-center py-8 px-4 overflow-x-hidden">
       
-      {/* Header */}
-      <header className="mb-10 text-center space-y-4">
-        <h1 className="text-4xl md:text-6xl font-bold tracking-widest text-[#d4af37] uppercase border-b-2 border-[#d4af37] pb-2 inline-block">
-          The Story Engine
+      <header className="mb-4 text-center space-y-4 w-full max-w-7xl relative z-20">
+        <h1 className="text-3xl md:text-6xl font-bold tracking-widest text-[#d4af37] uppercase border-b-2 border-[#d4af37] pb-2 inline-block">
+          GENERADOR D'HISTÒRIES
         </h1>
-        <p className="text-gray-400 text-sm md:text-base max-w-2xl mx-auto italic">
-          Generador d'històries. Gira les cartes per seleccionar el teu camí.
-        </p>
-        <button 
-          onClick={generateFullHand}
-          className="mt-4 px-6 py-2 bg-[#2a2a2a] border border-[#d4af37] text-[#d4af37] rounded hover:bg-[#d4af37] hover:text-black transition-all flex items-center gap-2 mx-auto font-bold tracking-wider"
-        >
-          <Dices size={20} />
-          NOVA BARALLA
-        </button>
+
+        <div className="flex flex-wrap justify-center gap-4 items-center">
+            <select 
+                value={currentMode}
+                onChange={(e) => setCurrentMode(e.target.value)}
+                className="bg-[#2a2a2a] border border-[#d4af37] text-[#d4af37] py-2 px-4 rounded focus:outline-none uppercase text-xs md:text-sm tracking-wider font-bold"
+            >
+                {Object.values(GENERATION_MODES).map(mode => (
+                    <option key={mode.id} value={mode.id}>{mode.label}</option>
+                ))}
+            </select>
+
+            <button 
+              onClick={() => setShowInstructions(true)}
+              className="px-4 py-2 bg-transparent border border-gray-600 text-gray-400 rounded hover:border-[#d4af37] hover:text-[#d4af37] transition-all flex items-center gap-2 text-xs"
+            >
+              <BookOpen size={16} />
+              Instruccions de l'App
+            </button>
+        </div>
+
+        <div className="mt-8 p-4 border-t border-b border-gray-800 bg-[#111]">
+            <div className="flex flex-wrap justify-center gap-3 items-start min-h-[60px]">
+                {renderPromptElements()}
+            </div>
+        </div>
       </header>
 
-      {/* Cards Grid */}
-      <div className="w-full max-w-7xl flex flex-wrap justify-center gap-6 md:gap-8 pb-20">
-        {CATEGORIES.map((category) => (
-          <div key={category.key} className="flex flex-col items-center gap-4">
-            
-            {/* Label */}
-            <div className={`text-xs tracking-[0.2em] font-bold ${category.text} uppercase`}>
-              {category.label}
-            </div>
-
-            {/* Card Container */}
-            <div className="relative group perspective-1000">
-              
-              {/* Active Indicator Arrow */}
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20 text-[#d4af37] animate-bounce">
-                ▼
-              </div>
-
-              {/* The Card */}
-              <div 
-                className={`relative w-48 h-48 md:w-56 md:h-56 bg-[#0f0f0f] border-2 ${category.color} rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-transform duration-500 ease-in-out`}
-                style={{ 
-                  transform: `rotate(${rotations[category.key]}deg)`,
-                  boxShadow: `0 0 20px ${category.color.replace('border-', '')}20` 
-                }}
-              >
-                {/* Texture Overlay */}
-                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] opacity-20 pointer-events-none"></div>
-                
-                {/* Inner Border Design (Slightly transparent frame to mark text areas) */}
-                <div className="absolute inset-2 border border-white/5 rounded pointer-events-none"></div>
-
-                {hand[category.key] && (
-                  <>
-                    {/* Utilitzem el nou sistema de posicionament per evitar solapaments */}
-                    <CardText position="top" text={hand[category.key].options[0]} color={category.text} />
-                    <CardText position="right" text={hand[category.key].options[1]} color={category.text} />
-                    <CardText position="bottom" text={hand[category.key].options[2]} color={category.text} />
-                    <CardText position="left" text={hand[category.key].options[3]} color={category.text} />
-                  </>
-                )}
-
-                {/* Center Decoration */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-30">
-                  <div className={`w-12 h-12 rounded-full border-2 ${category.color} flex items-center justify-center`}>
-                    <div className={`w-8 h-8 rounded-full border ${category.color}`}></div>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Controls */}
-              <div className="mt-6 flex gap-4 justify-center">
-                <button 
-                  onClick={() => rotateCard(category.key)}
-                  className="p-2 rounded-full bg-[#222] text-gray-300 hover:text-white hover:bg-[#333] border border-gray-700 transition-colors"
-                  title="Girar carta"
-                >
-                  <RotateCw size={18} />
-                </button>
-                <button 
-                  onClick={() => changeCard(category.key)}
-                  className="p-2 rounded-full bg-[#222] text-gray-300 hover:text-white hover:bg-[#333] border border-gray-700 transition-colors"
-                  title="Canviar carta"
-                >
-                  <RefreshCw size={18} />
-                </button>
-              </div>
-
-            </div>
-          </div>
-        ))}
+      <div className="w-full max-w-7xl flex flex-col items-center pb-20 mt-8 gap-8">
+        {renderLayout()}
       </div>
 
-      {/* Footer / Instructions */}
-      <footer className="fixed bottom-0 w-full bg-[#111] border-t border-gray-800 py-4 px-6 flex justify-between items-center text-xs text-gray-500 z-50">
-        <div className="flex items-center gap-2">
-          <Info size={14} />
-          <span>Llegeix l'opció que apunta cap a la fletxa superior.</span>
-        </div>
+      {showInstructions && (
+          <div className="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
+              <div className="bg-[#1a1a1a] border-2 border-[#d4af37] rounded-lg max-w-2xl w-full p-6 relative shadow-[0_0_50px_rgba(212,175,55,0.2)] max-h-[90vh] overflow-y-auto">
+                  <button 
+                    onClick={() => setShowInstructions(false)}
+                    className="absolute top-4 right-4 text-gray-400 hover:text-white"
+                  >
+                      <X size={24} />
+                  </button>
+                  
+                  <h2 className="text-2xl font-bold text-[#d4af37] mb-6 uppercase tracking-widest border-b border-gray-700 pb-2">
+                      Guia d'ús de l'App
+                  </h2>
+                  
+                  <div className="text-gray-300 space-y-6 text-sm leading-relaxed">
+                      
+                      <section>
+                          <h3 className="text-lg font-bold text-white mb-2">Com funciona?</h3>
+                          <ul className="list-disc pl-5 space-y-1">
+                              <li><span className="text-yellow-400">Girar carta:</span> Fes clic a qualsevol lloc de la carta per rotar-la.</li>
+                              <li><span className="text-red-400">Canviar carta:</span> Fes clic al cercle central (apareixerà una paperera) per obtenir-ne una de nova.</li>
+                              <li><span className="text-purple-400">Aspecte:</span> Marca la casella sobre les cartes d'Agent o Àncora per afegir-hi una carta d'Aspecte. Passa el ratolí per sobre de l'Aspecte o de la carta principal per portar-la al davant.</li>
+                          </ul>
+                      </section>
+
+                      <section className="space-y-4">
+                          <h3 className="text-lg font-bold text-white mb-2 border-b border-gray-800 pb-1">Modes de Generació</h3>
+                          
+                          <div className="grid md:grid-cols-2 gap-4">
+                              <div className="bg-[#222] p-3 rounded border border-gray-700">
+                                  <h4 className="font-bold text-[#d4af37] mb-1">1. Llavor de la Història</h4>
+                                  <p className="text-xs text-gray-400">El mode clàssic. Agent, Motor, Àncora i Conflicte.</p>
+                              </div>
+
+                              <div className="bg-[#222] p-3 rounded border border-gray-700">
+                                  <h4 className="font-bold text-[#d4af37] mb-1">2. Cercle del Destí</h4>
+                                  <p className="text-xs text-gray-400">Sis cartes en cercle (2 Agents, 2 Motors, 2 Conflictes) on cada acció genera una reacció en cadena.</p>
+                              </div>
+
+                              <div className="bg-[#222] p-3 rounded border border-gray-700">
+                                  <h4 className="font-bold text-[#d4af37] mb-1">3. Xoc de Voluntats</h4>
+                                  <p className="text-xs text-gray-400">Dos bàndols lluitant per una mateixa àncora, cadascun amb els seus conflictes personals.</p>
+                              </div>
+
+                              <div className="bg-[#222] p-3 rounded border border-gray-700">
+                                  <h4 className="font-bold text-[#d4af37] mb-1">4. Una Ànima Dividida</h4>
+                                  <p className="text-xs text-gray-400">Explora el conflicte intern d'un sol personatge atrapat entre dos desitjos.</p>
+                              </div>
+                          </div>
+                      </section>
+                  </div>
+              </div>
+          </div>
+      )}
+
+      <footer className="fixed bottom-0 w-full bg-[#111] border-t border-gray-800 py-3 px-6 flex justify-between items-center text-xs text-gray-500 z-50">
         <div>
-          Inspirat en The Story Engine Deck.
+           Una adaptació de Xavier Ribes - Gamelab de la UAB
+        </div>
+        <div className="flex items-center gap-1">
+          <Database size={10}/> {Object.values(cardPool.agent || {}).length} opcions
         </div>
       </footer>
     </div>
   );
 }
-
-// Component auxiliar optimitzat per evitar solapaments
-const CardText = ({ position, text, color }) => {
-  // Ajustem la mida de la font per a textos llargs i assegurem que no surti del contenidor
-  const textStyle = "text-center font-bold text-[10px] md:text-xs leading-tight tracking-wide";
-  
-  // Posicionament absolut millorat
-  // Lògica: Cada àrea de text ocupa un trapezi/rectangle a prop de la vora, deixant les cantonades lliures.
-  // Els marges laterals (left/right en top/bottom) eviten que xoqui amb els textos laterals.
-  
-  if (position === 'top') {
-    return (
-      <div className={`absolute top-0 left-[15%] right-[15%] h-[25%] flex items-start justify-center pt-2 ${color}`}>
-        <span className={textStyle}>{text}</span>
-      </div>
-    );
-  }
-  
-  if (position === 'bottom') {
-    return (
-      <div className={`absolute bottom-0 left-[15%] right-[15%] h-[25%] flex items-end justify-center pb-2 ${color}`}>
-        <span className={`${textStyle} transform rotate-180`}>{text}</span>
-      </div>
-    );
-  }
-  
-  if (position === 'right') {
-    return (
-      <div className={`absolute top-[15%] bottom-[15%] right-0 w-[25%] flex items-center justify-end pr-1 ${color}`}>
-        {/* Utilitzem writing-mode per a text vertical o rotació. 
-            La rotació 90deg és més estàndard per a aquest joc. 
-            El contenidor està centrat verticalment. */}
-        <div className="w-[140px] h-8 flex items-center justify-center transform rotate-90 origin-center translate-x-[35%]">
-            <span className={textStyle}>{text}</span>
-        </div>
-      </div>
-    );
-  }
-  
-  if (position === 'left') {
-    return (
-      <div className={`absolute top-[15%] bottom-[15%] left-0 w-[25%] flex items-center justify-start pl-1 ${color}`}>
-        <div className="w-[140px] h-8 flex items-center justify-center transform -rotate-90 origin-center -translate-x-[35%]">
-            <span className={textStyle}>{text}</span>
-        </div>
-      </div>
-    );
-  }
-
-  return null;
-};
