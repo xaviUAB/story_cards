@@ -72,6 +72,22 @@
             color: white;
             padding: 0 4px;
         }
+        /* Estil per evitar el desbordament del text a les cartes */
+        .card-text-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .card-text-content {
+            text-align: center;
+            font-weight: bold;
+            line-height: 1.15;
+            word-wrap: break-word;
+            hyphens: auto;
+            max-width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -121,19 +137,20 @@
                 MoveUpLeft: <path d="M5 11V5H11M5 5L19 19"/>,
                 MoveUpRight: <path d="M13 5H19V11M19 5L5 19"/>,
                 Check: <polyline points="20 6 9 17 4 12"/>,
-                // Icones temàtiques addicionals
                 Skull: <path d="M9 10L9.01 10M15 10L15.01 10M12 2C8.13 2 5 5.13 5 9C5 12.18 6.72 14.94 9.27 16.35C9.41 16.42 9.5 16.55 9.5 16.7V20C9.5 21.1 10.4 22 11.5 22H12.5C13.6 22 14.5 21.1 14.5 20V16.7C14.5 16.55 14.59 16.42 14.73 16.35C17.28 14.94 19 12.18 19 9C19 5.13 15.87 2 12 2ZM9 22L9 18M15 22L15 18" />,
-                FlaskConical: <path d="M10 2v7.58M14 2v7.58M6 15.91l-1.39 2.53C3.9 19.78 4.86 22 6.54 22h10.92c1.67 0 2.63-2.22 1.93-3.56L18 15.91M8.5 2h7M7 16h10" />,
+                Rocket: <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09zM12 15l-3.5 3.5L7 17l3.5-3.5M9 15l-5 5M15 12l-3.5 3.5L10 14l3.5-3.5M13.5 6.5l1 1M16 11l-3.5 3.5M15 11l-3.5 3.5M10 14l3.5-3.5M22 2s-4 0-7 3c-1.5 1.5-2 3.5-2 5l1 1s1.5-.5 3-2c3-3 3-7 3-7z" />,
+                Cpu: <Fragment><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="15" x2="23" y2="15"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="15" x2="4" y2="15"/></Fragment>,
+                Eye: <Fragment><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></Fragment>,
+                Zap: <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />,
+                Radioactive: <Fragment><circle cx="12" cy="12" r="2"/><path d="M7 12a5 5 0 0 1 5-5v-4a9 9 0 0 0-9 9h4z"/><path d="M17 12a5 5 0 0 1-5 5v4a9 9 0 0 0 9-9h-4z"/><path d="M12 17a5 5 0 0 1-5-5h-4a9 9 0 0 0 9 9v-4z"/><path d="M12 7a5 5 0 0 1 5 5h4a9 9 0 0 0-9-9v4z"/></Fragment>,
                 Cog: <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z" />,
                 Sword: <Fragment><polyline points="14.5 17.5 3 6 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="22" y2="22"/></Fragment>,
                 Search: <Fragment><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></Fragment>,
-                Ghost: <path d="M9 10h.01M15 10h.01M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z" />,
-                Crosshair: <Fragment><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" x2="12" y1="2" y2="6"/><line x1="12" x2="12" y1="18" y2="22"/></Fragment>,
-                Zap: <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />,
-                Gem: <path d="M6 3h12l4 6-10 12L2 9z" />,
-                Flame: <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3 0-1.1.73-2.73 2-3.32.48-.23 1.2-.22 1.74.05A6.24 6.24 0 0 1 17 11.5c0 3.03-2.46 5.5-5.5 5.5s-5.5-2.47-5.5-5.5c0-1.16.31-2.14.77-3.03C7 9 8.5 10 8.5 12c0 1-1 1.5-1 2.5z" />,
+                Crown: <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" />,
+                Key: <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.78 7.78 5.5 5.5 0 0 1 7.78-7.78zM15 5l.5 1.5L17 7l-1.5.5L15 9l-.5-1.5L13 7l1.5-.5L15 5z" />,
                 Map: <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" />,
-                Anchor: <Fragment><path d="M12 22V8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/><circle cx="12" cy="5" r="3"/></Fragment>
+                Anchor: <Fragment><path d="M12 22V8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/><circle cx="12" cy="5" r="3"/></Fragment>,
+                Ghost: <path d="M9 10h.01M15 10h.01M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z" />
             };
 
             return (
@@ -143,42 +160,70 @@
             );
         };
 
-        // Pool d'icones per a assignació dinàmica si no hi ha keyword
-        const ICON_POOL = ['Dices', 'FlaskConical', 'Skull', 'Cog', 'Sword', 'Search', 'Zap', 'Ghost', 'Crosshair', 'Gem', 'Flame', 'Map', 'Anchor'];
-
-        const getCollectionIcon = (deckId) => {
+        // Lògica per assignar una icona única estricta a cada temàtica
+        const getDeckIconName = (deckId, allDecks) => {
             const id = (deckId || "").toLowerCase();
-            // Assignació per paraula clau
+            
             if (id.includes('genèric') || id.includes('generic')) return 'Dices';
-            if (id.includes('scifi') || id.includes('ciència') || id.includes('ciencia')) return 'FlaskConical';
+            if (id.includes('scifi')) return 'Rocket';
+            if (id.includes('tecnologia') || id.includes('tecnologic') || id.includes('technology')) return 'Cpu';
+            if (id.includes('distopia') || id.includes('dystopia')) return 'Eye';
+            if (id.includes('cyberpunk')) return 'Zap';
+            if (id.includes('post-apocaliptic') || id.includes('post-apocalyptic') || id.includes('apocalipsi')) return 'Radioactive';
             if (id.includes('terror') || id.includes('horror')) return 'Skull';
             if (id.includes('steampunk')) return 'Cog';
             if (id.includes('mitologia') || id.includes('fantasy') || id.includes('fantasia')) return 'Sword';
             if (id.includes('misteri') || id.includes('mystery')) return 'Search';
-            if (id.includes('cyberpunk') || id.includes('futur')) return 'Zap';
-            if (id.includes('espiritual') || id.includes('esperit')) return 'Ghost';
-            if (id.includes('acció') || id.includes('combat')) return 'Crosshair';
-            
-            // Assignació única determinista basada en el nom per a qualsevol altre CSV
-            const hash = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-            return ICON_POOL[hash % ICON_POOL.length];
+
+            const ICON_POOL = ['Crown', 'Key', 'Map', 'Anchor', 'Ghost'];
+            const deckIndex = allDecks.findIndex(d => d.id === deckId);
+            return ICON_POOL[deckIndex % ICON_POOL.length] || 'Database';
         };
 
-        // --- COMPONENTS VISUALS ---
-
+        // --- COMPONENTS DE CARTA ---
         const CardText = ({ position, text, color }) => {
-            const textStyle = "text-center font-bold text-[10px] md:text-xs leading-tight tracking-wide pointer-events-none select-none px-2";
-            if (position === 'top') return <div className={`absolute top-0 left-0 right-0 h-[40%] flex items-start justify-center pt-3 ${color}`}><span className={textStyle}>{text}</span></div>;
-            if (position === 'bottom') return <div className={`absolute bottom-0 left-0 right-0 h-[40%] flex items-end justify-center pb-3 ${color}`}><span className={`${textStyle} transform rotate-180`}>{text}</span></div>;
-            if (position === 'right') return <div className={`absolute top-0 bottom-0 right-0 w-[40%] flex items-center justify-end pr-1 ${color}`}><div className="w-[140px] h-8 flex items-center justify-center transform rotate-90 origin-center translate-x-[35%]"><span className={textStyle}>{text}</span></div></div>;
-            if (position === 'left') return <div className={`absolute top-0 bottom-0 left-0 w-[40%] flex items-center justify-start pl-1 ${color}`}><div className="w-[140px] h-8 flex items-center justify-center transform -rotate-90 origin-center -translate-x-[35%]"><span className={textStyle}>{text}</span></div></div>;
+            const containerBase = "absolute card-text-container ";
+            const textBase = `card-text-content ${color} text-[9px] md:text-[11px] `;
+            
+            if (position === 'top') {
+                return (
+                    <div className={containerBase + "top-0 left-0 right-0 h-[45%] items-start pt-4 px-2"}>
+                        <span className={textBase}>{text}</span>
+                    </div>
+                );
+            }
+            if (position === 'bottom') {
+                return (
+                    <div className={containerBase + "bottom-0 left-0 right-0 h-[45%] items-end pb-4 px-2"}>
+                        <span className={textBase + " transform rotate-180"}>{text}</span>
+                    </div>
+                );
+            }
+            if (position === 'right') {
+                return (
+                    <div className={containerBase + "top-0 bottom-0 right-0 w-[45%] items-center pr-1"}>
+                        <div className="transform rotate-90 w-[140px] flex justify-center items-center">
+                            <span className={textBase}>{text}</span>
+                        </div>
+                    </div>
+                );
+            }
+            if (position === 'left') {
+                return (
+                    <div className={containerBase + "top-0 bottom-0 left-0 w-[45%] items-center pl-1"}>
+                        <div className="transform -rotate-90 w-[140px] flex justify-center items-center">
+                            <span className={textBase}>{text}</span>
+                        </div>
+                    </div>
+                );
+            }
             return null;
         };
 
-        const CardComponent = ({ data, parentUid = null, isAspect = false, onRotate, onChange, style = {}, onMouseEnter }) => {
+        const CardComponent = ({ data, parentUid = null, isAspect = false, onRotate, onChange, style = {}, onMouseEnter, allDecks }) => {
             if (!data) return null;
             const catConfig = CATEGORY_STYLES[data.category];
-            const collectionIconName = getCollectionIcon(data.deckId);
+            const iconName = getDeckIconName(data.deckId, allDecks);
 
             return (
                 <div className="relative group/card perspective-1000 cursor-pointer" onClick={(e) => { e.stopPropagation(); onRotate(isAspect ? data.uid : data.uid, data.category, isAspect, parentUid); }} onMouseEnter={onMouseEnter} style={style}>
@@ -204,7 +249,7 @@
                             </Fragment>
                         )}
 
-                        <div className="absolute inset-0 flex items-center justify-center z-50">
+                        <div className="absolute inset-0 flex items-center justify-center z-50 pointer-events-none">
                             <div 
                                 className={`w-10 h-10 rounded-full border-2 ${catConfig.color} flex items-center justify-center bg-[#1a1a1a] transition-all duration-300 shadow-lg group/center pointer-events-auto hover:bg-[#333] hover:scale-125 cursor-pointer`}
                                 onClick={(e) => { e.stopPropagation(); onChange(isAspect ? data.uid : data.uid, data.category, isAspect, parentUid); }}
@@ -212,7 +257,7 @@
                                 <div style={{ transform: `rotate(${-data.rotation}deg)`, transition: 'transform 0.5s ease-in-out' }}>
                                     <Icon name="RotateCw" size={18} className="text-white hidden group-hover/card:block group-hover/center:hidden animate-pulse" />
                                     <Icon name="Trash2" size={18} className="text-red-400 hidden group-hover/center:block" />
-                                    <Icon name={collectionIconName} size={18} className={`${catConfig.text} block group-hover/card:hidden opacity-70`} />
+                                    <Icon name={iconName} size={18} className={`${catConfig.text} block group-hover/card:hidden opacity-80`} />
                                 </div>
                             </div>
                         </div>
@@ -221,7 +266,7 @@
             );
         };
 
-        const CardSlot = ({ card, activeAspects, toggleAspect, changeCard, rotateCard, canSwapType, onSwapType }) => {
+        const CardSlot = ({ card, activeAspects, toggleAspect, changeCard, rotateCard, canSwapType, onSwapType, allDecks }) => {
             const [hoverTarget, setHoverTarget] = useState(null); 
             if (!card) return null; 
             const catConfig = CATEGORY_STYLES[card.category];
@@ -244,8 +289,8 @@
                         </div>
                     </div>
                     <div className="relative">
-                        {isAspectActive && <div className="absolute top-12 left-4 transform -rotate-3 transition-all duration-300" style={{ zIndex: aspectZ }}><CardComponent data={card.aspectData} parentUid={card.uid} isAspect={true} onRotate={rotateCard} onChange={changeCard} onMouseEnter={(e) => { e.stopPropagation(); setHoverTarget('aspect'); }} /></div>}
-                        <div className="relative transition-all duration-300" style={{ zIndex: mainZ }}><CardComponent data={card} onRotate={rotateCard} onChange={changeCard} onMouseEnter={(e) => { e.stopPropagation(); setHoverTarget('main'); }} /></div>
+                        {isAspectActive && <div className="absolute top-12 left-4 transform -rotate-3 transition-all duration-300" style={{ zIndex: aspectZ }}><CardComponent data={card.aspectData} parentUid={card.uid} isAspect={true} onRotate={rotateCard} onChange={changeCard} onMouseEnter={(e) => { e.stopPropagation(); setHoverTarget('aspect'); }} allDecks={allDecks} /></div>}
+                        <div className="relative transition-all duration-300" style={{ zIndex: mainZ }}><CardComponent data={card} onRotate={rotateCard} onChange={changeCard} onMouseEnter={(e) => { e.stopPropagation(); setHoverTarget('main'); }} allDecks={allDecks} /></div>
                     </div>
                 </div>
             );
@@ -328,7 +373,6 @@
             };
 
             const toggleAspect = useCallback((uid) => { setActiveAspects(prev => ({ ...prev, [uid]: !prev[uid] })); }, []);
-            
             const rotateCard = useCallback((uid, categoryKey, isAspect, parentUid) => {
                 const degree = CATEGORY_STYLES[categoryKey].type === 'binary' ? 180 : 90;
                 setHand(prev => prev.map(card => {
@@ -435,7 +479,7 @@
             };
 
             const handleDrop = (e, dropIdx) => {
-                const dragIdx = Number(e.dataTransfer.getData('idx'));
+                const dragIdx = Number(e.dataTransfer.getData('dragIndex'));
                 const newO = [...promptOrder];
                 const item = newO[dragIdx];
                 newO.splice(dragIdx, 1);
@@ -459,7 +503,7 @@
                                         </div>
                                     )}
                                     {availableDecks.map(deck => {
-                                        const cIcon = getCollectionIcon(deck.id);
+                                        const cIcon = getDeckIconName(deck.id, availableDecks);
                                         return (
                                             <div key={deck.id} onClick={() => {
                                                 const next = new Set(selectedDecks);
@@ -542,7 +586,6 @@
                     const card = hand.find(c => c.uid === item.uid);
                     if (!card) return null;
                     const txt = getActiveText(card);
-                    const isDrag = currentMode === 'SEED';
 
                     return (
                         <div key={`${card.uid}-${idx}`} className="flex flex-col gap-1 p-1 rounded border border-transparent">
@@ -591,24 +634,24 @@
                                     <div className="flex flex-nowrap items-center gap-8">
                                         {/* Extrem Esquerre: CONFLICTE 2 (5) -> ÀNCORA 2 (6) -> MOTOR 2 (4) */}
                                         <div className="flex flex-row items-center gap-4 order-1">
-                                            <CardSlot card={hand[5]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                                            <CardSlot card={hand[5]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} allDecks={availableDecks} />
                                             <Icon name="ArrowLeft" className="text-[#d4af37] shrink-0 opacity-40" size={24} />
-                                            <CardSlot card={hand[6]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
+                                            <CardSlot card={hand[6]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} allDecks={availableDecks} />
                                             <Icon name="ArrowLeft" className="text-[#d4af37] shrink-0" size={24} />
-                                            <CardSlot card={hand[4]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                                            <CardSlot card={hand[4]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} allDecks={availableDecks} />
                                             <Icon name="ArrowLeft" className="text-[#d4af37] shrink-0" size={24} />
                                         </div>
                                         <div className="order-2 z-20 transform scale-110 mx-4">
-                                            <CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
+                                            <CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} allDecks={availableDecks} />
                                         </div>
                                         {/* Extrem Dret: MOTOR 1 (1) -> ÀNCORA 1 (3) -> CONFLICTE 1 (2) */}
                                         <div className="flex flex-row items-center gap-4 order-3">
                                             <Icon name="ArrowRight" className="text-[#d4af37] shrink-0" size={24} />
-                                            <CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                                            <CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} allDecks={availableDecks} />
                                             <Icon name="ArrowRight" className="text-[#d4af37] shrink-0" size={24} />
-                                            <CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
+                                            <CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} allDecks={availableDecks} />
                                             <Icon name="ArrowRight" className="text-[#d4af37] shrink-0 opacity-40" size={24} />
-                                            <CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                                            <CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} allDecks={availableDecks} />
                                         </div>
                                     </div>
                                     <div className="absolute -top-24 left-20 text-xs text-[#d4af37] uppercase tracking-widest font-bold bg-[#111] px-3 py-1 rounded border border-[#d4af37]/30 shadow-lg">Camí del Desig 2</div>
@@ -619,21 +662,21 @@
                             <div className="relative w-full max-w-4xl h-[650px] flex items-center justify-center">
                                 <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20 animate-[spin_60s_linear_infinite]"><circle cx="50%" cy="50%" r="35%" stroke="#d4af37" strokeWidth="2" fill="none" strokeDasharray="10,5" /></svg>
                                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10">
-                                    <CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
+                                    <CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} allDecks={availableDecks} />
                                     <Icon name="MoveRight" className="absolute -right-16 top-1/2 text-[#d4af37] rotate-[30deg]" size={40} />
                                 </div>
-                                <div className="absolute top-[20%] right-0 md:right-20 z-10"><CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} /></div>
+                                <div className="absolute top-[20%] right-0 md:right-20 z-10"><CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} allDecks={availableDecks} /></div>
                                 <div className="absolute bottom-[20%] right-0 md:right-20 z-10">
-                                    <CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                                    <CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} allDecks={availableDecks} />
                                     <Icon name="MoveDownLeft" className="absolute -left-16 bottom-0 text-[#d4af37] rotate-12" size={40} />
                                 </div>
                                 <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10">
-                                    <CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
+                                    <CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} allDecks={availableDecks} />
                                     <Icon name="MoveUpLeft" className="absolute -left-16 top-1/2 text-[#d4af37] rotate-12" size={40} />
                                 </div>
-                                <div className="absolute bottom-[20%] left-0 md:left-20 z-20"><CardSlot card={hand[4]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} /></div>
+                                <div className="absolute bottom-[20%] left-0 md:left-20 z-20"><CardSlot card={hand[4]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} allDecks={availableDecks} /></div>
                                 <div className="absolute top-[20%] left-0 md:left-20 z-10">
-                                    <CardSlot card={hand[5]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                                    <CardSlot card={hand[5]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} allDecks={availableDecks} />
                                     <Icon name="MoveUpRight" className="absolute -right-16 top-0 text-[#d4af37] rotate-12" size={40} />
                                 </div>
                             </div>
@@ -643,43 +686,13 @@
                                     {hand.map((card, i) => (
                                         <Fragment key={`${card.uid}-${i}`}>
                                             {i > 0 && currentMode === 'SEED' && <Icon name="ArrowRight" className="text-[#d4af37]/30 hidden md:block" />}
-                                            <CardSlot card={card} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={['agent','anchor'].includes(card.category)} onSwapType={swapCardCategory} />
+                                            <CardSlot card={card} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={['agent','anchor'].includes(card.category)} onSwapType={swapCardCategory} allDecks={availableDecks} />
                                         </Fragment>
                                     ))}
                                 </div>
                             )
                         )}
                     </main>
-
-                    {showInstructions && (
-                        <div className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-6">
-                            <div className="bg-[#1a1a1a] border-2 border-[#d4af37] rounded-lg max-w-4xl w-full p-8 relative shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar text-left">
-                                <button onClick={() => setShowInstructions(false)} className="absolute top-4 right-4 text-gray-500 hover:text-white"><Icon name="X" size={28} /></button>
-                                <h2 className="text-3xl font-bold text-[#d4af37] mb-8 uppercase tracking-widest border-b border-gray-800 pb-2 text-center">Guia d'Ús: Generador d'Històries</h2>
-                                <div className="text-gray-300 space-y-8 text-sm md:text-base leading-relaxed">
-                                    <section>
-                                        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2"><Icon name="Database" size={20} className="text-[#d4af37]"/> 1. Els Tipus de Cartes</h3>
-                                        <div className="grid md:grid-cols-2 gap-4">
-                                            <div className="p-3 bg-blue-900/20 border-l-4 border-blue-400"><strong>AGENT (🔵):</strong> El Qui. El protagonista o força motriu.</div>
-                                            <div className="p-3 bg-yellow-900/20 border-l-4 border-yellow-500"><strong>MOTOR (🟡):</strong> El Per què. La motivació o objectiu.</div>
-                                            <div className="p-3 bg-emerald-900/20 border-l-4 border-emerald-500"><strong>ÀNCORA (🟢):</strong> El Què/On. L'objectiu o lloc de l'acció.</div>
-                                            <div className="p-3 bg-red-900/20 border-l-4 border-red-500"><strong>CONFLICTE (🔴):</strong> El Però. L'obstacle o el preu que s'ha de pagar.</div>
-                                            <div className="p-3 bg-purple-900/20 border-l-4 border-purple-500 col-span-full"><strong>ASPECTE (🟣):</strong> El Com. Modificadors de personatges o llocs.</div>
-                                        </div>
-                                    </section>
-                                    <section>
-                                        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2"><Icon name="RotateCw" size={20} className="text-[#d4af37]"/> 2. Com fer servir les cartes</h3>
-                                        <ul className="list-disc pl-6 space-y-2">
-                                            <li><strong>Girar:</strong> Clica la carta per triar entre les 4 opcions (90º cada clic).</li>
-                                            <li><strong>Icona de Baralla:</strong> Al centre de cada carta apareix la icona de la seva col·lecció (Calavera, Probeta, etc.) amb el color propi de la carta.</li>
-                                            <li><strong>Canviar:</strong> Clica el cercle central per rebre una carta nova del mateix tipus.</li>
-                                            <li><strong>Aspectes:</strong> Usa la casella a la capçalera de la carta per afegir un modificador a un Agent o Àncora.</li>
-                                        </ul>
-                                    </section>
-                                </div>
-                            </div>
-                        </div>
-                    )}
 
                     <footer className="w-full bg-[#111] border-t border-gray-800 py-4 px-6 flex justify-between items-center text-xs text-gray-500 mt-auto">
                         <div>Una adaptació de Xavier Ribes - Gamelab de la UAB</div>
