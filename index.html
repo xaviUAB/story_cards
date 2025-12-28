@@ -100,7 +100,7 @@
             SOUL: { id: 'SOUL', label: 'Una Ànima Dividida', slots: ['agent', 'engine', 'conflict', 'anchor', 'engine', 'conflict', 'anchor'] }
         };
 
-        // --- SISTEMA D'ICONES SVG ---
+        // --- SISTEMA D'ICONES SVG MANUALS ---
         const Icon = ({ name, size = 24, className = "", ...props }) => {
             const icons = {
                 RotateCw: <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 12M21 3v9h-9"/>,
@@ -220,13 +220,11 @@
             const [showInstructions, setShowInstructions] = useState(false);
             const [activeAspects, setActiveAspects] = useState({}); 
 
-            // 1. DESCOBERTA DE FITXERS (GITHUB API + LOCAL SCRAPE)
+            // 1. DESCOBERTA DE FITXERS (GITHUB API)
             useEffect(() => {
                 const discoverDecks = async () => {
                     const foundFiles = [];
                     const seenNames = new Set();
-
-                    // Intent 1: GitHub API (El més fiable per llistar tot el contingut)
                     try {
                         const response = await fetch(GITHUB_API_URL);
                         if (response.ok) {
@@ -238,34 +236,21 @@
                                 }
                             });
                         }
-                    } catch (e) { console.warn("GitHub API fail"); }
-
-                    // Intent 2: Local directory listing (si el servidor ho permet)
-                    try {
-                        const response = await fetch('./cartes/');
-                        if (response.ok) {
-                            const html = await response.text();
-                            const parser = new DOMParser();
-                            const doc = parser.parseFromString(html, 'text/html');
-                            Array.from(doc.querySelectorAll('a'))
-                                .map(a => a.getAttribute('href'))
-                                .filter(href => href && href.toLowerCase().endsWith('.csv'))
-                                .forEach(href => {
-                                    const filename = href.split('/').pop();
-                                    if (!seenNames.has(filename)) {
-                                        seenNames.add(filename);
-                                        foundFiles.push({ id: filename, url: './cartes/' + filename });
-                                    }
-                                });
+                    } catch (e) { console.warn("GitHub API error"); }
+                    
+                    // Fallback pels fitxers que segur que existeixen si el llistat falla
+                    const mandatoryFiles = ['cat - Genèric.csv', 'cat - SciFi.csv'];
+                    for (const f of mandatoryFiles) {
+                        if (!seenNames.has(f)) {
+                            foundFiles.push({ id: f, url: REMOTE_CONTENT_BASE_URL + f });
+                            seenNames.add(f);
                         }
-                    } catch (e) {}
-
+                    }
                     setAvailableDecks(foundFiles);
                 };
                 discoverDecks();
             }, []);
 
-            // 2. CÀRREGA DE DADES
             const loadSelectedDecks = async () => {
                 setAppStatus('LOADING');
                 const pools = { agent: [], engine: [], anchor: [], conflict: [], aspect: [] };
@@ -297,8 +282,10 @@
                 }
             };
 
-            // 3. LÒGICA DE JOC (ENCAPSULADA)
-            const toggleAspect = useCallback((uid) => { setActiveAspects(prev => ({ ...prev, [uid]: !prev[uid] })); }, []);
+            const toggleAspect = useCallback((uid) => {
+                setActiveAspects(prev => ({ ...prev, [uid]: !prev[uid] }));
+            }, []);
+
             const rotateCard = useCallback((uid, categoryKey, isAspect, parentUid) => {
                 const degree = CATEGORY_STYLES[categoryKey].type === 'binary' ? 180 : 90;
                 setHand(prev => prev.map(card => {
@@ -406,14 +393,13 @@
                 setPromptOrder(newO);
             };
 
-            // PANTALLA DE SELECCIÓ
             if (appStatus === 'SETUP') {
                 return (
                     <div className="min-h-screen flex items-center justify-center p-4">
                         <div className="max-w-md w-full bg-[#222] border-2 border-[#d4af37] rounded-lg p-8 shadow-2xl">
                             <h1 className="text-3xl font-bold text-[#d4af37] text-center mb-8 uppercase tracking-widest border-b border-[#d4af37] pb-4">Story Engine</h1>
                             <div className="space-y-4">
-                                <p className="text-gray-400 text-center mb-6">Selecciona les baralles detectades:</p>
+                                <p className="text-gray-400 text-center mb-6">Baralles CSV detectades:</p>
                                 <div className="space-y-3 max-h-64 overflow-y-auto custom-scrollbar pr-2">
                                     {availableDecks.length === 0 && (
                                         <div className="flex flex-col items-center py-4">
@@ -445,6 +431,87 @@
 
             if (appStatus === 'LOADING') return <div className="min-h-screen flex flex-col items-center justify-center"><Icon name="RotateCw" className="animate-spin text-[#d4af37] mb-4" size={48} /><p className="uppercase tracking-widest text-[#d4af37]">Preparant la baralla...</p></div>;
 
+            // --- LÒGICA DE RENDER DEL PROMPT ---
+            const renderPromptElements = () => {
+                if (appStatus !== 'READY' || hand.length === 0) return null;
+                
+                let order = [];
+                if (currentMode === 'SOUL') {
+                    if (hand.length < 7) return null;
+                    order = [
+                        { type: 'card', uid: hand[0].uid },
+                        { type: 'card', uid: hand[1].uid },
+                        { type: 'card', uid: hand[3].uid },
+                        { type: 'card', uid: hand[2].uid },
+                        { type: 'separator', text: ' i també ' },
+                        { type: 'card', uid: hand[4].uid },
+                        { type: 'card', uid: hand[6].uid },
+                        { type: 'card', uid: hand[5].uid }
+                    ];
+                } else if (currentMode === 'CLASH') {
+                    if (hand.length < 7) return null;
+                    // Agent 1 (0), Motor 1 (1), Àncora (3), Conflicte 1 (2), "Al mateix temps", Agent 2 (6), Motor 2 (5), Àncora (Ref: 3), Conflicte 2 (4)
+                    order = [
+                        { type: 'card', uid: hand[0].uid },
+                        { type: 'card', uid: hand[1].uid },
+                        { type: 'card', uid: hand[3].uid },
+                        { type: 'card', uid: hand[2].uid },
+                        { type: 'separator', text: ' Al mateix temps ' },
+                        { type: 'card', uid: hand[6].uid },
+                        { type: 'card', uid: hand[5].uid },
+                        { type: 'card', uid: hand[3].uid, isRef: true, refLabel: "Àncora (Rep.)" },
+                        { type: 'card', uid: hand[4].uid }
+                    ];
+                } else if (currentMode === 'CIRCLE') {
+                    if (hand.length < 6) return null;
+                    // Cercle: Ag1(0), Mot1(1), Ag2(3)ref, Con1(2), Ag2(3), Mot2(4), Ag1(0)ref, Con2(5)
+                    order = [
+                        { type: 'card', uid: hand[0].uid },
+                        { type: 'card', uid: hand[1].uid },
+                        { type: 'card', uid: hand[3].uid, isRef: true, refLabel: "Agent (2)" },
+                        { type: 'card', uid: hand[2].uid },
+                        { type: 'card', uid: hand[3].uid },
+                        { type: 'card', uid: hand[4].uid },
+                        { type: 'card', uid: hand[0].uid, isRef: true, refLabel: "Agent (1)" },
+                        { type: 'card', uid: hand[5].uid }
+                    ];
+                } else {
+                    order = promptOrder.map(uid => ({ type: 'card', uid }));
+                }
+
+                return order.map((item, idx) => {
+                    if (item.type === 'separator') {
+                        return <div key={`sep-${idx}`} className="flex items-center px-2 pt-4 text-[#d4af37] font-bold italic opacity-80">{item.text}</div>;
+                    }
+
+                    const card = hand.find(c => c.uid === item.uid);
+                    if (!card) return null;
+                    const txt = getActiveText(card);
+                    const isDrag = currentMode === 'SEED';
+
+                    return (
+                        <div key={`${card.uid}-${idx}`} className="flex flex-col gap-1 p-1 rounded border border-transparent">
+                            <div className={`p-2 rounded shadow-lg ${CATEGORY_STYLES[card.category].promptBg} border border-white/10 flex flex-col items-center`}>
+                                <span className="text-[8px] uppercase font-bold opacity-70 tracking-tighter">
+                                    {item.isRef ? item.refLabel : CATEGORY_STYLES[card.category].label}
+                                </span>
+                                <div className="auto-width-container" data-value={txt}>
+                                    <input type="text" value={txt} readOnly={item.isRef} onChange={e => !item.isRef && setManualEdits(p=>({...p, [card.uid]: e.target.value}))} onMouseDown={e=>e.stopPropagation()} />
+                                </div>
+                            </div>
+                            {card.aspectData && activeAspects[card.uid] && !item.isRef && (
+                                <div className="p-2 rounded bg-purple-900/60 border border-white/10 flex flex-col items-center scale-90">
+                                    <span className="text-[8px] uppercase font-bold opacity-70 tracking-tighter">ASPECTE</span>
+                                    <div className="auto-width-container" data-value={getActiveText(card.aspectData)}>
+                                        <input type="text" value={getActiveText(card.aspectData)} onChange={e => setManualEdits(p=>({...p, [card.aspectData.uid]: e.target.value}))} onMouseDown={e=>e.stopPropagation()} className="text-xs" />
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    );
+                });
+            };
+
             return (
                 <div className="flex flex-col min-h-screen overflow-x-hidden">
                     <header className="pt-8 px-4 text-center space-y-4 relative z-20">
@@ -458,42 +525,20 @@
                             </button>
                         </div>
                         <div className="mt-8 p-4 border-t border-b border-gray-800 bg-[#111] flex flex-wrap justify-center gap-3 min-h-[80px]">
-                            {promptOrder.map((uid, idx) => {
-                                const item = hand.find(c => c.uid === uid);
-                                if (!item) return null;
-                                const txt = getActiveText(item);
-                                const isDrag = currentMode !== 'SEED';
-                                return (
-                                    <div key={uid} draggable={isDrag} onDragStart={e => e.dataTransfer.setData('idx', idx)} onDragOver={e=>e.preventDefault()} onDrop={e=>handleDrop(e, idx)} className={`flex flex-col gap-1 p-1 rounded border border-transparent ${isDrag ? 'hover:bg-white/5 cursor-grab active:cursor-grabbing' : ''}`}>
-                                        <div className={`p-2 rounded shadow-lg ${CATEGORY_STYLES[item.category].promptBg} border border-white/10 flex flex-col items-center`}>
-                                            <span className="text-[8px] uppercase font-bold opacity-70 tracking-tighter">{CATEGORY_STYLES[item.category].label}</span>
-                                            <div className="auto-width-container" data-value={txt}>
-                                                <input type="text" value={txt} onChange={e => setManualEdits(p=>({...p, [uid]: e.target.value}))} onMouseDown={e=>e.stopPropagation()} />
-                                            </div>
-                                        </div>
-                                        {item.aspectData && activeAspects[uid] && (
-                                            <div className="p-2 rounded bg-purple-900/60 border border-white/10 flex flex-col items-center scale-90">
-                                                <span className="text-[8px] uppercase font-bold opacity-70 tracking-tighter">ASPECTE</span>
-                                                <div className="auto-width-container" data-value={getActiveText(item.aspectData)}>
-                                                    <input type="text" value={getActiveText(item.aspectData)} onChange={e => setManualEdits(p=>({...p, [item.aspectData.uid]: e.target.value}))} onMouseDown={e=>e.stopPropagation()} className="text-xs" />
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                );
-                            })}
+                            {renderPromptElements()}
                         </div>
                     </header>
 
-                    <main className="flex-grow flex items-center justify-center py-12 px-4 overflow-x-hidden">
+                    <main className="flex-grow flex items-center justify-center py-12 px-4">
                         {currentMode === 'SOUL' ? (
                             <div className="w-full max-w-[100vw] overflow-x-auto pb-16 pt-32 px-4 custom-scrollbar"> 
                                 <div className="flex flex-col items-center gap-8 min-w-max mx-auto px-12 relative">
                                     <div className="flex flex-nowrap items-center gap-8">
+                                        {/* Extrem Esquerre: CONFLICTE 2 (5) -> ÀNCORA 2 (6) -> MOTOR 2 (4) */}
                                         <div className="flex flex-row items-center gap-4 order-1">
-                                            <CardSlot card={hand[6]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
-                                            <Icon name="ArrowLeft" className="text-[#d4af37] shrink-0" size={24} />
                                             <CardSlot card={hand[5]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                                            <Icon name="ArrowLeft" className="text-[#d4af37] shrink-0 opacity-40" size={24} />
+                                            <CardSlot card={hand[6]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
                                             <Icon name="ArrowLeft" className="text-[#d4af37] shrink-0" size={24} />
                                             <CardSlot card={hand[4]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
                                             <Icon name="ArrowLeft" className="text-[#d4af37] shrink-0" size={24} />
@@ -501,41 +546,58 @@
                                         <div className="order-2 z-20 transform scale-110 mx-4">
                                             <CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
                                         </div>
+                                        {/* Extrem Dret: MOTOR 1 (1) -> ÀNCORA 1 (3) -> CONFLICTE 1 (2) */}
                                         <div className="flex flex-row items-center gap-4 order-3">
                                             <Icon name="ArrowRight" className="text-[#d4af37] shrink-0" size={24} />
                                             <CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
                                             <Icon name="ArrowRight" className="text-[#d4af37] shrink-0" size={24} />
-                                            <CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
-                                            <Icon name="ArrowRight" className="text-[#d4af37] shrink-0" size={24} />
                                             <CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
+                                            <Icon name="ArrowRight" className="text-[#d4af37] shrink-0 opacity-40" size={24} />
+                                            <CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
                                         </div>
                                     </div>
                                     <div className="absolute -top-24 left-20 text-xs text-[#d4af37] uppercase tracking-widest font-bold bg-[#111] px-3 py-1 rounded border border-[#d4af37]/30 shadow-lg">Camí del Desig 2</div>
                                     <div className="absolute -top-24 right-20 text-xs text-[#d4af37] uppercase tracking-widest font-bold bg-[#111] px-3 py-1 rounded border border-[#d4af37]/30 shadow-lg">Camí del Desig 1</div>
                                 </div>
                             </div>
+                        ) : currentMode === 'CIRCLE' ? (
+                            <div className="relative w-full max-w-4xl h-[650px] flex items-center justify-center">
+                                <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20 animate-[spin_60s_linear_infinite]"><circle cx="50%" cy="50%" r="35%" stroke="#d4af37" strokeWidth="2" fill="none" strokeDasharray="10,5" /></svg>
+                                {/* 0: Top (Ag1) */}
+                                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10">
+                                    <CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
+                                    <Icon name="MoveRight" className="absolute -right-16 top-1/2 text-[#d4af37] rotate-[30deg]" size={40} />
+                                </div>
+                                {/* 1: Top Right (Mot1) */}
+                                <div className="absolute top-[20%] right-0 md:right-20 z-10"><CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} /></div>
+                                {/* 2: Bottom Right (Con1) */}
+                                <div className="absolute bottom-[20%] right-0 md:right-20 z-10">
+                                    <CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                                    <Icon name="MoveDownLeft" className="absolute -left-16 bottom-0 text-[#d4af37] rotate-12" size={40} />
+                                </div>
+                                {/* 3: Bottom (Ag2) */}
+                                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10">
+                                    <CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
+                                    <Icon name="MoveUpLeft" className="absolute -left-16 top-1/2 text-[#d4af37] rotate-12" size={40} />
+                                </div>
+                                {/* 4: Bottom Left (Mot2) */}
+                                <div className="absolute bottom-[20%] left-0 md:left-20 z-20"><CardSlot card={hand[4]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} /></div>
+                                {/* 5: Top Left (Con2) */}
+                                <div className="absolute top-[20%] left-0 md:left-20 z-10">
+                                    <CardSlot card={hand[5]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
+                                    <Icon name="MoveUpRight" className="absolute -right-16 top-0 text-[#d4af37] rotate-12" size={40} />
+                                </div>
+                            </div>
                         ) : (
                             hand.length > 0 && (
-                                currentMode === 'CIRCLE' ? (
-                                    <div className="relative w-full max-w-4xl h-[600px] flex items-center justify-center">
-                                        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20 animate-[spin_60s_linear_infinite]"><circle cx="50%" cy="50%" r="35%" stroke="#d4af37" strokeWidth="2" fill="none" strokeDasharray="10,5" /></svg>
-                                        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10"><CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} /><Icon name="MoveRight" className="absolute -right-16 top-1/2 text-[#d4af37] rotate-[30deg]" size={40} /></div>
-                                        <div className="absolute top-[20%] right-0 md:right-20 z-10"><CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} /></div>
-                                        <div className="absolute bottom-[20%] right-0 md:right-20 z-10"><CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} /><Icon name="MoveDownLeft" className="absolute -left-16 bottom-0 text-[#d4af37] rotate-12" size={40} /></div>
-                                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10"><CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} /><Icon name="MoveUpLeft" className="absolute -left-16 top-1/2 text-[#d4af37] rotate-12" size={40} /></div>
-                                        <div className="absolute bottom-[20%] left-0 md:left-20 z-20"><CardSlot card={hand[4]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} /></div>
-                                        <div className="absolute top-[20%] left-0 md:left-20 z-10"><CardSlot card={hand[5]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} /><Icon name="MoveUpRight" className="absolute -right-16 top-0 text-[#d4af37] rotate-12" size={40} /></div>
-                                    </div>
-                                ) : (
-                                    <div className="flex flex-wrap justify-center gap-12 items-center">
-                                        {hand.map((card, i) => (
-                                            <Fragment key={card.uid}>
-                                                {i > 0 && currentMode === 'SEED' && <Icon name="ArrowRight" className="text-[#d4af37]/30 hidden md:block" />}
-                                                <CardSlot card={card} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={['agent','anchor'].includes(card.category)} onSwapType={swapCardCategory} />
-                                            </Fragment>
-                                        ))}
-                                    </div>
-                                )
+                                <div className="flex flex-wrap justify-center gap-12 items-center">
+                                    {hand.map((card, i) => (
+                                        <Fragment key={`${card.uid}-${i}`}>
+                                            {i > 0 && currentMode === 'SEED' && <Icon name="ArrowRight" className="text-[#d4af37]/30 hidden md:block" />}
+                                            <CardSlot card={card} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={['agent','anchor'].includes(card.category)} onSwapType={swapCardCategory} />
+                                        </Fragment>
+                                    ))}
+                                </div>
                             )
                         )}
                     </main>
@@ -551,9 +613,9 @@
                                         <div className="grid md:grid-cols-2 gap-4">
                                             <div className="p-3 bg-blue-900/20 border-l-4 border-blue-400"><strong>AGENT (🔵):</strong> El Qui. El protagonista o força motriu.</div>
                                             <div className="p-3 bg-yellow-900/20 border-l-4 border-yellow-500"><strong>MOTOR (🟡):</strong> El Per què. La motivació o objectiu.</div>
-                                            <div className="p-3 bg-emerald-900/20 border-l-4 border-emerald-500"><strong>ÀNCORA (🟢):</strong> El Què/On. L'objecte o lloc on va l'acció.</div>
+                                            <div className="p-3 bg-emerald-900/20 border-l-4 border-emerald-500"><strong>ÀNCORA (🟢):</strong> El Què/On. L'objectiu o lloc de l'acció.</div>
                                             <div className="p-3 bg-red-900/20 border-l-4 border-red-500"><strong>CONFLICTE (🔴):</strong> El Però. L'obstacle o el preu que s'ha de pagar.</div>
-                                            <div className="p-3 bg-purple-900/20 border-l-4 border-purple-500 col-span-full"><strong>ASPECTE (🟣):</strong> El Com. Adjectius que modifiquen Agents o Àncores.</div>
+                                            <div className="p-3 bg-purple-900/20 border-l-4 border-purple-500 col-span-full"><strong>ASPECTE (🟣):</strong> El Com. Modificadors de personatges o llocs.</div>
                                         </div>
                                     </section>
                                     <section>
@@ -561,17 +623,16 @@
                                         <ul className="list-disc pl-6 space-y-2">
                                             <li><strong>Girar:</strong> Clica la carta per triar entre les 4 opcions (90º cada clic).</li>
                                             <li><strong>Canviar:</strong> Clica el cercle central per rebre una carta nova del mateix tipus.</li>
-                                            <li><strong>Aspectes:</strong> Usa la casella a la capçalera per afegir un modificador a un Agent o Àncora.</li>
+                                            <li><strong>Aspectes:</strong> Usa la casella a la capçalera de la carta per afegir un modificador a un Agent o Àncora.</li>
                                             <li><strong>Intercanvi (↔):</strong> En modes avançats, pots transformar una Àncora en un Agent.</li>
-                                            <li><strong>Arrossegar:</strong> Mou les caixes de text superiors per polir la frase final.</li>
                                         </ul>
                                     </section>
                                     <section>
                                         <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2"><Icon name="BookOpen" size={20} className="text-[#d4af37]"/> 3. Esquemes Narratius</h3>
                                         <div className="space-y-4">
-                                            <p><strong>🌱 Llavor de la Història:</strong> Estructura lineal bàsica per a idees ràpides.</p>
-                                            <p><strong>⭕ Cercle del Destí:</strong> Relacions causa-efecte entre dos personatges atrapats en un cicle.</p>
-                                            <p><strong>⚔️ Xoc de Voluntats:</strong> Dos agents competint per un mateix objectiu compartit.</p>
+                                            <p><strong>🌱 Llavor:</strong> Estructura lineal bàsica per a idees ràpides.</p>
+                                            <p><strong>⭕ Cercle:</strong> Relacions causa-efecte entre dos personatges atrapats en un cicle.</p>
+                                            <p><strong>⚔️ Xoc:</strong> Dos agents competint per un mateix objectiu compartit.</p>
                                             <p><strong>💔 Una Ànima Dividida:</strong> Un agent atrapat entre dos desitjos oposats.</p>
                                         </div>
                                     </section>
