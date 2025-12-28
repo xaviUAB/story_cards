@@ -16,17 +16,18 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
-        /* Estils personalitzats per a la barra de desplaçament */
+        /* Personalització de la barra de desplaçament */
         .custom-scrollbar::-webkit-scrollbar {
-            height: 14px;
+            height: 12px;
+            width: 12px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
             background: #111;
-            border-radius: 7px;
+            border-radius: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background: #d4af37;
-            border-radius: 7px;
+            border-radius: 6px;
             border: 3px solid #111;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
@@ -35,8 +36,15 @@
         body {
             background-color: #1a1a1a;
             color: #e5e5e5;
-            overflow-x: hidden;
             font-family: 'Times New Roman', serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        #root {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
     </style>
 </head>
@@ -46,7 +54,7 @@
     <script type="text/babel">
         const { useState, useEffect, useCallback } = React;
 
-        // --- SISTEMA D'ICONES SVG MANUAL ---
+        // --- SISTEMA D'ICONES SVG MANUALS (Per evitar dependències externes) ---
         const Icon = ({ name, size = 24, className = "", ...props }) => {
             const icons = {
                 RotateCw: <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 12M21 3v9h-9"/>,
@@ -63,14 +71,10 @@
                 ArrowDownLeft: <React.Fragment><path d="M17 7 7 17"/><path d="M17 17H7V7"/></React.Fragment>,
                 CheckSquare: <React.Fragment><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></React.Fragment>,
                 Square: <rect width="18" height="18" x="3" y="3" rx="2"/>,
-                MoveRight: <path d="M18 8L22 12L18 16M2 12H22"/>,
-                MoveDown: <path d="M8 18L12 22L16 18M12 2V22"/>,
-                MoveDownLeft: <path d="M11 19H5V13M19 5L5 19"/>,
-                MoveUpLeft: <path d="M5 11V5H11M5 5L19 19"/>,
-                MoveUpRight: <path d="M13 5H19V11M19 5L5 19"/>,
                 Repeat: <React.Fragment><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></React.Fragment>,
                 X: <path d="M18 6 6 18M6 6l12 12"/>,
-                Lock: <React.Fragment><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></React.Fragment>
+                Lock: <React.Fragment><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></React.Fragment>,
+                AlertCircle: <React.Fragment><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></React.Fragment>
             };
 
             return (
@@ -86,7 +90,7 @@
             );
         };
 
-        // --- CONFIGURACIÓ ---
+        // --- CONFIGURACIÓ DE CATEGORIES ---
         const CATEGORY_STYLES = {
             agent: { label: 'AGENT', type: 'quad', color: 'border-blue-400', bg: 'bg-blue-900/20', text: 'text-blue-200', promptBg: 'bg-blue-900/60' },
             engine: { label: 'MOTOR', type: 'binary', color: 'border-yellow-500', bg: 'bg-yellow-600/20', text: 'text-yellow-200', promptBg: 'bg-yellow-600/60' },
@@ -102,24 +106,20 @@
             SOUL: { id: 'SOUL', label: 'Una Ànima Dividida', slots: ['agent', 'engine', 'conflict', 'anchor', 'engine', 'conflict', 'anchor'] }
         };
 
-        // --- COMPONENTS VISUALS DE CARTA ---
+        // --- COMPONENTS VISUALS ---
 
         const CardText = ({ position, text, color }) => {
             const textStyle = "text-center font-bold text-[10px] md:text-xs leading-tight tracking-wide pointer-events-none select-none";
-            const containerStyle = { pointerEvents: 'none' };
-
-            if (position === 'top') return <div className={`absolute top-0 left-[10%] right-[10%] h-[40%] flex items-start justify-center pt-3 ${color}`} style={containerStyle}><span className={textStyle}>{text}</span></div>;
-            if (position === 'bottom') return <div className={`absolute bottom-0 left-[10%] right-[10%] h-[40%] flex items-end justify-center pb-3 ${color}`} style={containerStyle}><span className={`${textStyle} transform rotate-180`}>{text}</span></div>;
-            if (position === 'right') return <div className={`absolute top-[15%] bottom-[15%] right-0 w-[25%] flex items-center justify-end pr-1 ${color}`} style={containerStyle}><div className="w-[140px] h-8 flex items-center justify-center transform rotate-90 origin-center translate-x-[35%]"><span className={textStyle}>{text}</span></div></div>;
-            if (position === 'left') return <div className={`absolute top-[15%] bottom-[15%] left-0 w-[25%] flex items-center justify-start pl-1 ${color}`} style={containerStyle}><div className="w-[140px] h-8 flex items-center justify-center transform -rotate-90 origin-center -translate-x-[35%]"><span className={textStyle}>{text}</span></div></div>;
+            if (position === 'top') return <div className={`absolute top-0 left-[10%] right-[10%] h-[40%] flex items-start justify-center pt-3 ${color}`}><span className={textStyle}>{text}</span></div>;
+            if (position === 'bottom') return <div className={`absolute bottom-0 left-[10%] right-[10%] h-[40%] flex items-end justify-center pb-3 ${color}`}><span className={`${textStyle} transform rotate-180`}>{text}</span></div>;
+            if (position === 'right') return <div className={`absolute top-[15%] bottom-[15%] right-0 w-[25%] flex items-center justify-end pr-1 ${color}`}><div className="w-[140px] h-8 flex items-center justify-center transform rotate-90 origin-center translate-x-[35%]"><span className={textStyle}>{text}</span></div></div>;
+            if (position === 'left') return <div className={`absolute top-[15%] bottom-[15%] left-0 w-[25%] flex items-center justify-start pl-1 ${color}`}><div className="w-[140px] h-8 flex items-center justify-center transform -rotate-90 origin-center -translate-x-[35%]"><span className={textStyle}>{text}</span></div></div>;
             return null;
         };
 
         const CardComponent = ({ data, parentUid = null, isAspect = false, onRotate, onChange, style = {}, onMouseEnter }) => {
             if (!data) return null;
             const catConfig = CATEGORY_STYLES[data.category];
-            if (!catConfig) return null;
-            
             return (
                 <div 
                     className="relative group/card perspective-1000 cursor-pointer"
@@ -127,35 +127,27 @@
                     onMouseEnter={onMouseEnter}
                     style={style}
                 >
-                    {!isAspect && (
-                        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20 text-[#d4af37] animate-bounce pointer-events-none">▼</div>
-                    )}
-                    
+                    {!isAspect && <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20 text-[#d4af37] animate-bounce pointer-events-none">▼</div>}
                     <div 
                         className={`relative w-40 h-40 md:w-48 md:h-48 bg-[#0f0f0f] border-2 ${catConfig.color} rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-transform duration-500 ease-in-out`}
-                        style={{ 
-                            transform: `rotate(${data.rotation}deg)`,
-                            boxShadow: `0 0 20px ${catConfig.color.replace('border-', '')}20` 
-                        }}
+                        style={{ transform: `rotate(${data.rotation}deg)`, boxShadow: `0 0 20px ${catConfig.color.replace('border-', '')}20` }}
                     >
                         <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.8\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.5\'/%3E%3C/svg%3E")' }}></div>
                         <div className="absolute inset-2 border border-white/5 rounded pointer-events-none"></div>
-
                         {catConfig.type === 'binary' ? (
-                            <>
+                            <React.Fragment>
                                 <CardText position="top" text={data.options[0]} color={catConfig.text} />
                                 <CardText position="bottom" text={data.options[1]} color={catConfig.text} />
                                 <div className="absolute top-1/2 left-2 right-2 h-px bg-white/10 transform -translate-y-1/2"></div>
-                            </>
+                            </React.Fragment>
                         ) : (
-                            <>
+                            <React.Fragment>
                                 <CardText position="top" text={data.options[0]} color={catConfig.text} />
                                 <CardText position="right" text={data.options[1]} color={catConfig.text} />
                                 <CardText position="bottom" text={data.options[2]} color={catConfig.text} />
                                 <CardText position="left" text={data.options[3]} color={catConfig.text} />
-                            </>
+                            </React.Fragment>
                         )}
-
                         <div className="absolute inset-0 flex items-center justify-center z-50">
                             <div 
                                 className={`w-10 h-10 rounded-full border-2 ${catConfig.color} flex items-center justify-center bg-[#1a1a1a] transition-all duration-300 shadow-lg group/center pointer-events-auto hover:bg-[#333] hover:scale-125 cursor-pointer`}
@@ -175,81 +167,29 @@
 
         const CardSlot = ({ card, activeAspects, toggleAspect, changeCard, rotateCard, canSwapType, onSwapType }) => {
             const [hoverTarget, setHoverTarget] = useState(null); 
-            
             if (!card) return null; 
-
             const catConfig = CATEGORY_STYLES[card.category];
-            const hasAspect = (card.category === 'agent' || card.category === 'anchor') && card.aspectData;
-            const isAspectActive = hasAspect && activeAspects[card.uid];
-
-            let mainZ = 20;
-            let aspectZ = 30;
-
-            if (hoverTarget === 'main') {
-                mainZ = 50;
-                aspectZ = 30;
-            } else if (hoverTarget === 'aspect') {
-                aspectZ = 50;
-                mainZ = 20;
-            }
+            const isAspectActive = (card.category === 'agent' || card.category === 'anchor') && card.aspectData && activeAspects[card.uid];
+            let mainZ = 20, aspectZ = 30;
+            if (hoverTarget === 'main') { mainZ = 50; aspectZ = 30; } 
+            else if (hoverTarget === 'aspect') { aspectZ = 50; mainZ = 20; }
 
             return (
-                <div 
-                    key={card.uid} 
-                    className={`flex flex-col items-center gap-2 relative pointer-events-auto transition-all duration-300 ${hoverTarget ? 'z-[100]' : 'z-0'} shrink-0`} 
-                    onMouseLeave={() => setHoverTarget(null)}
-                >
+                <div key={card.uid} className={`flex flex-col items-center gap-2 relative pointer-events-auto transition-all duration-300 ${hoverTarget ? 'z-[100]' : 'z-0'} shrink-0`} onMouseLeave={() => setHoverTarget(null)}>
                     <div className="flex items-center gap-2 z-[60] bg-[#1a1a1a]/80 px-2 py-1 rounded-full border border-white/5 backdrop-blur-sm">
-                        <div className={`text-[10px] tracking-[0.2em] font-bold ${catConfig.text} uppercase`}>
-                            {catConfig.label}
-                        </div>
-                        
+                        <div className={`text-[10px] tracking-[0.2em] font-bold ${catConfig.text} uppercase`}>{catConfig.label}</div>
                         <div className="flex items-center gap-1 border-l border-white/20 pl-2 ml-1">
-                            {canSwapType && (
-                                <button onClick={() => onSwapType(card.uid)} className="text-gray-400 hover:text-white transition-colors" title="Canviar tipus">
-                                    <Icon name="Repeat" size={14} />
-                                </button>
-                            )}
-                            {hasAspect && (
-                                <button 
-                                    onClick={() => toggleAspect(card.uid)}
-                                    className={`transition-colors hover:text-[#d4af37] ${isAspectActive ? 'text-[#d4af37]' : 'text-gray-600'}`}
-                                    title="Activar Aspecte"
-                                >
+                            {canSwapType && <button onClick={() => onSwapType(card.uid)} className="text-gray-400 hover:text-white transition-colors" title="Canviar tipus"><Icon name="Repeat" size={14} /></button>}
+                            {(card.category === 'agent' || card.category === 'anchor') && 
+                                <button onClick={() => toggleAspect(card.uid)} className={`transition-colors hover:text-[#d4af37] ${isAspectActive ? 'text-[#d4af37]' : 'text-gray-600'}`} title="Activar Aspecte">
                                     <Icon name={isAspectActive ? "CheckSquare" : "Square"} size={14} />
                                 </button>
-                            )}
+                            }
                         </div>
                     </div>
-                    
                     <div className="relative">
-                        {isAspectActive && (
-                            <div 
-                                className="absolute top-12 left-4 transform -rotate-3 transition-all duration-300"
-                                style={{ zIndex: aspectZ }}
-                            >
-                                <CardComponent 
-                                    data={card.aspectData} 
-                                    parentUid={card.uid} 
-                                    isAspect={true} 
-                                    onRotate={rotateCard}
-                                    onChange={changeCard}
-                                    onMouseEnter={(e) => { e.stopPropagation(); setHoverTarget('aspect'); }}
-                                />
-                            </div>
-                        )}
-
-                        <div 
-                            className="relative transition-all duration-300" 
-                            style={{ zIndex: mainZ }}
-                        >
-                            <CardComponent 
-                                data={card} 
-                                onRotate={rotateCard}
-                                onChange={changeCard}
-                                onMouseEnter={(e) => { e.stopPropagation(); setHoverTarget('main'); }}
-                            />
-                        </div>
+                        {isAspectActive && <div className="absolute top-12 left-4 transform -rotate-3 transition-all duration-300" style={{ zIndex: aspectZ }}><CardComponent data={card.aspectData} parentUid={card.uid} isAspect={true} onRotate={rotateCard} onChange={changeCard} onMouseEnter={(e) => { e.stopPropagation(); setHoverTarget('aspect'); }} /></div>}
+                        <div className="relative transition-all duration-300" style={{ zIndex: mainZ }}><CardComponent data={card} onRotate={rotateCard} onChange={changeCard} onMouseEnter={(e) => { e.stopPropagation(); setHoverTarget('main'); }} /></div>
                     </div>
                 </div>
             );
@@ -257,157 +197,139 @@
 
         // --- APP PRINCIPAL ---
         function StoryEngineApp() {
+            const [appStatus, setAppStatus] = useState('SETUP'); 
+            const [availableDecks, setAvailableDecks] = useState([]);
+            const [selectedDecks, setSelectedDecks] = useState(new Set());
             const [currentMode, setCurrentMode] = useState('SEED');
             const [hand, setHand] = useState([]); 
             const [cardPool, setCardPool] = useState({});
             const [usedIndices, setUsedIndices] = useState({});
-            const [isDataLoaded, setIsDataLoaded] = useState(false);
             const [promptOrder, setPromptOrder] = useState([]); 
             const [manualEdits, setManualEdits] = useState({}); 
             const [showInstructions, setShowInstructions] = useState(false);
             const [activeAspects, setActiveAspects] = useState({}); 
 
-            // FETCH CSV
-            const parseCSV = (content) => {
-                const lines = content.split('\n').filter(line => line.trim() !== '');
-                const dataRows = lines.slice(1);
-                const pools = { agent: [], engine: [], anchor: [], conflict: [], aspect: [] };
-
-                dataRows.forEach(row => {
-                    const columns = row.split(';');
-                    if (columns.length < 5) return; 
-                    if (columns[0]) pools.agent.push(columns[0].trim());
-                    if (columns[1]) pools.engine.push(columns[1].trim());
-                    if (columns[2]) pools.anchor.push(columns[2].trim());
-                    if (columns[3]) pools.conflict.push(columns[3].trim());
-                    if (columns[4]) pools.aspect.push(columns[4].trim());
-                });
-                return pools;
-            };
-
+            // DESCOBERTA DINÀMICA DE FITXERS
             useEffect(() => {
-                const fetchData = async () => {
-                    try {
-                        let response;
-                        try { response = await fetch('/cartes/basic.csv'); } catch (e) {}
+                const discoverDecks = async () => {
+                    const paths = ['./cartes/', 'https://xaviuab.github.io/story_cards/cartes/'];
+                    const foundFiles = new Set();
+                    const results = [];
 
-                        if (!response || !response.ok) {
-                            response = await fetch('https://xaviuab.github.io/story_cards/cartes/basic.csv');
-                        }
-
-                        if (response && response.ok) {
+                    for (const path of paths) {
+                        try {
+                            const response = await fetch(path);
+                            if (!response.ok) continue;
                             const text = await response.text();
-                            const pools = parseCSV(text);
-                            setCardPool(pools);
-                            const initialUsed = {};
-                            Object.keys(pools).forEach(key => initialUsed[key] = new Set());
-                            setUsedIndices(initialUsed);
-                            setIsDataLoaded(true);
-                        } else {
-                            console.error("Error carregant CSV");
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(text, 'text/html');
+                            const links = Array.from(doc.querySelectorAll('a'))
+                                .map(a => a.getAttribute('href'))
+                                .filter(href => href && href.toLowerCase().endsWith('.csv'));
+
+                            for (const link of links) {
+                                // Netegem el nom del fitxer (a vegades venen rutes completes)
+                                const filename = link.split('/').pop();
+                                if (!foundFiles.has(filename)) {
+                                    foundFiles.add(filename);
+                                    results.push({ id: filename, url: path + filename });
+                                }
+                            }
+                        } catch (e) { console.warn(`No s'ha pogut llistar el directori a ${path}`); }
+                    }
+
+                    // Fallback si la detecció automàtica falla (pels fitxers coneguts)
+                    if (results.length === 0) {
+                        const fallbacks = ['Genèric_catala.csv', 'SciFi_catala.csv'];
+                        for (const f of fallbacks) {
+                            results.push({ id: f, url: paths[1] + f });
                         }
-                    } catch (error) { console.error(error); }
+                    }
+                    setAvailableDecks(results);
                 };
-                fetchData();
+                discoverDecks();
             }, []);
 
-            const getUniqueRandomItems = useCallback((categoryKey, count) => {
-                if (!cardPool[categoryKey] || cardPool[categoryKey].length === 0) return { items: Array(count).fill("..."), updatedUsed: new Set() };
-                const pool = cardPool[categoryKey];
-                const used = usedIndices[categoryKey] || new Set();
-                const result = [];
-                
-                for (let i = 0; i < count; i++) {
-                    let availableIndices = pool.map((_, idx) => idx).filter(idx => !used.has(idx));
-                    if (availableIndices.length === 0) {
-                        used.clear();
-                        availableIndices = pool.map((_, idx) => idx);
+            // CÀRREGA DE DADES
+            const loadSelectedDecks = async () => {
+                setAppStatus('LOADING');
+                const pools = { agent: [], engine: [], anchor: [], conflict: [], aspect: [] };
+                try {
+                    const selected = availableDecks.filter(d => selectedDecks.has(d.id));
+                    for (const deck of selected) {
+                        const response = await fetch(deck.url);
+                        const text = await response.text();
+                        const lines = text.split('\n').filter(line => line.trim() !== '');
+                        const dataRows = lines.slice(1);
+                        dataRows.forEach(row => {
+                            const cols = row.split(';');
+                            if (cols.length < 5) return;
+                            if (cols[0]) pools.agent.push(cols[0].trim());
+                            if (cols[1]) pools.engine.push(cols[1].trim());
+                            if (cols[2]) pools.anchor.push(cols[2].trim());
+                            if (cols[3]) pools.conflict.push(cols[3].trim());
+                            if (cols[4]) pools.aspect.push(cols[4].trim());
+                        });
                     }
-                    const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
-                    result.push(pool[randomIndex]);
-                    used.add(randomIndex);
+                    setCardPool(pools);
+                    const initialUsed = {};
+                    Object.keys(pools).forEach(key => initialUsed[key] = new Set());
+                    setUsedIndices(initialUsed);
+                    setAppStatus('READY');
+                } catch (e) {
+                    setAppStatus('SETUP');
+                    alert("Error carregant els fitxers CSV seleccionats.");
                 }
-                return { items: result, updatedUsed: used };
-            }, [cardPool, usedIndices]);
+            };
 
+            // GENERACIÓ DE MÀ
             const generateFullHand = useCallback(() => {
-                if (!isDataLoaded) return;
-                
+                if (appStatus !== 'READY') return;
                 const modeConfig = GENERATION_MODES[currentMode];
                 const newHand = [];
                 let currentUsedIndices = { ...usedIndices };
 
                 const getItemsLocally = (cat, cnt) => {
-                   if (!cardPool[cat]) return Array(cnt).fill("...");
-                   const pool = cardPool[cat];
-                   const used = currentUsedIndices[cat] || new Set();
-                   const result = [];
-                   for(let i=0; i<cnt; i++) {
-                      let available = pool.map((_, idx) => idx).filter(idx => !used.has(idx));
-                      if(available.length === 0) { used.clear(); available = pool.map((_, idx) => idx); }
-                      const randomIdx = available[Math.floor(Math.random() * available.length)];
-                      result.push(pool[randomIdx]);
-                      used.add(randomIdx);
-                   }
-                   currentUsedIndices[cat] = used;
-                   return result;
+                    const pool = cardPool[cat] || [];
+                    const used = currentUsedIndices[cat] || new Set();
+                    const result = [];
+                    for(let i=0; i<cnt; i++) {
+                        let available = pool.map((_, idx) => idx).filter(idx => !used.has(idx));
+                        if(available.length === 0) { used.clear(); available = pool.map((_, idx) => idx); }
+                        const randomIdx = available[Math.floor(Math.random() * available.length)];
+                        result.push(pool[randomIdx] || "...");
+                        used.add(randomIdx);
+                    }
+                    currentUsedIndices[cat] = used;
+                    return result;
                 };
 
                 modeConfig.slots.forEach((catKey, index) => {
-                    const catConfig = CATEGORY_STYLES[catKey];
-                    const count = catConfig.type === 'binary' ? 2 : 4;
+                    const count = CATEGORY_STYLES[catKey].type === 'binary' ? 2 : 4;
                     const items = getItemsLocally(catKey, count);
-                    
                     let aspectData = null;
                     if (catKey === 'agent' || catKey === 'anchor') {
-                        const aspectItems = getItemsLocally('aspect', 4);
-                        aspectData = {
-                            uid: `aspect-attached-${index}-${Math.random().toString(36).substr(2, 9)}`,
-                            category: 'aspect',
-                            options: aspectItems,
-                            rotation: 0
-                        };
+                        aspectData = { uid: `asp-${index}-${Math.random()}`, category: 'aspect', options: getItemsLocally('aspect', 4), rotation: 0 };
                     }
-
-                    newHand.push({
-                        uid: `${catKey}-${index}-${Math.random().toString(36).substr(2, 9)}`,
-                        category: catKey,
-                        options: items,
-                        rotation: 0,
-                        aspectData: aspectData
-                    });
+                    newHand.push({ uid: `${catKey}-${index}-${Math.random()}`, category: catKey, options: items, rotation: 0, aspectData: aspectData });
                 });
-
                 setHand(newHand);
                 setUsedIndices(currentUsedIndices);
                 setManualEdits({});
                 setPromptOrder(newHand.map(card => card.uid));
-                setActiveAspects({}); 
+                setActiveAspects({});
+            }, [appStatus, currentMode, cardPool]);
 
-            }, [isDataLoaded, currentMode, cardPool]); 
+            useEffect(() => { if (appStatus === 'READY') generateFullHand(); }, [appStatus, currentMode]);
 
-            useEffect(() => {
-                if (isDataLoaded) generateFullHand();
-            }, [isDataLoaded, currentMode]); 
-
-            // -- HANDLERS --
-            const swapCardCategory = (uid) => {
-                setHand(prevHand => prevHand.map(card => {
-                    if (card.uid === uid) {
-                        const newCat = card.category === 'agent' ? 'anchor' : 'agent';
-                        const catConfig = CATEGORY_STYLES[newCat];
-                        const { items } = getUniqueRandomItems(newCat, catConfig.type === 'binary' ? 2 : 4);
-                        
-                        let aspectData = card.aspectData;
-                        if (!aspectData) {
-                            const aspectItems = getUniqueRandomItems('aspect', 4).items;
-                            aspectData = { uid: `aspect-swapped-${Math.random().toString(36).substr(2, 9)}`, category: 'aspect', options: aspectItems, rotation: 0 };
-                        }
-                        return { ...card, category: newCat, options: items, rotation: 0, aspectData: aspectData };
-                    }
+            // HANDLERS
+            const rotateCard = (uid, categoryKey, isAspect, parentUid) => {
+                const degree = CATEGORY_STYLES[categoryKey].type === 'binary' ? 180 : 90;
+                setHand(prev => prev.map(card => {
+                    if (isAspect && card.uid === parentUid) return { ...card, aspectData: { ...card.aspectData, rotation: card.aspectData.rotation + degree } };
+                    if (!isAspect && card.uid === uid) return { ...card, rotation: card.rotation + degree };
                     return card;
                 }));
-                setManualEdits(prev => { const next = {...prev}; delete next[uid]; return next; });
             };
 
             const changeCard = (uid, categoryKey, isAspect, parentUid) => {
@@ -419,48 +341,34 @@
                     return card;
                 }));
                 setUsedIndices(prev => ({...prev, [categoryKey]: updatedUsed}));
-                setManualEdits(prev => { const next = {...prev}; delete next[isAspect ? hand.find(c => c.uid === parentUid)?.aspectData?.uid : uid]; return next; });
             };
 
-            const rotateCard = (uid, categoryKey, isAspect, parentUid) => {
-                const degree = CATEGORY_STYLES[categoryKey].type === 'binary' ? 180 : 90;
-                setHand(prev => prev.map(card => {
-                    if (isAspect && card.uid === parentUid) return { ...card, aspectData: { ...card.aspectData, rotation: card.aspectData.rotation + degree } };
-                    if (!isAspect && card.uid === uid) return { ...card, rotation: card.rotation + degree };
-                    return card;
-                }));
+            const getUniqueRandomItems = (cat, cnt) => {
+                const pool = cardPool[cat] || [];
+                const used = usedIndices[cat] || new Set();
+                const result = [];
+                for (let i = 0; i < cnt; i++) {
+                    let av = pool.map((_, idx) => idx).filter(idx => !used.has(idx));
+                    if (av.length === 0) { used.clear(); av = pool.map((_, idx) => idx); }
+                    const r = av[Math.floor(Math.random() * av.length)];
+                    result.push(pool[r]);
+                    used.add(r);
+                }
+                return { items: result, updatedUsed: used };
             };
 
-            const toggleAspect = (uid) => setActiveAspects(prev => ({ ...prev, [uid]: !prev[uid] }));
-
-            const getVisibleText = (obj) => {
-                if (!obj) return "";
-                if (manualEdits[obj.uid]) return manualEdits[obj.uid];
-                const conf = CATEGORY_STYLES[obj.category];
-                if (!conf) return "";
-                const rot = Math.abs(obj.rotation);
-                const idx = conf.type === 'binary' ? (rot / 180) % 2 : (rot / 90) % 4;
-                return obj.options[idx === 0 ? 0 : (idx === 1 ? 3 : (idx === 2 ? 2 : 1))];
-            };
-
-             const getActiveText = (obj) => {
+            const getActiveText = (obj) => {
                 if(!obj) return "";
                 if(manualEdits[obj.uid]) return manualEdits[obj.uid];
                 const conf = CATEGORY_STYLES[obj.category];
-                if(conf.type === 'binary') {
-                    return ((Math.abs(obj.rotation)/180)%2) === 0 ? obj.options[0] : obj.options[1];
-                }
-                const r = (Math.abs(obj.rotation)/90)%4;
-                if(r===0) return obj.options[0];
-                if(r===1) return obj.options[3];
-                if(r===2) return obj.options[2];
-                return obj.options[1];
-             };
+                const r = (Math.abs(obj.rotation) / (conf.type === 'binary' ? 180 : 90)) % (conf.type === 'binary' ? 2 : 4);
+                // Mapatge: 0->0, 1->3, 2->2, 3->1 per Quad
+                if(conf.type === 'binary') return r === 0 ? obj.options[0] : obj.options[1];
+                return obj.options[r === 0 ? 0 : (r === 1 ? 3 : (r === 2 ? 2 : 1))];
+            };
 
-            const handleDragStart = (e, i) => e.dataTransfer.setData('idx', i);
             const handleDrop = (e, dropIdx) => {
                 const dragIdx = Number(e.dataTransfer.getData('idx'));
-                if (dragIdx === dropIdx) return;
                 const newO = [...promptOrder];
                 const item = newO[dragIdx];
                 newO.splice(dragIdx, 1);
@@ -468,260 +376,132 @@
                 setPromptOrder(newO);
             };
 
-            // LAYOUT RENDERERS
-            const renderLayout = () => {
-                if (hand.length < GENERATION_MODES[currentMode].slots.length) return null;
-
-                if (currentMode === 'SEED') {
-                    return (
-                        <div className="flex flex-col items-center gap-4">
-                            <div className="flex flex-wrap justify-center gap-12 items-center">
-                                {hand.map((card, i) => (
-                                    <React.Fragment key={card.uid}>
-                                        {i > 0 && <Icon name="ArrowRight" className="text-[#d4af37]/30 hidden md:block" />}
-                                        <CardSlot card={card} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={['agent','anchor'].includes(card.category)} onSwapType={swapCardCategory} />
-                                    </React.Fragment>
-                                ))}
-                            </div>
-                        </div>
-                    );
-                }
-
-                if (currentMode === 'CLASH') {
-                    return (
-                        <div className="flex flex-col items-center gap-8 w-full max-w-[1400px]">
-                            <div className="flex flex-wrap xl:flex-nowrap justify-center items-center gap-4 w-full">
-                                <div className="flex flex-col md:flex-row items-center gap-6">
-                                    <CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
-                                    <Icon name="ArrowRight" className="text-[#d4af37] rotate-90 md:rotate-0" size={24} />
-                                    <CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
-                                    <Icon name="ArrowRight" className="text-[#d4af37] rotate-90 md:rotate-0" size={24} />
-                                    <CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
-                                    <Icon name="ArrowRight" className="text-[#d4af37] rotate-90 md:rotate-0" size={24} />
-                                </div>
-                                <div className="relative p-4 border-2 border-dashed border-[#d4af37]/30 rounded-xl bg-[#d4af37]/5 mx-4">
-                                    <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs text-[#d4af37] uppercase tracking-widest font-bold whitespace-nowrap">Objecte de Conflicte</div>
-                                    <CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
-                                </div>
-                                <div className="flex flex-col-reverse md:flex-row items-center gap-6">
-                                    <Icon name="ArrowRight" className="text-[#d4af37] rotate-90 md:rotate-180" size={24} />
-                                    <CardSlot card={hand[4]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
-                                    <Icon name="ArrowRight" className="text-[#d4af37] rotate-90 md:rotate-180" size={24} />
-                                    <CardSlot card={hand[5]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
-                                    <Icon name="ArrowRight" className="text-[#d4af37] rotate-90 md:rotate-180" size={24} />
-                                    <CardSlot card={hand[6]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
-                                </div>
-                            </div>
-                        </div>
-                    );
-                }
-
-                if (currentMode === 'SOUL') {
-                    // [0:Agent, 1:Mot1, 2:Conf1, 3:Anc1, 4:Mot2, 5:Conf2, 6:Anc2]
-                    return (
-                        <div className="w-full max-w-[100vw] overflow-x-auto pb-16 pt-32 px-4 custom-scrollbar"> 
-                            {/* min-w-max + justify-center/start ensures visibility */}
-                            <div className="flex flex-col items-center gap-8 min-w-max mx-auto px-12">
-                                <div className="flex flex-nowrap items-center gap-8">
-                                    {/* Left */}
-                                    <div className="flex flex-row items-center gap-4 order-1">
-                                        <CardSlot card={hand[6]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
-                                        <Icon name="ArrowLeft" className="text-[#d4af37] shrink-0" size={24} />
-                                        <CardSlot card={hand[5]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
-                                        <Icon name="ArrowLeft" className="text-[#d4af37] shrink-0" size={24} />
-                                        <CardSlot card={hand[4]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
-                                        <Icon name="ArrowLeft" className="text-[#d4af37] shrink-0" size={24} />
-                                    </div>
-                                    {/* Center */}
-                                    <div className="order-2 z-20 transform scale-110 mx-4">
-                                        <CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
-                                    </div>
-                                    {/* Right */}
-                                    <div className="flex flex-row items-center gap-4 order-3">
-                                        <Icon name="ArrowRight" className="text-[#d4af37] shrink-0" size={24} />
-                                        <CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
-                                        <Icon name="ArrowRight" className="text-[#d4af37] shrink-0" size={24} />
-                                        <CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
-                                        <Icon name="ArrowRight" className="text-[#d4af37] shrink-0" size={24} />
-                                        <CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
-                                    </div>
-                                </div>
-                                <div className="absolute -top-24 left-20 text-xs text-[#d4af37] uppercase tracking-widest font-bold bg-[#111] px-3 py-1 rounded border border-[#d4af37]/30 shadow-lg">Camí del Desig 2</div>
-                                <div className="absolute -top-24 right-20 text-xs text-[#d4af37] uppercase tracking-widest font-bold bg-[#111] px-3 py-1 rounded border border-[#d4af37]/30 shadow-lg">Camí del Desig 1</div>
-                            </div>
-                        </div>
-                    );
-                }
-
-                if (currentMode === 'CIRCLE') {
-                    return (
-                        <div className="relative w-full max-w-4xl h-[700px] md:h-[600px] flex items-center justify-center">
-                            <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20 animate-[spin_60s_linear_infinite]">
-                                <circle cx="50%" cy="50%" r="35%" stroke="#d4af37" strokeWidth="2" fill="none" strokeDasharray="10,5" />
-                            </svg>
-                            {/* Positions hardcoded for hexagon */}
-                            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10">
-                                <CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
-                                <Icon name="MoveRight" className="absolute -right-16 top-1/2 text-[#d4af37] rotate-[30deg]" size={40} />
-                            </div>
-                            <div className="absolute top-[20%] right-0 md:right-20 z-10">
-                                <CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
-                            </div>
-                            <div className="absolute bottom-[20%] right-0 md:right-20 z-10">
-                                <CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
-                                <Icon name="MoveDownLeft" className="absolute -left-16 bottom-0 text-[#d4af37] rotate-12" size={40} />
-                            </div>
-                            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10">
-                                <CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
-                                <Icon name="MoveUpLeft" className="absolute -left-16 top-1/2 text-[#d4af37] rotate-12" size={40} />
-                            </div>
-                            <div className="absolute bottom-[20%] left-0 md:left-20 z-20"> 
-                                <CardSlot card={hand[4]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
-                            </div>
-                            <div className="absolute top-[20%] left-0 md:left-20 z-10">
-                                <CardSlot card={hand[5]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
-                                <Icon name="MoveUpRight" className="absolute -right-16 top-0 text-[#d4af37] rotate-12" size={40} />
-                            </div>
-                        </div>
-                    );
-                }
-            };
-
-            const renderPrompt = () => {
-                if (hand.length < GENERATION_MODES[currentMode].slots.length) return null;
-                const isDragEnabled = currentMode !== 'SEED';
-
-                let itemsToRender = [];
-                if(currentMode === 'CIRCLE') {
-                    itemsToRender = [
-                        {...hand[0], isRef:false}, {...hand[1], isRef:false}, {...hand[3], isRef:true, refLabel:"Agent (2)"},
-                        {...hand[2], isRef:false}, {...hand[3], isRef:false}, {...hand[4], isRef:false},
-                        {...hand[0], isRef:true, refLabel:"Agent (1)"}, {...hand[5], isRef:false}
-                    ];
-                } else if(currentMode === 'CLASH') {
-                    itemsToRender = [
-                        {...hand[0]}, {...hand[1]}, {...hand[3]}, {...hand[2]}, 
-                        {...hand[6]}, {...hand[5]}, {...hand[3], isRef:true, refLabel:"Àncora (Ref)"}, {...hand[4]}
-                    ];
-                } else if(currentMode === 'SOUL') {
-                    itemsToRender = [ {...hand[0]}, {...hand[1]}, {...hand[2]}, {...hand[3]}, {...hand[4]}, {...hand[5]}, {...hand[6]} ];
-                } else {
-                    itemsToRender = promptOrder.map(uid => hand.find(c => c.uid === uid)).filter(Boolean);
-                }
-
-                return itemsToRender.map((item, idx) => {
-                    const key = item.isRef ? `ref-${idx}` : item.uid;
-                    const txt = getActiveText(item);
-                    const hasAsp = !item.isRef && item.aspectData && activeAspects[item.uid];
-                    const catConf = CATEGORY_STYLES[item.category];
-
-                    return (
-                        <div key={key} draggable={isDragEnabled} onDragStart={e => handleDragStart(e, idx)} onDragOver={e=>e.preventDefault()} onDrop={e=>handleDrop(e, idx)} 
-                             className={`flex items-start gap-1 p-1 rounded border border-transparent ${isDragEnabled?'hover:bg-white/5 cursor-grab active:cursor-grabbing':''}`}>
-                             <div className="flex flex-col gap-1">
-                                <div className={`flex flex-col items-center gap-1 p-2 rounded shadow-lg transition-all ${item.isRef ? 'bg-gray-800 border-gray-600': catConf.promptBg+' border-white/10'}`}>
-                                    <div className="flex items-center gap-1">
-                                        {item.isRef && <Icon name="Lock" size={10} className="text-gray-400"/>}
-                                        <span className={`text-[9px] uppercase font-bold tracking-wider ${item.isRef?'text-gray-400':catConf.text} opacity-70`}>
-                                            {item.isRef ? item.refLabel : catConf.label}
-                                        </span>
-                                    </div>
-                                    <div className="grid place-items-center">
-                                        <span className="invisible row-start-1 col-start-1 px-1 text-sm md:text-base font-medium whitespace-pre h-0 md:h-auto overflow-hidden">{txt||' '}</span>
-                                        <input type="text" value={txt} readOnly={item.isRef} onChange={e => { if(!item.isRef) setManualEdits(p=>({...p, [item.uid]: e.target.value})) }} 
-                                            className={`row-start-1 col-start-1 w-full bg-transparent border-none ${item.isRef?'text-gray-400 italic cursor-not-allowed':'text-white'} text-sm md:text-base font-medium focus:ring-0 focus:outline-none p-0 text-center min-w-[50px]`} 
-                                            onMouseDown={e=>e.stopPropagation()}/>
-                                    </div>
-                                </div>
-                                {hasAsp && (
-                                    <div className={`flex flex-col items-center gap-1 p-2 rounded shadow-lg transition-all ${CATEGORY_STYLES.aspect.promptBg} border border-white/10 scale-90 opacity-90`}>
-                                        <span className={`text-[9px] uppercase font-bold tracking-wider ${CATEGORY_STYLES.aspect.text} opacity-70`}>ASPECTE</span>
-                                        <div className="grid place-items-center">
-                                            <span className="invisible row-start-1 col-start-1 px-1 text-sm md:text-base font-medium whitespace-pre h-0 md:h-auto overflow-hidden">{getActiveText(item.aspectData)||' '}</span>
-                                            <input type="text" value={getActiveText(item.aspectData)} onChange={e => setManualEdits(p=>({...p, [item.aspectData.uid]: e.target.value}))} 
-                                                className="row-start-1 col-start-1 w-full bg-transparent border-none text-white text-sm md:text-base font-medium focus:ring-0 focus:outline-none p-0 text-center min-w-[50px]" onMouseDown={e=>e.stopPropagation()}/>
+            // RENDER SETUP
+            if (appStatus === 'SETUP') {
+                return (
+                    <div className="min-h-screen flex items-center justify-center p-4">
+                        <div className="max-w-md w-full bg-[#222] border-2 border-[#d4af37] rounded-lg p-8 shadow-2xl">
+                            <h1 className="text-3xl font-bold text-[#d4af37] text-center mb-8 uppercase tracking-widest border-b border-[#d4af37] pb-4">Story Engine</h1>
+                            <div className="space-y-4">
+                                <p className="text-gray-400 text-center mb-6">Selecciona les baralles detectades:</p>
+                                <div className="space-y-3 max-h-64 overflow-y-auto custom-scrollbar pr-2">
+                                    {availableDecks.length === 0 && <p className="text-center text-xs italic text-gray-500">Cercant fitxers CSV...</p>}
+                                    {availableDecks.map(deck => (
+                                        <div key={deck.id} onClick={() => {
+                                            const next = new Set(selectedDecks);
+                                            if (next.has(deck.id)) next.delete(deck.id); else next.add(deck.id);
+                                            setSelectedDecks(next);
+                                        }} className={`flex items-center p-4 rounded-md cursor-pointer border transition-all ${selectedDecks.has(deck.id) ? 'bg-[#d4af37]/20 border-[#d4af37]' : 'bg-[#111] border-gray-800'}`}>
+                                            <Icon name={selectedDecks.has(deck.id) ? "CheckSquare" : "Square"} size={20} className={selectedDecks.has(deck.id) ? "text-[#d4af37]" : "text-gray-600"} />
+                                            <span className="ml-3 text-sm font-medium">{deck.id}</span>
                                         </div>
-                                    </div>
-                                )}
-                             </div>
+                                    ))}
+                                </div>
+                                <button 
+                                    disabled={selectedDecks.size === 0} 
+                                    onClick={loadSelectedDecks}
+                                    className={`w-full mt-6 py-4 rounded font-bold uppercase tracking-widest transition-all ${selectedDecks.size > 0 ? 'bg-[#d4af37] text-black hover:bg-[#b5952f] shadow-lg' : 'bg-gray-700 text-gray-500 cursor-not-allowed'}`}
+                                >
+                                    Començar Càrrega
+                                </button>
+                            </div>
                         </div>
-                    );
-                });
-            };
+                    </div>
+                );
+            }
 
-            if (!isDataLoaded) return <div className="text-white text-center p-10">Carregant cartes...</div>;
+            if (appStatus === 'LOADING') return <div className="min-h-screen flex flex-col items-center justify-center"><Icon name="RotateCw" className="animate-spin text-[#d4af37] mb-4" size={48} /><p className="uppercase tracking-widest text-[#d4af37]">Preparant la baralla...</p></div>;
 
             return (
-                <div className="min-h-screen bg-[#1a1a1a] text-gray-200 font-serif flex flex-col items-center py-8 px-4 overflow-x-hidden">
-                    <header className="mb-4 text-center space-y-4 w-full max-w-7xl relative z-20">
-                        <h1 className="text-3xl md:text-6xl font-bold tracking-widest text-[#d4af37] uppercase border-b-2 border-[#d4af37] pb-2 inline-block">GENERADOR D'HISTÒRIES</h1>
+                <div className="flex flex-col min-h-screen">
+                    <header className="pt-8 px-4 text-center space-y-4 relative z-20">
+                        <h1 className="text-3xl md:text-5xl font-bold tracking-widest text-[#d4af37] uppercase border-b-2 border-[#d4af37] pb-2 inline-block">GENERADOR D'HISTÒRIES</h1>
                         <div className="flex flex-wrap justify-center gap-4 items-center">
-                            <select value={currentMode} onChange={(e) => setCurrentMode(e.target.value)} className="bg-[#2a2a2a] border border-[#d4af37] text-[#d4af37] py-2 px-4 rounded focus:outline-none uppercase text-xs md:text-sm tracking-wider font-bold">
-                                {Object.values(GENERATION_MODES).map(mode => <option key={mode.id} value={mode.id}>{mode.label}</option>)}
+                            <select value={currentMode} onChange={(e) => setCurrentMode(e.target.value)} className="bg-[#2a2a2a] border border-[#d4af37] text-[#d4af37] py-2 px-4 rounded focus:outline-none uppercase text-xs font-bold">
+                                {Object.values(GENERATION_MODES).map(m => <option key={m.id} value={m.id}>{m.label}</option>)}
                             </select>
                             <button onClick={() => setShowInstructions(true)} className="px-4 py-2 bg-transparent border border-gray-600 text-gray-400 rounded hover:border-[#d4af37] hover:text-[#d4af37] transition-all flex items-center gap-2 text-xs">
                                 <Icon name="BookOpen" size={16} /> Instruccions
                             </button>
                         </div>
-                        <div className="mt-8 p-4 border-t border-b border-gray-800 bg-[#111]">
-                            <div className="flex flex-wrap justify-center gap-3 items-start min-h-[60px]">
-                                {renderPrompt()}
-                            </div>
+                        <div className="mt-8 p-4 border-t border-b border-gray-800 bg-[#111] flex flex-wrap justify-center gap-3">
+                            {promptOrder.map((uid, idx) => {
+                                const item = hand.find(c => c.uid === uid);
+                                if (!item) return null;
+                                const txt = getActiveText(item);
+                                const isDrag = currentMode !== 'SEED';
+                                return (
+                                    <div key={uid} draggable={isDrag} onDragStart={e => e.dataTransfer.setData('idx', idx)} onDragOver={e=>e.preventDefault()} onDrop={e=>handleDrop(e, idx)}
+                                         className={`flex flex-col gap-1 p-1 rounded border border-transparent ${isDrag ? 'hover:bg-white/5 cursor-grab active:cursor-grabbing' : ''}`}>
+                                        <div className={`p-2 rounded shadow-lg ${CATEGORY_STYLES[item.category].promptBg} border border-white/10 flex flex-col items-center`}>
+                                            <span className="text-[8px] uppercase font-bold opacity-70 tracking-tighter">{CATEGORY_STYLES[item.category].label}</span>
+                                            <input type="text" value={txt} onChange={e => setManualEdits(p=>({...p, [uid]: e.target.value}))} onMouseDown={e=>e.stopPropagation()}
+                                                   className="bg-transparent border-none text-white text-sm md:text-base font-medium focus:ring-0 focus:outline-none p-0 text-center min-w-[60px]" />
+                                        </div>
+                                        {item.aspectData && activeAspects[uid] && (
+                                            <div className="p-2 rounded bg-purple-900/60 border border-white/10 flex flex-col items-center scale-90">
+                                                <span className="text-[8px] uppercase font-bold opacity-70">ASPECTE</span>
+                                                <input type="text" value={getActiveText(item.aspectData)} onChange={e => setManualEdits(p=>({...p, [item.aspectData.uid]: e.target.value}))} onMouseDown={e=>e.stopPropagation()}
+                                                       className="bg-transparent border-none text-white text-xs text-center focus:ring-0 focus:outline-none p-0" />
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
                         </div>
                     </header>
-                    <div className="w-full max-w-7xl flex flex-col items-center pb-20 mt-8 gap-8">
+
+                    <main className="flex-grow flex items-center justify-center py-12">
                         {renderLayout()}
-                    </div>
-                    {/* MODAL INSTRUCCIONS */}
+                    </main>
+
                     {showInstructions && (
-                        <div className="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
-                            <div className="bg-[#1a1a1a] border-2 border-[#d4af37] rounded-lg max-w-2xl w-full p-6 relative shadow-[0_0_50px_rgba(212,175,55,0.2)] max-h-[90vh] overflow-y-auto">
-                                <button onClick={() => setShowInstructions(false)} className="absolute top-4 right-4 text-gray-400 hover:text-white"><Icon name="X" size={24} /></button>
-                                <h2 className="text-2xl font-bold text-[#d4af37] mb-6 uppercase tracking-widest border-b border-gray-700 pb-2">Guia d'ús</h2>
-                                
-                                <div className="text-gray-300 space-y-6 text-sm leading-relaxed p-2">
-                                    <p>Benvingut al Generador d'Històries. Aquesta eina està dissenyada per desbloquejar la teva creativitat.</p>
+                        <div className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-6">
+                            <div className="bg-[#1a1a1a] border-2 border-[#d4af37] rounded-lg max-w-4xl w-full p-8 relative shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar">
+                                <button onClick={() => setShowInstructions(false)} className="absolute top-4 right-4 text-gray-500 hover:text-white"><Icon name="X" size={28} /></button>
+                                <h2 className="text-3xl font-bold text-[#d4af37] mb-8 uppercase tracking-widest border-b border-gray-800 pb-2 text-center">Guia d'Ús: Generador d'Històries</h2>
+                                <div className="text-gray-300 space-y-8 text-sm md:text-base leading-relaxed">
                                     <section>
-                                        <h3 className="text-lg font-bold text-[#d4af37] mb-3 border-b border-[#d4af37]/30 pb-1">1. Els Tipus de Cartes</h3>
-                                        <div className="grid gap-3">
-                                            <div className="flex gap-2"><span className="text-blue-400 font-bold min-w-[80px]">AGENT:</span> <span>El protagonista (El Qui).</span></div>
-                                            <div className="flex gap-2"><span className="text-yellow-400 font-bold min-w-[80px]">MOTOR:</span> <span>La motivació o objectiu (El Per què).</span></div>
-                                            <div className="flex gap-2"><span className="text-emerald-400 font-bold min-w-[80px]">ÀNCORA:</span> <span>L'objecte, lloc o persona on va l'acció (El Què/On).</span></div>
-                                            <div className="flex gap-2"><span className="text-red-400 font-bold min-w-[80px]">CONFLICTE:</span> <span>L'obstacle o preu a pagar (El Però).</span></div>
-                                            <div className="flex gap-2"><span className="text-purple-400 font-bold min-w-[80px]">ASPECTE:</span> <span>Un modificador o adjectiu (El Com).</span></div>
+                                        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2"><Icon name="Database" size={20} className="text-[#d4af37]"/> 1. Els Tipus de Cartes</h3>
+                                        <div className="grid md:grid-cols-2 gap-4">
+                                            <div className="p-3 bg-blue-900/20 border-l-4 border-blue-400"><strong>AGENT:</strong> El protagonista. Qui realitza l'acció.</div>
+                                            <div className="p-3 bg-yellow-900/20 border-l-4 border-yellow-500"><strong>MOTOR:</strong> La motivació. Per què vol actuar l'Agent.</div>
+                                            <div className="p-3 bg-emerald-900/20 border-l-4 border-emerald-500"><strong>ÀNCORA:</strong> L'objectiu. Cap a on va dirigida l'acció.</div>
+                                            <div className="p-3 bg-red-900/20 border-l-4 border-red-500"><strong>CONFLICTE:</strong> L'obstacle. El preu que s'ha de pagar.</div>
+                                            <div className="p-3 bg-purple-900/20 border-l-4 border-purple-500 col-span-full"><strong>ASPECTE:</strong> Modificadors que afegeixen profunditat (adjectius o situacions).</div>
                                         </div>
                                     </section>
                                     <section>
-                                        <h3 className="text-lg font-bold text-[#d4af37] mb-3 border-b border-[#d4af37]/30 pb-1">2. Com fer servir l'App</h3>
-                                        <ul className="list-disc pl-5 space-y-2">
-                                            <li><strong className="text-white">Girar:</strong> Clica la carta per veure una nova opció del mateix tipus (4 opcions per carta).</li>
-                                            <li><strong className="text-white">Canviar:</strong> Clica al cercle central (paperera) per obtenir una carta totalment nova.</li>
-                                            <li><strong className="text-white">Aspectes:</strong> Marca la casella superior dreta (Agent/Àncora) per afegir un modificador.</li>
-                                            <li><strong className="text-white">Intercanvi (↔):</strong> En modes avançats, pots canviar el tipus de carta (Agent ↔ Àncora).</li>
-                                            <li><strong className="text-white">Arrossegar:</strong> Als modes avançats, pots reordenar les frases del prompt (excepte a "Llavor").</li>
+                                        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2"><Icon name="RotateCw" size={20} className="text-[#d4af37]"/> 2. Com fer servir les cartes</h3>
+                                        <ul className="list-disc pl-6 space-y-2">
+                                            <li><strong>Girar:</strong> Clica la carta per triar entre les 4 opcions (90º cada clic).</li>
+                                            <li><strong>Canviar:</strong> Clica el cercle central per rebre una carta nova totalment diferent.</li>
+                                            <li><strong>Aspectes:</strong> Usa la casella a les cartes d'Agent/Àncora per afegir un adjectiu.</li>
+                                            <li><strong>Arrossegar:</strong> En modes complexos, mou les caixes de text superiors per polir la frase.</li>
                                         </ul>
                                     </section>
                                     <section>
-                                        <h3 className="text-lg font-bold text-[#d4af37] mb-3 border-b border-[#d4af37]/30 pb-1">3. Esquemes Narratius</h3>
+                                        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2"><Icon name="BookOpen" size={20} className="text-[#d4af37]"/> 3. Esquemes Narratius</h3>
                                         <div className="space-y-4">
-                                            <div><h4 className="font-bold text-white">🌱 Llavor de la Història</h4><p className="text-gray-400">Estructura lineal bàsica. Ideal per a premisses ràpides.</p></div>
-                                            <div><h4 className="font-bold text-white">⭕ Cercle del Destí</h4><p className="text-gray-400">Cicle tancat entre dos agents. L'acció d'un afecta l'altre i viceversa.</p></div>
-                                            <div><h4 className="font-bold text-white">⚔️ Xoc de Voluntats</h4><p className="text-gray-400">Dos agents competeixen per la mateixa Àncora amb motivacions oposades.</p></div>
-                                            <div><h4 className="font-bold text-white">💔 Una Ànima Dividida</h4><p className="text-gray-400">Un sol agent al centre es debat entre dos desitjos o camins incompatibles.</p></div>
+                                            <p><strong>🌱 Llavor:</strong> Premissa lineal bàsica.</p>
+                                            <p><strong>⭕ Cercle:</strong> Relacions de causa-efecte entre dos agents.</p>
+                                            <p><strong>⚔️ Xoc:</strong> Dos agents competint per un mateix objectiu.</p>
+                                            <p><strong>💔 Ànima Dividida:</strong> Un agent atrapat entre dos desitjos oposats.</p>
                                         </div>
                                     </section>
                                 </div>
                             </div>
                         </div>
                     )}
-                    <footer className="fixed bottom-0 w-full bg-[#111] border-t border-gray-800 py-3 px-6 flex justify-between items-center text-xs text-gray-500 z-50">
+
+                    <footer className="w-full bg-[#111] border-t border-gray-800 py-4 px-6 flex justify-between items-center text-xs text-gray-500 z-50 mt-auto">
                         <div>Una adaptació de Xavier Ribes - Gamelab de la UAB</div>
-                        <div className="flex items-center gap-1"><Icon name="Database" size={10}/> {Object.values(cardPool.agent || {}).length} opcions</div>
+                        <div className="flex items-center gap-2"><Icon name="Database" size={14}/> {Object.values(cardPool.agent || {}).length * 4} possibilitats</div>
                     </footer>
                 </div>
             );
         }
-        
+
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<StoryEngineApp />);
     </script>
