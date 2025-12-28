@@ -86,11 +86,11 @@
 
         // --- CONFIGURACIÓ DE CATEGORIES I ESTILS ---
         const CATEGORY_STYLES = {
-            agent: { label: 'AGENT', type: 'quad', color: 'border-blue-400', bg: 'bg-blue-900/20', text: 'text-blue-200', promptBg: 'bg-blue-900/60' },
-            engine: { label: 'MOTOR', type: 'binary', color: 'border-yellow-500', bg: 'bg-yellow-600/20', text: 'text-yellow-200', promptBg: 'bg-yellow-600/60' },
-            anchor: { label: 'ÀNCORA', type: 'quad', color: 'border-emerald-500', bg: 'bg-emerald-900/20', text: 'text-emerald-200', promptBg: 'bg-emerald-900/60' },
-            conflict: { label: 'CONFLICTE', type: 'binary', color: 'border-red-500', bg: 'bg-red-900/20', text: 'text-red-200', promptBg: 'bg-red-900/60' },
-            aspect: { label: 'ASPECTE', type: 'quad', color: 'border-purple-500', bg: 'bg-purple-900/20', text: 'text-purple-200', promptBg: 'bg-purple-900/60' },
+            agent: { label: 'AGENT', type: 'quad', color: 'border-blue-400', bg: 'bg-blue-900/20', text: 'text-blue-400', promptBg: 'bg-blue-900/60' },
+            engine: { label: 'MOTOR', type: 'binary', color: 'border-yellow-500', bg: 'bg-yellow-600/20', text: 'text-yellow-500', promptBg: 'bg-yellow-600/60' },
+            anchor: { label: 'ÀNCORA', type: 'quad', color: 'border-emerald-500', bg: 'bg-emerald-900/20', text: 'text-emerald-500', promptBg: 'bg-emerald-900/60' },
+            conflict: { label: 'CONFLICTE', type: 'binary', color: 'border-red-500', bg: 'bg-red-900/20', text: 'text-red-500', promptBg: 'bg-red-900/60' },
+            aspect: { label: 'ASPECTE', type: 'quad', color: 'border-purple-500', bg: 'bg-purple-900/20', text: 'text-purple-500', promptBg: 'bg-purple-900/60' },
         };
 
         const GENERATION_MODES = {
@@ -121,7 +121,21 @@
                 MoveUpLeft: <path d="M5 11V5H11M5 5L19 19"/>,
                 MoveUpRight: <path d="M13 5H19V11M19 5L5 19"/>,
                 Check: <polyline points="20 6 9 17 4 12"/>,
+                // Icones temàtiques addicionals
+                Skull: <path d="M9 10L9.01 10M15 10L15.01 10M12 2C8.13 2 5 5.13 5 9C5 12.18 6.72 14.94 9.27 16.35C9.41 16.42 9.5 16.55 9.5 16.7V20C9.5 21.1 10.4 22 11.5 22H12.5C13.6 22 14.5 21.1 14.5 20V16.7C14.5 16.55 14.59 16.42 14.73 16.35C17.28 14.94 19 12.18 19 9C19 5.13 15.87 2 12 2ZM9 22L9 18M15 22L15 18" />,
+                FlaskConical: <path d="M10 2v7.58M14 2v7.58M6 15.91l-1.39 2.53C3.9 19.78 4.86 22 6.54 22h10.92c1.67 0 2.63-2.22 1.93-3.56L18 15.91M8.5 2h7M7 16h10" />,
+                Cog: <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z" />,
+                Sword: <Fragment><polyline points="14.5 17.5 3 6 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="22" y2="22"/></Fragment>,
+                Search: <Fragment><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></Fragment>,
+                Ghost: <path d="M9 10h.01M15 10h.01M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z" />,
+                Crosshair: <Fragment><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" x2="12" y1="2" y2="6"/><line x1="12" x2="12" y1="18" y2="22"/></Fragment>,
+                Zap: <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />,
+                Gem: <path d="M6 3h12l4 6-10 12L2 9z" />,
+                Flame: <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3 0-1.1.73-2.73 2-3.32.48-.23 1.2-.22 1.74.05A6.24 6.24 0 0 1 17 11.5c0 3.03-2.46 5.5-5.5 5.5s-5.5-2.47-5.5-5.5c0-1.16.31-2.14.77-3.03C7 9 8.5 10 8.5 12c0 1-1 1.5-1 2.5z" />,
+                Map: <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" />,
+                Anchor: <Fragment><path d="M12 22V8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/><circle cx="12" cy="5" r="3"/></Fragment>
             };
+
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>
                     {icons[name] || <circle cx="12" cy="12" r="10" />}
@@ -129,7 +143,29 @@
             );
         };
 
-        // --- COMPONENTS DE CARTA ---
+        // Pool d'icones per a assignació dinàmica si no hi ha keyword
+        const ICON_POOL = ['Dices', 'FlaskConical', 'Skull', 'Cog', 'Sword', 'Search', 'Zap', 'Ghost', 'Crosshair', 'Gem', 'Flame', 'Map', 'Anchor'];
+
+        const getCollectionIcon = (deckId) => {
+            const id = (deckId || "").toLowerCase();
+            // Assignació per paraula clau
+            if (id.includes('genèric') || id.includes('generic')) return 'Dices';
+            if (id.includes('scifi') || id.includes('ciència') || id.includes('ciencia')) return 'FlaskConical';
+            if (id.includes('terror') || id.includes('horror')) return 'Skull';
+            if (id.includes('steampunk')) return 'Cog';
+            if (id.includes('mitologia') || id.includes('fantasy') || id.includes('fantasia')) return 'Sword';
+            if (id.includes('misteri') || id.includes('mystery')) return 'Search';
+            if (id.includes('cyberpunk') || id.includes('futur')) return 'Zap';
+            if (id.includes('espiritual') || id.includes('esperit')) return 'Ghost';
+            if (id.includes('acció') || id.includes('combat')) return 'Crosshair';
+            
+            // Assignació única determinista basada en el nom per a qualsevol altre CSV
+            const hash = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+            return ICON_POOL[hash % ICON_POOL.length];
+        };
+
+        // --- COMPONENTS VISUALS ---
+
         const CardText = ({ position, text, color }) => {
             const textStyle = "text-center font-bold text-[10px] md:text-xs leading-tight tracking-wide pointer-events-none select-none px-2";
             if (position === 'top') return <div className={`absolute top-0 left-0 right-0 h-[40%] flex items-start justify-center pt-3 ${color}`}><span className={textStyle}>{text}</span></div>;
@@ -142,32 +178,41 @@
         const CardComponent = ({ data, parentUid = null, isAspect = false, onRotate, onChange, style = {}, onMouseEnter }) => {
             if (!data) return null;
             const catConfig = CATEGORY_STYLES[data.category];
+            const collectionIconName = getCollectionIcon(data.deckId);
+
             return (
                 <div className="relative group/card perspective-1000 cursor-pointer" onClick={(e) => { e.stopPropagation(); onRotate(isAspect ? data.uid : data.uid, data.category, isAspect, parentUid); }} onMouseEnter={onMouseEnter} style={style}>
                     {!isAspect && <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20 text-[#d4af37] animate-bounce pointer-events-none">▼</div>}
-                    <div className={`relative w-40 h-40 md:w-48 md:h-48 bg-[#0f0f0f] border-2 ${catConfig.color} rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-transform duration-500 ease-in-out`} style={{ transform: `rotate(${data.rotation}deg)`, boxShadow: `0 0 20px ${catConfig.color.replace('border-', '')}20` }}>
+                    <div 
+                        className={`relative w-40 h-40 md:w-48 md:h-48 bg-[#0f0f0f] border-2 ${catConfig.color} rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-transform duration-500 ease-in-out`}
+                        style={{ transform: `rotate(${data.rotation}deg)`, boxShadow: `0 0 20px ${catConfig.color.replace('border-', '')}20` }}
+                    >
                         <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.8\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.5\'/%3E%3C/svg%3E")' }}></div>
                         <div className="absolute inset-2 border border-white/5 rounded pointer-events-none"></div>
+                        
+                        <CardText position="top" text={data.options[0]} color={catConfig.text} />
                         {catConfig.type === 'binary' ? (
                             <Fragment>
-                                <CardText position="top" text={data.options[0]} color={catConfig.text} />
                                 <CardText position="bottom" text={data.options[1]} color={catConfig.text} />
                                 <div className="absolute top-1/2 left-2 right-2 h-px bg-white/10 transform -translate-y-1/2"></div>
                             </Fragment>
                         ) : (
                             <Fragment>
-                                <CardText position="top" text={data.options[0]} color={catConfig.text} />
                                 <CardText position="right" text={data.options[1]} color={catConfig.text} />
                                 <CardText position="bottom" text={data.options[2]} color={catConfig.text} />
                                 <CardText position="left" text={data.options[3]} color={catConfig.text} />
                             </Fragment>
                         )}
+
                         <div className="absolute inset-0 flex items-center justify-center z-50">
-                            <div className={`w-10 h-10 rounded-full border-2 ${catConfig.color} flex items-center justify-center bg-[#1a1a1a] transition-all duration-300 shadow-lg group/center pointer-events-auto hover:bg-[#333] hover:scale-125 cursor-pointer`} onClick={(e) => { e.stopPropagation(); onChange(isAspect ? data.uid : data.uid, data.category, isAspect, parentUid); }}>
-                                <div className={`w-6 h-6 rounded-full border ${catConfig.color} block group-hover/card:hidden`}></div>
+                            <div 
+                                className={`w-10 h-10 rounded-full border-2 ${catConfig.color} flex items-center justify-center bg-[#1a1a1a] transition-all duration-300 shadow-lg group/center pointer-events-auto hover:bg-[#333] hover:scale-125 cursor-pointer`}
+                                onClick={(e) => { e.stopPropagation(); onChange(isAspect ? data.uid : data.uid, data.category, isAspect, parentUid); }}
+                            >
                                 <div style={{ transform: `rotate(${-data.rotation}deg)`, transition: 'transform 0.5s ease-in-out' }}>
                                     <Icon name="RotateCw" size={18} className="text-white hidden group-hover/card:block group-hover/center:hidden animate-pulse" />
                                     <Icon name="Trash2" size={18} className="text-red-400 hidden group-hover/center:block" />
+                                    <Icon name={collectionIconName} size={18} className={`${catConfig.text} block group-hover/card:hidden opacity-70`} />
                                 </div>
                             </div>
                         </div>
@@ -238,7 +283,6 @@
                         }
                     } catch (e) { console.warn("GitHub API error"); }
                     
-                    // Fallback pels fitxers que segur que existeixen si el llistat falla
                     const mandatoryFiles = ['cat - Genèric.csv', 'cat - SciFi.csv'];
                     for (const f of mandatoryFiles) {
                         if (!seenNames.has(f)) {
@@ -264,11 +308,12 @@
                         dataRows.forEach(row => {
                             const cols = row.split(';');
                             if (cols.length < 5) return;
-                            if (cols[0]) pools.agent.push(cols[0].trim());
-                            if (cols[1]) pools.engine.push(cols[1].trim());
-                            if (cols[2]) pools.anchor.push(cols[2].trim());
-                            if (cols[3]) pools.conflict.push(cols[3].trim());
-                            if (cols[4]) pools.aspect.push(cols[4].trim());
+                            const cardEntry = (txt) => ({ text: txt.trim(), deckId: deck.id });
+                            if (cols[0]) pools.agent.push(cardEntry(cols[0]));
+                            if (cols[1]) pools.engine.push(cardEntry(cols[1]));
+                            if (cols[2]) pools.anchor.push(cardEntry(cols[2]));
+                            if (cols[3]) pools.conflict.push(cardEntry(cols[3]));
+                            if (cols[4]) pools.aspect.push(cardEntry(cols[4]));
                         });
                     }
                     setCardPool(pools);
@@ -282,10 +327,8 @@
                 }
             };
 
-            const toggleAspect = useCallback((uid) => {
-                setActiveAspects(prev => ({ ...prev, [uid]: !prev[uid] }));
-            }, []);
-
+            const toggleAspect = useCallback((uid) => { setActiveAspects(prev => ({ ...prev, [uid]: !prev[uid] })); }, []);
+            
             const rotateCard = useCallback((uid, categoryKey, isAspect, parentUid) => {
                 const degree = CATEGORY_STYLES[categoryKey].type === 'binary' ? 180 : 90;
                 setHand(prev => prev.map(card => {
@@ -303,7 +346,7 @@
                 for (let i = 0; i < count; i++) {
                     let av = pool.map((_, idx) => idx).filter(idx => !tempUsed.has(idx));
                     if (av.length === 0) { tempUsed.clear(); av = pool.map((_, idx) => idx); }
-                    if (av.length === 0) { result.push("..."); continue; }
+                    if (av.length === 0) return { items: [], updatedUsed: tempUsed };
                     const r = av[Math.floor(Math.random() * av.length)];
                     result.push(pool[r]);
                     tempUsed.add(r);
@@ -314,9 +357,15 @@
             const changeCard = useCallback((uid, categoryKey, isAspect, parentUid) => {
                 const count = CATEGORY_STYLES[categoryKey].type === 'binary' ? 2 : 4;
                 const { items, updatedUsed } = getUniqueRandomItems(categoryKey, count);
+                if (items.length === 0) return;
+                
                 setHand(prev => prev.map(card => {
-                    if (isAspect && card.uid === parentUid) return { ...card, aspectData: { ...card.aspectData, options: items, rotation: 0 } };
-                    if (!isAspect && card.uid === uid) return { ...card, options: items, rotation: 0, aspectData: card.aspectData };
+                    if (isAspect && card.uid === parentUid) {
+                        return { ...card, aspectData: { ...card.aspectData, options: items.map(i => i.text), deckId: items[0].deckId, rotation: 0 } };
+                    }
+                    if (!isAspect && card.uid === uid) {
+                        return { ...card, options: items.map(i => i.text), deckId: items[0].deckId, rotation: 0 };
+                    }
                     return card;
                 }));
                 setUsedIndices(prev => ({...prev, [categoryKey]: updatedUsed}));
@@ -327,8 +376,8 @@
                     if (card.uid === uid) {
                         const newCat = card.category === 'agent' ? 'anchor' : 'agent';
                         const { items, updatedUsed } = getUniqueRandomItems(newCat, 4);
-                        let aspectData = card.aspectData || { uid: `asp-new-${Math.random()}`, category: 'aspect', options: getUniqueRandomItems('aspect', 4).items, rotation: 0 };
-                        return { ...card, category: newCat, options: items, rotation: 0, aspectData: aspectData };
+                        if (items.length === 0) return card;
+                        return { ...card, category: newCat, options: items.map(i => i.text), deckId: items[0].deckId, rotation: 0 };
                     }
                     return card;
                 }));
@@ -347,9 +396,9 @@
                     for(let i=0; i<cnt; i++) {
                         let available = pool.map((_, idx) => idx).filter(idx => !used.has(idx));
                         if(available.length === 0) { used.clear(); available = pool.map((_, idx) => idx); }
-                        if (available.length === 0) { result.push("..."); continue; }
+                        if (available.length === 0) { result.push({text: "...", deckId: ""}); continue; }
                         const randomIdx = available[Math.floor(Math.random() * available.length)];
-                        result.push(pool[randomIdx] || "...");
+                        result.push(pool[randomIdx]);
                         used.add(randomIdx);
                     }
                     currentUsedIndices[cat] = used;
@@ -361,9 +410,10 @@
                     const items = getItemsLocally(catKey, count);
                     let aspectData = null;
                     if (catKey === 'agent' || catKey === 'anchor') {
-                        aspectData = { uid: `asp-${index}-${Math.random()}`, category: 'aspect', options: getItemsLocally('aspect', 4), rotation: 0 };
+                        const aspItems = getItemsLocally('aspect', 4);
+                        aspectData = { uid: `asp-${index}-${Math.random()}`, category: 'aspect', options: aspItems.map(i => i.text), deckId: aspItems[0].deckId, rotation: 0 };
                     }
-                    newHand.push({ uid: `${catKey}-${index}-${Math.random()}`, category: catKey, options: items, rotation: 0, aspectData: aspectData });
+                    newHand.push({ uid: `${catKey}-${index}-${Math.random()}`, category: catKey, options: items.map(i => i.text), deckId: items[0].deckId, rotation: 0, aspectData: aspectData });
                 });
                 setHand(newHand);
                 setUsedIndices(currentUsedIndices);
@@ -393,6 +443,7 @@
                 setPromptOrder(newO);
             };
 
+            // PANTALLA DE SELECCIÓ
             if (appStatus === 'SETUP') {
                 return (
                     <div className="min-h-screen flex items-center justify-center p-4">
@@ -407,18 +458,24 @@
                                             <p className="text-xs italic text-gray-500">Cercant fitxers...</p>
                                         </div>
                                     )}
-                                    {availableDecks.map(deck => (
-                                        <div key={deck.id} onClick={() => {
-                                            const next = new Set(selectedDecks);
-                                            if (next.has(deck.id)) next.delete(deck.id); else next.add(deck.id);
-                                            setSelectedDecks(next);
-                                        }} className={`flex items-center p-4 rounded-md cursor-pointer border transition-all ${selectedDecks.has(deck.id) ? 'bg-[#d4af37]/20 border-[#d4af37]' : 'bg-[#111] border-gray-800'}`}>
-                                            <div className={`w-5 h-5 rounded border flex items-center justify-center ${selectedDecks.has(deck.id) ? 'bg-[#d4af37] border-[#d4af37]' : 'border-gray-500'}`}>
-                                                {selectedDecks.has(deck.id) && <Icon name="Check" size={14} className="text-black" />}
+                                    {availableDecks.map(deck => {
+                                        const cIcon = getCollectionIcon(deck.id);
+                                        return (
+                                            <div key={deck.id} onClick={() => {
+                                                const next = new Set(selectedDecks);
+                                                if (next.has(deck.id)) next.delete(deck.id); else next.add(deck.id);
+                                                setSelectedDecks(next);
+                                            }} className={`flex items-center p-4 rounded-md cursor-pointer border transition-all ${selectedDecks.has(deck.id) ? 'bg-[#d4af37]/20 border-[#d4af37]' : 'bg-[#111] border-gray-800'}`}>
+                                                <div className={`w-5 h-5 rounded border flex items-center justify-center ${selectedDecks.has(deck.id) ? 'bg-[#d4af37] border-[#d4af37]' : 'border-gray-500'}`}>
+                                                    {selectedDecks.has(deck.id) && <Icon name="Check" size={14} className="text-black" />}
+                                                </div>
+                                                <div className="ml-3 flex items-center gap-3">
+                                                    <Icon name={cIcon} size={18} className="text-[#d4af37] opacity-80" />
+                                                    <span className="text-sm font-medium">{deck.id.replace('.csv', '')}</span>
+                                                </div>
                                             </div>
-                                            <span className="ml-3 text-sm font-medium">{deck.id.replace('.csv', '')}</span>
-                                        </div>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
                                 <button disabled={selectedDecks.size === 0} onClick={loadSelectedDecks} className={`w-full mt-6 py-4 rounded font-bold uppercase tracking-widest transition-all ${selectedDecks.size > 0 ? 'bg-[#d4af37] text-black hover:bg-[#b5952f] shadow-lg' : 'bg-gray-700 text-gray-500 cursor-not-allowed'}`}>
                                     Començar Càrrega
@@ -450,7 +507,6 @@
                     ];
                 } else if (currentMode === 'CLASH') {
                     if (hand.length < 7) return null;
-                    // Agent 1 (0), Motor 1 (1), Àncora (3), Conflicte 1 (2), "Al mateix temps", Agent 2 (6), Motor 2 (5), Àncora (Ref: 3), Conflicte 2 (4)
                     order = [
                         { type: 'card', uid: hand[0].uid },
                         { type: 'card', uid: hand[1].uid },
@@ -464,7 +520,6 @@
                     ];
                 } else if (currentMode === 'CIRCLE') {
                     if (hand.length < 6) return null;
-                    // Cercle: Ag1(0), Mot1(1), Ag2(3)ref, Con1(2), Ag2(3), Mot2(4), Ag1(0)ref, Con2(5)
                     order = [
                         { type: 'card', uid: hand[0].uid },
                         { type: 'card', uid: hand[1].uid },
@@ -492,7 +547,7 @@
                     return (
                         <div key={`${card.uid}-${idx}`} className="flex flex-col gap-1 p-1 rounded border border-transparent">
                             <div className={`p-2 rounded shadow-lg ${CATEGORY_STYLES[card.category].promptBg} border border-white/10 flex flex-col items-center`}>
-                                <span className="text-[8px] uppercase font-bold opacity-70 tracking-tighter">
+                                <span className={`text-[8px] uppercase font-bold ${CATEGORY_STYLES[card.category].text} opacity-80 tracking-tighter`}>
                                     {item.isRef ? item.refLabel : CATEGORY_STYLES[card.category].label}
                                 </span>
                                 <div className="auto-width-container" data-value={txt}>
@@ -501,7 +556,7 @@
                             </div>
                             {card.aspectData && activeAspects[card.uid] && !item.isRef && (
                                 <div className="p-2 rounded bg-purple-900/60 border border-white/10 flex flex-col items-center scale-90">
-                                    <span className="text-[8px] uppercase font-bold opacity-70 tracking-tighter">ASPECTE</span>
+                                    <span className="text-[8px] uppercase font-bold text-purple-400 opacity-80 tracking-tighter">ASPECTE</span>
                                     <div className="auto-width-container" data-value={getActiveText(card.aspectData)}>
                                         <input type="text" value={getActiveText(card.aspectData)} onChange={e => setManualEdits(p=>({...p, [card.aspectData.uid]: e.target.value}))} onMouseDown={e=>e.stopPropagation()} className="text-xs" />
                                     </div>
@@ -563,26 +618,20 @@
                         ) : currentMode === 'CIRCLE' ? (
                             <div className="relative w-full max-w-4xl h-[650px] flex items-center justify-center">
                                 <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20 animate-[spin_60s_linear_infinite]"><circle cx="50%" cy="50%" r="35%" stroke="#d4af37" strokeWidth="2" fill="none" strokeDasharray="10,5" /></svg>
-                                {/* 0: Top (Ag1) */}
                                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10">
                                     <CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
                                     <Icon name="MoveRight" className="absolute -right-16 top-1/2 text-[#d4af37] rotate-[30deg]" size={40} />
                                 </div>
-                                {/* 1: Top Right (Mot1) */}
                                 <div className="absolute top-[20%] right-0 md:right-20 z-10"><CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} /></div>
-                                {/* 2: Bottom Right (Con1) */}
                                 <div className="absolute bottom-[20%] right-0 md:right-20 z-10">
                                     <CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
                                     <Icon name="MoveDownLeft" className="absolute -left-16 bottom-0 text-[#d4af37] rotate-12" size={40} />
                                 </div>
-                                {/* 3: Bottom (Ag2) */}
                                 <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10">
                                     <CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
                                     <Icon name="MoveUpLeft" className="absolute -left-16 top-1/2 text-[#d4af37] rotate-12" size={40} />
                                 </div>
-                                {/* 4: Bottom Left (Mot2) */}
                                 <div className="absolute bottom-[20%] left-0 md:left-20 z-20"><CardSlot card={hand[4]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} /></div>
-                                {/* 5: Top Left (Con2) */}
                                 <div className="absolute top-[20%] left-0 md:left-20 z-10">
                                     <CardSlot card={hand[5]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} />
                                     <Icon name="MoveUpRight" className="absolute -right-16 top-0 text-[#d4af37] rotate-12" size={40} />
@@ -604,7 +653,7 @@
 
                     {showInstructions && (
                         <div className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-6">
-                            <div className="bg-[#1a1a1a] border-2 border-[#d4af37] rounded-lg max-w-4xl w-full p-8 relative shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar">
+                            <div className="bg-[#1a1a1a] border-2 border-[#d4af37] rounded-lg max-w-4xl w-full p-8 relative shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar text-left">
                                 <button onClick={() => setShowInstructions(false)} className="absolute top-4 right-4 text-gray-500 hover:text-white"><Icon name="X" size={28} /></button>
                                 <h2 className="text-3xl font-bold text-[#d4af37] mb-8 uppercase tracking-widest border-b border-gray-800 pb-2 text-center">Guia d'Ús: Generador d'Històries</h2>
                                 <div className="text-gray-300 space-y-8 text-sm md:text-base leading-relaxed">
@@ -622,19 +671,10 @@
                                         <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2"><Icon name="RotateCw" size={20} className="text-[#d4af37]"/> 2. Com fer servir les cartes</h3>
                                         <ul className="list-disc pl-6 space-y-2">
                                             <li><strong>Girar:</strong> Clica la carta per triar entre les 4 opcions (90º cada clic).</li>
+                                            <li><strong>Icona de Baralla:</strong> Al centre de cada carta apareix la icona de la seva col·lecció (Calavera, Probeta, etc.) amb el color propi de la carta.</li>
                                             <li><strong>Canviar:</strong> Clica el cercle central per rebre una carta nova del mateix tipus.</li>
                                             <li><strong>Aspectes:</strong> Usa la casella a la capçalera de la carta per afegir un modificador a un Agent o Àncora.</li>
-                                            <li><strong>Intercanvi (↔):</strong> En modes avançats, pots transformar una Àncora en un Agent.</li>
                                         </ul>
-                                    </section>
-                                    <section>
-                                        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2"><Icon name="BookOpen" size={20} className="text-[#d4af37]"/> 3. Esquemes Narratius</h3>
-                                        <div className="space-y-4">
-                                            <p><strong>🌱 Llavor:</strong> Estructura lineal bàsica per a idees ràpides.</p>
-                                            <p><strong>⭕ Cercle:</strong> Relacions causa-efecte entre dos personatges atrapats en un cicle.</p>
-                                            <p><strong>⚔️ Xoc:</strong> Dos agents competint per un mateix objectiu compartit.</p>
-                                            <p><strong>💔 Una Ànima Dividida:</strong> Un agent atrapat entre dos desitjos oposats.</p>
-                                        </div>
                                     </section>
                                 </div>
                             </div>
