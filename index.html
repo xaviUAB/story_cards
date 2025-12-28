@@ -48,6 +48,30 @@
             flex-direction: column;
             flex-grow: 1;
         }
+        /* Contenidor per a l'input que s'adapta a l'amplada del text */
+        .auto-width-container {
+            display: inline-grid;
+            align-items: center;
+            position: relative;
+            min-width: 40px;
+        }
+        .auto-width-container::after {
+            content: attr(data-value) " ";
+            visibility: hidden;
+            white-space: pre;
+            grid-area: 1/1;
+            padding: 0 8px;
+        }
+        .auto-width-container input {
+            grid-area: 1/1;
+            width: 100%;
+            background: transparent;
+            border: none;
+            text-align: center;
+            outline: none;
+            color: white;
+            padding: 0 4px;
+        }
     </style>
 </head>
 <body>
@@ -55,6 +79,10 @@
 
     <script type="text/babel">
         const { useState, useEffect, useCallback, Fragment } = React;
+
+        // --- Constants per a la càrrega remota ---
+        const REMOTE_CONTENT_BASE_URL = 'https://raw.githubusercontent.com/xaviuab/story_cards/main/cartes/';
+        const GITHUB_API_URL = "https://api.github.com/repos/xaviuab/story_cards/contents/cartes";
 
         // --- CONFIGURACIÓ DE CATEGORIES I ESTILS ---
         const CATEGORY_STYLES = {
@@ -72,7 +100,7 @@
             SOUL: { id: 'SOUL', label: 'Una Ànima Dividida', slots: ['agent', 'engine', 'conflict', 'anchor', 'engine', 'conflict', 'anchor'] }
         };
 
-        // --- SISTEMA D'ICONES SVG MANUALS ---
+        // --- SISTEMA D'ICONES SVG ---
         const Icon = ({ name, size = 24, className = "", ...props }) => {
             const icons = {
                 RotateCw: <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 12M21 3v9h-9"/>,
@@ -87,22 +115,15 @@
                 Repeat: <Fragment><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></Fragment>,
                 X: <path d="M18 6 6 18M6 6l12 12"/>,
                 Lock: <Fragment><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></Fragment>,
-                Check: <polyline points="20 6 9 17 4 12"/>,
                 Loader: <Fragment><line x1="12" x2="12" y1="2" y2="6"/><line x1="12" x2="12" y1="18" y2="22"/><line x1="4.93" x2="7.76" y1="4.93" y2="7.76"/><line x1="16.24" x2="19.07" y1="16.24" y2="19.07"/><line x1="2" x2="6" y1="12" y2="12"/><line x1="18" x2="22" y1="12" y2="12"/><line x1="4.93" x2="7.76" y1="19.07" y2="16.24"/><line x1="16.24" x2="19.07" y1="7.76" y2="4.93"/></Fragment>,
                 MoveRight: <path d="M18 8L22 12L18 16M2 12H22"/>,
                 MoveDownLeft: <path d="M11 19H5V13M19 5L5 19"/>,
                 MoveUpLeft: <path d="M5 11V5H11M5 5L19 19"/>,
                 MoveUpRight: <path d="M13 5H19V11M19 5L5 19"/>,
+                Check: <polyline points="20 6 9 17 4 12"/>,
             };
-
             return (
-                <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    width={size} height={size} viewBox="0 0 24 24" 
-                    fill="none" stroke="currentColor" strokeWidth="2" 
-                    strokeLinecap="round" strokeLinejoin="round" 
-                    className={className} {...props}
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>
                     {icons[name] || <circle cx="12" cy="12" r="10" />}
                 </svg>
             );
@@ -122,17 +143,9 @@
             if (!data) return null;
             const catConfig = CATEGORY_STYLES[data.category];
             return (
-                <div 
-                    className="relative group/card perspective-1000 cursor-pointer"
-                    onClick={(e) => { e.stopPropagation(); onRotate(isAspect ? data.uid : data.uid, data.category, isAspect, parentUid); }}
-                    onMouseEnter={onMouseEnter}
-                    style={style}
-                >
+                <div className="relative group/card perspective-1000 cursor-pointer" onClick={(e) => { e.stopPropagation(); onRotate(isAspect ? data.uid : data.uid, data.category, isAspect, parentUid); }} onMouseEnter={onMouseEnter} style={style}>
                     {!isAspect && <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20 text-[#d4af37] animate-bounce pointer-events-none">▼</div>}
-                    <div 
-                        className={`relative w-40 h-40 md:w-48 md:h-48 bg-[#0f0f0f] border-2 ${catConfig.color} rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-transform duration-500 ease-in-out`}
-                        style={{ transform: `rotate(${data.rotation}deg)`, boxShadow: `0 0 20px ${catConfig.color.replace('border-', '')}20` }}
-                    >
+                    <div className={`relative w-40 h-40 md:w-48 md:h-48 bg-[#0f0f0f] border-2 ${catConfig.color} rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-transform duration-500 ease-in-out`} style={{ transform: `rotate(${data.rotation}deg)`, boxShadow: `0 0 20px ${catConfig.color.replace('border-', '')}20` }}>
                         <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.8\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.5\'/%3E%3C/svg%3E")' }}></div>
                         <div className="absolute inset-2 border border-white/5 rounded pointer-events-none"></div>
                         {catConfig.type === 'binary' ? (
@@ -150,10 +163,7 @@
                             </Fragment>
                         )}
                         <div className="absolute inset-0 flex items-center justify-center z-50">
-                            <div 
-                                className={`w-10 h-10 rounded-full border-2 ${catConfig.color} flex items-center justify-center bg-[#1a1a1a] transition-all duration-300 shadow-lg group/center pointer-events-auto hover:bg-[#333] hover:scale-125 cursor-pointer`}
-                                onClick={(e) => { e.stopPropagation(); onChange(isAspect ? data.uid : data.uid, data.category, isAspect, parentUid); }}
-                            >
+                            <div className={`w-10 h-10 rounded-full border-2 ${catConfig.color} flex items-center justify-center bg-[#1a1a1a] transition-all duration-300 shadow-lg group/center pointer-events-auto hover:bg-[#333] hover:scale-125 cursor-pointer`} onClick={(e) => { e.stopPropagation(); onChange(isAspect ? data.uid : data.uid, data.category, isAspect, parentUid); }}>
                                 <div className={`w-6 h-6 rounded-full border ${catConfig.color} block group-hover/card:hidden`}></div>
                                 <div style={{ transform: `rotate(${-data.rotation}deg)`, transition: 'transform 0.5s ease-in-out' }}>
                                     <Icon name="RotateCw" size={18} className="text-white hidden group-hover/card:block group-hover/center:hidden animate-pulse" />
@@ -210,50 +220,52 @@
             const [showInstructions, setShowInstructions] = useState(false);
             const [activeAspects, setActiveAspects] = useState({}); 
 
-            // DESCOBERTA DINÀMICA DE FITXERS CSV
+            // 1. DESCOBERTA DE FITXERS (GITHUB API + LOCAL SCRAPE)
             useEffect(() => {
                 const discoverDecks = async () => {
-                    const paths = ['./cartes/', 'https://xaviuab.github.io/story_cards/cartes/'];
-                    const results = [];
+                    const foundFiles = [];
                     const seenNames = new Set();
 
-                    const tryFetchPath = async (baseUrl) => {
-                        try {
-                            const response = await fetch(baseUrl);
-                            if (!response.ok) return;
+                    // Intent 1: GitHub API (El més fiable per llistar tot el contingut)
+                    try {
+                        const response = await fetch(GITHUB_API_URL);
+                        if (response.ok) {
+                            const data = await response.json();
+                            data.filter(item => item.name.toLowerCase().endsWith('.csv')).forEach(item => {
+                                if (!seenNames.has(item.name)) {
+                                    seenNames.add(item.name);
+                                    foundFiles.push({ id: item.name, url: REMOTE_CONTENT_BASE_URL + item.name });
+                                }
+                            });
+                        }
+                    } catch (e) { console.warn("GitHub API fail"); }
+
+                    // Intent 2: Local directory listing (si el servidor ho permet)
+                    try {
+                        const response = await fetch('./cartes/');
+                        if (response.ok) {
                             const html = await response.text();
                             const parser = new DOMParser();
                             const doc = parser.parseFromString(html, 'text/html');
-                            const links = Array.from(doc.querySelectorAll('a'))
+                            Array.from(doc.querySelectorAll('a'))
                                 .map(a => a.getAttribute('href'))
-                                .filter(href => href && href.toLowerCase().endsWith('.csv'));
-
-                            for (const link of links) {
-                                const filename = link.split('/').pop();
-                                if (filename && filename.toLowerCase().endsWith('.csv') && !seenNames.has(filename)) {
-                                    seenNames.add(filename);
-                                    results.push({ id: filename, url: baseUrl + filename });
-                                }
-                            }
-                        } catch (e) { console.warn(`Error en llistar ${baseUrl}`); }
-                    };
-
-                    await tryFetchPath(paths[0]);
-                    await tryFetchPath(paths[1]);
-
-                    // Fallback pels fitxers que segur que existeixen si el llistat falla
-                    const mandatoryFiles = ['cat - Genèric.csv', 'cat - SciFi.csv'];
-                    for (const f of mandatoryFiles) {
-                        if (!seenNames.has(f)) {
-                            results.push({ id: f, url: paths[1] + f });
-                            seenNames.add(f);
+                                .filter(href => href && href.toLowerCase().endsWith('.csv'))
+                                .forEach(href => {
+                                    const filename = href.split('/').pop();
+                                    if (!seenNames.has(filename)) {
+                                        seenNames.add(filename);
+                                        foundFiles.push({ id: filename, url: './cartes/' + filename });
+                                    }
+                                });
                         }
-                    }
-                    setAvailableDecks(results);
+                    } catch (e) {}
+
+                    setAvailableDecks(foundFiles);
                 };
                 discoverDecks();
             }, []);
 
+            // 2. CÀRREGA DE DADES
             const loadSelectedDecks = async () => {
                 setAppStatus('LOADING');
                 const pools = { agent: [], engine: [], anchor: [], conflict: [], aspect: [] };
@@ -281,14 +293,12 @@
                     setAppStatus('READY');
                 } catch (e) {
                     setAppStatus('SETUP');
-                    alert("Error carregant fitxers CSV.");
+                    alert("Error carregant els fitxers CSV.");
                 }
             };
 
-            const toggleAspect = useCallback((uid) => {
-                setActiveAspects(prev => ({ ...prev, [uid]: !prev[uid] }));
-            }, []);
-
+            // 3. LÒGICA DE JOC (ENCAPSULADA)
+            const toggleAspect = useCallback((uid) => { setActiveAspects(prev => ({ ...prev, [uid]: !prev[uid] })); }, []);
             const rotateCard = useCallback((uid, categoryKey, isAspect, parentUid) => {
                 const degree = CATEGORY_STYLES[categoryKey].type === 'binary' ? 180 : 90;
                 setHand(prev => prev.map(card => {
@@ -298,35 +308,44 @@
                 }));
             }, []);
 
+            const getUniqueRandomItems = useCallback((categoryKey, count) => {
+                const pool = cardPool[categoryKey] || [];
+                const used = usedIndices[categoryKey] || new Set();
+                const result = [];
+                const tempUsed = new Set(used);
+                for (let i = 0; i < count; i++) {
+                    let av = pool.map((_, idx) => idx).filter(idx => !tempUsed.has(idx));
+                    if (av.length === 0) { tempUsed.clear(); av = pool.map((_, idx) => idx); }
+                    if (av.length === 0) { result.push("..."); continue; }
+                    const r = av[Math.floor(Math.random() * av.length)];
+                    result.push(pool[r]);
+                    tempUsed.add(r);
+                }
+                return { items: result, updatedUsed: tempUsed };
+            }, [cardPool, usedIndices]);
+
             const changeCard = useCallback((uid, categoryKey, isAspect, parentUid) => {
+                const count = CATEGORY_STYLES[categoryKey].type === 'binary' ? 2 : 4;
+                const { items, updatedUsed } = getUniqueRandomItems(categoryKey, count);
                 setHand(prev => prev.map(card => {
-                    if (isAspect && card.uid === parentUid) {
-                        const pool = cardPool.aspect;
-                        const rIdx = Math.floor(Math.random() * pool.length);
-                        const newOptions = [...card.aspectData.options];
-                        newOptions[0] = pool[rIdx]; // Simplificat per canvi ràpid
-                        return { ...card, aspectData: { ...card.aspectData, options: Array(4).fill(pool[rIdx]), rotation: 0 } };
-                    }
-                    if (!isAspect && card.uid === uid) {
-                        const pool = cardPool[categoryKey];
-                        const rIdx = Math.floor(Math.random() * pool.length);
-                        return { ...card, options: Array(CATEGORY_STYLES[categoryKey].type === 'binary' ? 2 : 4).fill(pool[rIdx]), rotation: 0 };
-                    }
+                    if (isAspect && card.uid === parentUid) return { ...card, aspectData: { ...card.aspectData, options: items, rotation: 0 } };
+                    if (!isAspect && card.uid === uid) return { ...card, options: items, rotation: 0, aspectData: card.aspectData };
                     return card;
                 }));
-            }, [cardPool]);
+                setUsedIndices(prev => ({...prev, [categoryKey]: updatedUsed}));
+            }, [getUniqueRandomItems]);
 
             const swapCardCategory = useCallback((uid) => {
                 setHand(prevHand => prevHand.map(card => {
                     if (card.uid === uid) {
                         const newCat = card.category === 'agent' ? 'anchor' : 'agent';
-                        const pool = cardPool[newCat];
-                        const rIdx = Math.floor(Math.random() * pool.length);
-                        return { ...card, category: newCat, options: Array(4).fill(pool[rIdx]), rotation: 0 };
+                        const { items, updatedUsed } = getUniqueRandomItems(newCat, 4);
+                        let aspectData = card.aspectData || { uid: `asp-new-${Math.random()}`, category: 'aspect', options: getUniqueRandomItems('aspect', 4).items, rotation: 0 };
+                        return { ...card, category: newCat, options: items, rotation: 0, aspectData: aspectData };
                     }
                     return card;
                 }));
-            }, [cardPool]);
+            }, [getUniqueRandomItems]);
 
             const generateFullHand = useCallback(() => {
                 if (appStatus !== 'READY') return;
@@ -364,7 +383,7 @@
                 setManualEdits({});
                 setPromptOrder(newHand.map(card => card.uid));
                 setActiveAspects({});
-            }, [appStatus, currentMode, cardPool]);
+            }, [appStatus, currentMode, cardPool, usedIndices]);
 
             useEffect(() => { if (appStatus === 'READY') generateFullHand(); }, [appStatus, currentMode]);
 
@@ -387,13 +406,14 @@
                 setPromptOrder(newO);
             };
 
+            // PANTALLA DE SELECCIÓ
             if (appStatus === 'SETUP') {
                 return (
                     <div className="min-h-screen flex items-center justify-center p-4">
                         <div className="max-w-md w-full bg-[#222] border-2 border-[#d4af37] rounded-lg p-8 shadow-2xl">
                             <h1 className="text-3xl font-bold text-[#d4af37] text-center mb-8 uppercase tracking-widest border-b border-[#d4af37] pb-4">Story Engine</h1>
                             <div className="space-y-4">
-                                <p className="text-gray-400 text-center mb-6">Baralles CSV detectades:</p>
+                                <p className="text-gray-400 text-center mb-6">Selecciona les baralles detectades:</p>
                                 <div className="space-y-3 max-h-64 overflow-y-auto custom-scrollbar pr-2">
                                     {availableDecks.length === 0 && (
                                         <div className="flex flex-col items-center py-4">
@@ -410,15 +430,11 @@
                                             <div className={`w-5 h-5 rounded border flex items-center justify-center ${selectedDecks.has(deck.id) ? 'bg-[#d4af37] border-[#d4af37]' : 'border-gray-500'}`}>
                                                 {selectedDecks.has(deck.id) && <Icon name="Check" size={14} className="text-black" />}
                                             </div>
-                                            <span className="ml-3 text-sm font-medium">{deck.id}</span>
+                                            <span className="ml-3 text-sm font-medium">{deck.id.replace('.csv', '')}</span>
                                         </div>
                                     ))}
                                 </div>
-                                <button 
-                                    disabled={selectedDecks.size === 0} 
-                                    onClick={loadSelectedDecks}
-                                    className={`w-full mt-6 py-4 rounded font-bold uppercase tracking-widest transition-all ${selectedDecks.size > 0 ? 'bg-[#d4af37] text-black hover:bg-[#b5952f] shadow-lg' : 'bg-gray-700 text-gray-500 cursor-not-allowed'}`}
-                                >
+                                <button disabled={selectedDecks.size === 0} onClick={loadSelectedDecks} className={`w-full mt-6 py-4 rounded font-bold uppercase tracking-widest transition-all ${selectedDecks.size > 0 ? 'bg-[#d4af37] text-black hover:bg-[#b5952f] shadow-lg' : 'bg-gray-700 text-gray-500 cursor-not-allowed'}`}>
                                     Començar Càrrega
                                 </button>
                             </div>
@@ -430,7 +446,7 @@
             if (appStatus === 'LOADING') return <div className="min-h-screen flex flex-col items-center justify-center"><Icon name="RotateCw" className="animate-spin text-[#d4af37] mb-4" size={48} /><p className="uppercase tracking-widest text-[#d4af37]">Preparant la baralla...</p></div>;
 
             return (
-                <div className="flex flex-col min-h-screen">
+                <div className="flex flex-col min-h-screen overflow-x-hidden">
                     <header className="pt-8 px-4 text-center space-y-4 relative z-20">
                         <h1 className="text-3xl md:text-5xl font-bold tracking-widest text-[#d4af37] uppercase border-b-2 border-[#d4af37] pb-2 inline-block">GENERADOR D'HISTÒRIES</h1>
                         <div className="flex flex-wrap justify-center gap-4 items-center">
@@ -448,18 +464,19 @@
                                 const txt = getActiveText(item);
                                 const isDrag = currentMode !== 'SEED';
                                 return (
-                                    <div key={uid} draggable={isDrag} onDragStart={e => e.dataTransfer.setData('idx', idx)} onDragOver={e=>e.preventDefault()} onDrop={e=>handleDrop(e, idx)}
-                                         className={`flex flex-col gap-1 p-1 rounded border border-transparent ${isDrag ? 'hover:bg-white/5 cursor-grab active:cursor-grabbing' : ''}`}>
+                                    <div key={uid} draggable={isDrag} onDragStart={e => e.dataTransfer.setData('idx', idx)} onDragOver={e=>e.preventDefault()} onDrop={e=>handleDrop(e, idx)} className={`flex flex-col gap-1 p-1 rounded border border-transparent ${isDrag ? 'hover:bg-white/5 cursor-grab active:cursor-grabbing' : ''}`}>
                                         <div className={`p-2 rounded shadow-lg ${CATEGORY_STYLES[item.category].promptBg} border border-white/10 flex flex-col items-center`}>
                                             <span className="text-[8px] uppercase font-bold opacity-70 tracking-tighter">{CATEGORY_STYLES[item.category].label}</span>
-                                            <input type="text" value={txt} onChange={e => setManualEdits(p=>({...p, [uid]: e.target.value}))} onMouseDown={e=>e.stopPropagation()}
-                                                   className="bg-transparent border-none text-white text-sm md:text-base font-medium focus:ring-0 focus:outline-none p-0 text-center min-w-[60px]" />
+                                            <div className="auto-width-container" data-value={txt}>
+                                                <input type="text" value={txt} onChange={e => setManualEdits(p=>({...p, [uid]: e.target.value}))} onMouseDown={e=>e.stopPropagation()} />
+                                            </div>
                                         </div>
                                         {item.aspectData && activeAspects[uid] && (
                                             <div className="p-2 rounded bg-purple-900/60 border border-white/10 flex flex-col items-center scale-90">
                                                 <span className="text-[8px] uppercase font-bold opacity-70 tracking-tighter">ASPECTE</span>
-                                                <input type="text" value={getActiveText(item.aspectData)} onChange={e => setManualEdits(p=>({...p, [item.aspectData.uid]: e.target.value}))} onMouseDown={e=>e.stopPropagation()}
-                                                       className="bg-transparent border-none text-white text-xs text-center focus:ring-0 focus:outline-none p-0" />
+                                                <div className="auto-width-container" data-value={getActiveText(item.aspectData)}>
+                                                    <input type="text" value={getActiveText(item.aspectData)} onChange={e => setManualEdits(p=>({...p, [item.aspectData.uid]: e.target.value}))} onMouseDown={e=>e.stopPropagation()} className="text-xs" />
+                                                </div>
                                             </div>
                                         )}
                                     </div>
@@ -471,7 +488,7 @@
                     <main className="flex-grow flex items-center justify-center py-12 px-4 overflow-x-hidden">
                         {currentMode === 'SOUL' ? (
                             <div className="w-full max-w-[100vw] overflow-x-auto pb-16 pt-32 px-4 custom-scrollbar"> 
-                                <div className="flex flex-col items-center gap-8 min-w-max mx-auto px-12">
+                                <div className="flex flex-col items-center gap-8 min-w-max mx-auto px-12 relative">
                                     <div className="flex flex-nowrap items-center gap-8">
                                         <div className="flex flex-row items-center gap-4 order-1">
                                             <CardSlot card={hand[6]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} />
@@ -532,30 +549,30 @@
                                     <section>
                                         <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2"><Icon name="Database" size={20} className="text-[#d4af37]"/> 1. Els Tipus de Cartes</h3>
                                         <div className="grid md:grid-cols-2 gap-4">
-                                            <div className="p-3 bg-blue-900/20 border-l-4 border-blue-400"><strong>AGENT (🔵):</strong> El Qui. El protagonista.</div>
-                                            <div className="p-3 bg-yellow-900/20 border-l-4 border-yellow-500"><strong>MOTOR (🟡):</strong> El Per què. La motivació.</div>
-                                            <div className="p-3 bg-emerald-900/20 border-l-4 border-emerald-500"><strong>ÀNCORA (🟢):</strong> El Què/On. L'objectiu.</div>
-                                            <div className="p-3 bg-red-900/20 border-l-4 border-red-500"><strong>CONFLICTE (🔴):</strong> El Però. L'obstacle.</div>
-                                            <div className="p-3 bg-purple-900/20 border-l-4 border-purple-500 col-span-full"><strong>ASPECTE (🟣):</strong> El Com. Modificadors de personatges o llocs.</div>
+                                            <div className="p-3 bg-blue-900/20 border-l-4 border-blue-400"><strong>AGENT (🔵):</strong> El Qui. El protagonista o força motriu.</div>
+                                            <div className="p-3 bg-yellow-900/20 border-l-4 border-yellow-500"><strong>MOTOR (🟡):</strong> El Per què. La motivació o objectiu.</div>
+                                            <div className="p-3 bg-emerald-900/20 border-l-4 border-emerald-500"><strong>ÀNCORA (🟢):</strong> El Què/On. L'objecte o lloc on va l'acció.</div>
+                                            <div className="p-3 bg-red-900/20 border-l-4 border-red-500"><strong>CONFLICTE (🔴):</strong> El Però. L'obstacle o el preu que s'ha de pagar.</div>
+                                            <div className="p-3 bg-purple-900/20 border-l-4 border-purple-500 col-span-full"><strong>ASPECTE (🟣):</strong> El Com. Adjectius que modifiquen Agents o Àncores.</div>
                                         </div>
                                     </section>
                                     <section>
                                         <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2"><Icon name="RotateCw" size={20} className="text-[#d4af37]"/> 2. Com fer servir les cartes</h3>
                                         <ul className="list-disc pl-6 space-y-2">
-                                            <li><strong>Girar:</strong> Clica la carta per veure una de les 4 opcions (90º cada clic).</li>
+                                            <li><strong>Girar:</strong> Clica la carta per triar entre les 4 opcions (90º cada clic).</li>
                                             <li><strong>Canviar:</strong> Clica el cercle central per rebre una carta nova del mateix tipus.</li>
-                                            <li><strong>Aspectes:</strong> Usa la casella de selecció a la capçalera de la carta per afegir un adjectiu.</li>
+                                            <li><strong>Aspectes:</strong> Usa la casella a la capçalera per afegir un modificador a un Agent o Àncora.</li>
                                             <li><strong>Intercanvi (↔):</strong> En modes avançats, pots transformar una Àncora en un Agent.</li>
-                                            <li><strong>Arrossegar:</strong> Mou les caixes de text superiors per reordenar la frase.</li>
+                                            <li><strong>Arrossegar:</strong> Mou les caixes de text superiors per polir la frase final.</li>
                                         </ul>
                                     </section>
                                     <section>
                                         <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2"><Icon name="BookOpen" size={20} className="text-[#d4af37]"/> 3. Esquemes Narratius</h3>
                                         <div className="space-y-4">
-                                            <p><strong>🌱 Llavor:</strong> Estructura lineal bàsica per a idees ràpides.</p>
-                                            <p><strong>⭕ Cercle:</strong> Relacions causa-efecte entre dos personatges.</p>
-                                            <p><strong>⚔️ Xoc:</strong> Dos agents competint per un mateix objectiu compartit.</p>
-                                            <p><strong>💔 Ànima Dividida:</strong> Un agent atrapat entre dos desitjos oposats.</p>
+                                            <p><strong>🌱 Llavor de la Història:</strong> Estructura lineal bàsica per a idees ràpides.</p>
+                                            <p><strong>⭕ Cercle del Destí:</strong> Relacions causa-efecte entre dos personatges atrapats en un cicle.</p>
+                                            <p><strong>⚔️ Xoc de Voluntats:</strong> Dos agents competint per un mateix objectiu compartit.</p>
+                                            <p><strong>💔 Una Ànima Dividida:</strong> Un agent atrapat entre dos desitjos oposats.</p>
                                         </div>
                                     </section>
                                 </div>
