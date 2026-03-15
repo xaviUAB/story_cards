@@ -1,0 +1,577 @@
+﻿Carta;Categoria;Idea1;Simbol1;Idea2;Simbol2;Idea3;Simbol3;Idea4;Simbol4
+1;Faccions;CIUTAT;;UNIVERSITAT;;CLICA;;SINDICAT;
+2;Faccions;PARLAMENT;;BATALLÓ;;FORÇA DE TREBALL;;FE;
+3;Faccions;MUNICIPI;;ESCAMOT;;GREMI;;TEMPLE;
+4;Faccions;REPÚBLICA;;MILÍCIA;;ESCOLA;;AQUELARRE;
+5;Faccions;PARTIT;;COOPERATIVA;;REPARTIMENT;;TRIBUNAL;
+6;Faccions;CAUCUS;;LEGIÓ;;ESTAMENT;;HERETGIA;
+7;Faccions;MINISTERI;;REGIMENT;;BANDA;;CREDO;
+8;Faccions;MANCOMUNITAT;;ALIANÇA;;VEÏNAT;;LLIGA;
+9;Faccions;FEDERACIÓ;;BRIGADA;;ESTUDI;;SECTA;
+10;Faccions;SÈQUIT;;REBEL·LIÓ;;SUBCULTURA;;ASSEMBLEA;
+11;Faccions;COMITÈ;;DICTADURA;;TEOCRÀCIA;;CORPORACIÓ;
+12;Faccions;JUNTA;;ORDE;;CAMPAMENT;;CARITAT;
+13;Faccions;CLASSE;;MONOPOLI;;FLOTA;;DISTRICTE;
+14;Faccions;CÈL·LULA;;DIÀSPORA;;ELECTORAT;;CARAVANA;
+15;Faccions;ASSOCIACIÓ;;ENCLAVAMENT;;MARXA;;RESISTÈNCIA;
+16;Faccions;SENAT;;COMANDAMENT;;BLOC D'HABITATGES;;GERMANOR;
+17;Faccions;COR;;XARXA;;CULTE;;COMUNA;
+18;Faccions;MONARQUIA;;POBLE;;UNITAT;;CERCLE;
+19;Faccions;CONSPIRACIÓ;;INDÚSTRIA;;TRIPULACIÓ;;ANELL;
+20;Faccions;INQUISICIÓ;;COLÒNIA;;ESCOLA DE LLUITA;;CASA;
+21;Faccions;SOCIETAT;;CLAN;;CONTINGENT;;NACIÓ;
+22;Faccions;CLUB;;EXÈRCIT;;TRIBU;;DOMINI;
+23;Faccions;TROBADA;;CAMPANYA;;FAMÍLIA;;BLOC;
+24;Faccions;COL·LECTIU;;CÀRTEL;;EQUIP;;IMPERI;
+25;Faccions;CONVENCIÓ;;SINDICAT;;COMPANYIA;;ESTAT;
+26;Faccions;CONCLAVE;;DEPARTAMENT;;FORÇA;;FACULTAT;
+27;Faccions;DOMINI;;CIRC;;BANDA;;ESGLÉSIA;
+28;Faccions;CORT;;GRUP;;EMPRESA;;EXPEDICIÓ;
+29;Faccions;OFICINA;;TURBA;;PILOTÓ;;FESTIVAL;
+30;Faccions;COHORT;;ORQUESTRA;;HORDA;;MAGOCRÀCIA;
+31;Faccions;HOST;;CLUB DE FANS;;SENSE ÀNIM DE LUCRE;;CONSELL;
+32;Faccions;INSTITUT;;AVANTGUARDA;;CONJUNT;;SEGUIDORS;
+33;Faccions;COMUNITAT;;PATRULLA;;CONSORCI;;RAMAT;
+34;Faccions;MOVIMENT;;COLLA;;COALICIÓ;;PACTE;
+35;Faccions;CONVENI;;AGÈNCIA;;EMPRESA;;GIMNÀS;
+36;Faccions;GERMANDAT;;MONESTIR;;PROTESTA;;CONGRÉS;
+37;Faccions;Seu hostil;Facció;Es creuen per sobre de la llei;Facció;Noms canviats;0;Propensió a l'extremisme;Facció
+38;Faccions;Grans reserves de material;Material;Obrir una porta prohibida;0;Va causar la ruïna d'una facció o figura;Facció/Personatge;Guardar o protegir un objecte o substància;Objecte/Material
+39;Faccions;Base o arma secreta;Ubicació/Objecte;Atribució indeguda de resoldre o causar una crisi;0;Estètica inspirada en una criatura;Criatura;Mestres d'una arma de curt o llarg abast;0
+40;Faccions;Recolzat per doctrina religiosa;Facció;Adorar un aspecte o avatar d'una deïtat;0;Orígens oblidats per la història;0;Oradors polítics amb talent;Personatge
+41;Faccions;Recolzat per un patrocinador ric;Personatge;Entrenadors experts d'una criatura;Personatge/Criatura;Va causar la mort d'una figura notable;Personatge;Biblioteca notable de textos o documents;Objecte
+42;Faccions;Fort recolzament comunitari;Facció;Connectat amb una història de creació;0;Va causar l'extinció d'una criatura;Criatura;Tecnologia o màgia innovadora;0
+43;Faccions;Sense líder;Facció;Enderrocar una figura;Personatge;Recentment han perdut el recolzament d'una figura important;Personatge;Fomentar un esdeveniment apocalíptic;0
+44;Faccions;Lladres de noms, paraules o identitats;Personatge;Principis socialistes;Facció;Van perdre el control de la seva antiga seu;Ubicació;Poder ancestral;0
+45;Faccions;Sempre en moviment;Facció;Principis democràtics;Facció;Va causar la destrucció d'una ubicació;Ubicació;Trobar un líder perdut o desaparegut;Personatge
+46;Faccions;Operar sota un codi estricte;Facció;Coneguts per protestar sobre un fet històric;0;Doctrina o principis inspirats en una criatura;Criatura;Resoldre una lluita entre dos enemics històrics;Personatge
+47;Faccions;Coneguts per cuinar o fabricar amb un material;Material;Coneixements arcans o tecnològics extensos;0;L'uniforme inclou el material;Material;Contribuir o encarregar art o actuacions;0
+48;Faccions;Estètica inspirada en un material;Material;Vinculat a una guerra o arma;0;L'uniforme inclou el material;Material;Proporcionar o dispensar un material especialitzat;Material
+49;Faccions;L'uniforme inclou el material;Material;Considerar un lloc com a sagrat;Ubicació;L'uniforme inclou el material;Material;Vinculat a una guerra o arma;0
+50;Faccions;Escriure, signar o codificar en fum;0;Mort d'alguna cosa que es creia immortal;Personatge/Criatura;L'uniforme inclou el material;Material;Protegir o restaurar un bosc;Ubicació
+51;Faccions;Controlar el comerç il·lícit d'un material;Material;Orquestrar un esdeveniment;0;L'uniforme inclou el material;Material;Mort d'alguna cosa que es creia immortal;Personatge/Criatura
+52;Faccions;Assegurar un recurs difícil;Material;Mantenir una criatura com a mascota o bestiar;Criatura;Sobrenom d'una criatura;Criatura;Biblioteca notable de textos o documents;Objecte
+53;Faccions;Esquema piramidal;Facció;Líder de culte o celebritat;Personatge;Associat amb una gran mentida;0;Recol·lectors o proveïdors de somnis;0
+54;Faccions;Regular una professió o ofici;Facció;El lideratge és considerat un càstig;Facció;L'emblema representa un objecte;Objecte;Conegut per una forma de mitjà, art o actuació;0
+55;Faccions;Establir o eliminar una moneda;Material;El lideratge és considerat un càstig;Facció;Aliats propers d'una altra facció;Facció;Ús freqüent de rentat de cervell o intimidació;0
+56;Faccions;Cobrar un deute;Material;Fundat per rancor o ràbia;0;Va forçar una facció a l'exili o amagatall;Facció;Reputació alegre o negativa per alguna cosa;0
+57;Faccions;Només una façana per a una altra facció;Facció;Líder excèntric;Personatge;Vinculat a una conspiració sobre un esdeveniment;0;Adorar un aspecte o avatar d'una deïtat;0
+58;Faccions;Molt secretista;Facció;Líder excèntric;Personatge;Fundat sobre principis diferents dels actuals;0;Alliberar un monstre;Criatura
+59;Faccions;Socialment influent;Facció;Propensió al vigilantisme;0;Fundat per preservar una tradició cultural;0;Reclamar o restaurar un lloc sagrat;Ubicació
+60;Faccions;Promoure el vigilantisme;0;Propensió al vigilantisme;0;Fundat com a broma o repte;0;Exposar una ficció o màgia;0
+61;Faccions;Cronistes d'un fet històric;Personatge;Etiqueta estricta o elaborada;0;Creat o descobert un objecte o material;Objecte/Material;Desmantellar un sistema o institució;Facció
+62;Faccions;Xarxa d'espionatge o intel·ligència;Facció;Etiqueta estricta o elaborada;0;Format per interessos colonials o resistència;0;Trobar una paraula, nom o cançó perduda;Objecte
+63;Faccions;Guanyar el monopoli d'un comerç;Material;Subcontracta el seu treball brut a una altra facció;Facció;Coneguts per crear o encarregar una obra mestra;Objecte;Dibuixants excel·lents;Personatge
+64;Faccions;Custodiar o capturar una figura llegendària;Personatge;Subcontracta el seu treball brut a una altra facció;Facció;Matrimoni fora del grup prohibit;0;Desfer un esdeveniment;0
+65;Faccions;Completar una col·lecció;Objecte;Construir o colonitzar una ubicació;Ubicació;Expulsió d'un antic líder;Personatge;Reputació d'innovació;0
+66;Faccions;Trobar o ressuscitar un déu perdut;Personatge;Construir o colonitzar una ubicació;Ubicació;Col·lecció massiva d'alguna cosa;Objecte;Construir o colonitzar una ubicació;Ubicació
+67;Faccions;Molt corrupte;Facció;Líder excèntric;Personatge;Creat o criat una criatura;Criatura;Cerca d'un heroi perdut o objecte mític;Personatge/Objecte
+68;Faccions;Suports de salut mental;Facció;Prevenir que es repeteixi una tragèdia;0;Cofundat per amics o rivals;Personatge;Reclamar o restaurar un lloc sagrat;Ubicació
+69;Faccions;Vibra de culte;Facció;Coneguts per càstigs corporals;0;Ubicació restaurada;Ubicació;Coneguts per càstigs corporals;0
+70;Faccions;Ubicació restaurada;Ubicació;Transmetre els ensenyaments d'una figura mítica;Personatge;Fundat per supervivents d'un desastre;0;Fer que un recurs sigui públic;Material
+71;Faccions;Recuperar un artefacte apropiat;Objecte;Estudiar o protegir una ruïna o monument;Ubicació;Ocultació de la implicació en un esdeveniment;0;Reclutar amb publicitat enganyosa;0
+72;Faccions;Estudiar o protegir una ruïna o monument;Ubicació;Restaurar una ubicació;Ubicació;Establert per un esdeveniment;0;Ubicació restaurada;Ubicació
+1;Figura;Constructor;; Sanador;; Oligarca;; Arcanista;
+2;Figura;Ambaixador;; Corredor;; Vagamunt;; Instructor;
+3;Figura;Administratiu;; Contacontes;; Idealista;; Inspector;
+4;Figura;Arxiver;; Armer;; Disruptor;; Artesà;
+5;Figura;Compositor;; Ecologista;; Tradicionalista;; Innovador;
+6;Figura;Bromista;; Explorador;; Alumne;; Autor;
+7;Figura;Rastrejador;; Maquinista;; Refugiat;; Tecnòleg;
+8;Figura;Agent;; Centinella;; Delinqüent;; Pirata;
+9;Figura;Artista;; Metge;; Pensador;; Autònom;
+10;Figura;Recruta;; Apicultor;; Reporter;; Entrenador;
+11;Figura;Lingüista;; Comando;; Penitent;; Portaveu;
+12;Figura;Botiguer;; Botànic;; Lluminària;; Detectiu;
+13;Figura;Conseller;; Soldat;; Defensor;; Gimnasta;
+14;Figura;Enllaç;; Cartògraf;; Autòcrata;; Magnat;
+15;Figura;Poeta;; Armer;; Marginat;; Assistent;
+16;Figura;Estratega;; Predicador;; As;; Custodi;
+17;Figura;Artesà;; Estilista;; Aventurer;; Capità;
+18;Figura;Àrbitre;; Assessor;; Fanàtic;; Emprenedor;
+19;Figura;Lluitador;; Comerciant;; Cabdill;; Lladre;
+20;Figura;Advocat;; Reporter;; Denunciant;; Erudit;
+21;Figura;Oficial;; Artiller;; Aprenent de tot;; Apòstata;
+22;Figura;Actor;; Mariscal;; Viatger;; Mag;
+23;Figura;Crític;; Investigador;; Dignatari;; Comandant;
+24;Figura;Elementalista;; Missatger;; Estafador;; Entrenador;
+25;Figura;Auditor;; Espeleòleg;; Sobirà;; Enquadernador;
+26;Figura;Voluntari;; Consultor;; Solitari;; Cuidador;
+27;Figura;Conseller;; Invocador;; Cuidador;; Especialista;
+28;Figura;Proveïdor;; Especialista;; Subaltern;; Justícia;
+29;Figura;Bussot;; Geòleg;; Denunciant;; Subaltern;
+30;Figura;Erudit;; Geòleg;; Denunciant;; Erudit;
+31;Figura;Taxador;; Demolidor;; Ancià;; Animador;
+32;Figura;Advocat;; Cuiner;; Perfeccionista;; Demolidor;
+33;Figura;Artífex;; Corredor;; Director;; Cuiner;
+34;Figura;Economista;; Metge;; Aficionat;; Corredor;
+35;Figura;Conductor;; Mariner;; Creient;; Metge;
+36;Figura;Educador;; Ferrer;; Deixeble;; Mariner;
+37;Figura;Balbuceja o tartamudeja;0;Recollir un recurs o tipus d'objecte;Material/Objecte;Va rebre una visió d'un esdeveniment futur;0;Especialment maldestre;0
+38;Figura;Trasts de personalitat o físics d'una criatura;Criatura;Difondre o desmantellar una ideologia;Facció;Es va obrir camí fins al cim d'una facció;Facció;Propens a les xafarderies o l'escàndol;0
+39;Figura;Al·lèrgia greu a un material;Material;Escapar d'un grup tòxic o situació;Facció;Assoliments esborrats de la història;0;Obsessionat per un material;Material
+40;Figura;Empàtic o telepàtic;0;Derrotar un enemic o rival;Personatge;Emblema o sobrenom inspirat per un objecte;Objecte;Extremadament parraire;0
+41;Figura;Valent o temerari;0;Destruir o enterrar un objecte o artefacte;Objecte;Emblema o sobrenom inspirat per una criatura;Criatura;Fred o de cor cruel;0
+42;Figura;Barreteria culturalment específica;Objecte;Completar un prototip innovador;Objecte;Va causar la caiguda d'una facció o personatge;Facció/Personatge;Honest fins a l'extrem;0
+43;Figura;Sempre porta guants i/o una màscara;Objecte;Revifar una facció difunta;Facció;Últim practicant d'una professió;Facció/Personatge;Excés de confiança o desconfiança;0
+44;Figura;Cicatriu o ferida notable;Personatge;Recuperar una relíquia o herència perduda;Objecte;Traït o denunciat per un personatge o facció;Personatge/Facció;Còmic o mordaç;0
+45;Figura;Mascota o guardià animal;Criatura;Provocar un esdeveniment;0;Va desaparèixer durant anys;0;Propens a la preocupació o inestabilitat emocional;0
+46;Figura;Negociador o manipulador hàbil;Personatge;Pagar un deute a una figura;Personatge;Notable patrimoni familiar;0;Estil d'educació diferent;0
+47;Figura;Amant de la música, l'art o la literatura;0;Anunciar l'apocalipsi;0;Responsable de destruir un artefacte;Objecte;Tatuatges o pírcings prominents;0
+48;Figura;Sempre té pressa;0;Trobar redempció per la implicació en un esdeveniment;0;Buscat per una facció per completar un artefacte;Facció/Objecte;Optimista o pessimista extrem;0
+49;Figura;Ratxa rebel;0;Desenvolupar una nova via per obtenir un material;Material;Va causar la mort d'una figura notable;Personatge;Mirada intensa o fixa;0
+50;Figura;Trobar una parella adequada per al seu fill;Personatge;Girar la truita en una gran batalla;0;Diners vells o nou ric;0;Xerraire dolç, coqueteig o veu cantant;0
+51;Figura;Establir una nova xarxa d'espionatge;Facció;Enamorat en un triangle amorós;Personatge;Historial en un triangle amorós;0;Interminablement gris o avorrit;0
+52;Figura;Olor agradable;0;Completar una obra mestra en un mitjà específic;Objecte;Aprenentatge sota una figura o facció;Personatge/Facció;Terrible en un paper, habilitat o professió;0
+53;Figura;Oblit o distret;0;Venjar-se d'una figura o facció;Personatge/Facció;Va predir un gran esdeveniment;0;Presumit o fatxenda;0
+54;Figura;Sempre porta un record d'un esdeveniment;Objecte;Convertir-se en un artista o intèrpret aclamat;0;Patró d'una facció;Facció;Sentit de la moda atrevit;0
+55;Figura;Mastega o fa petar els dits constantment;0;Trobar un artefacte o ubicació perduts;Objecte/Ubicació;Implicat en una ruptura terrible;Personatge;Pensador divergent;0
+56;Figura;Enamorat d'algú prohibit;Personatge;Corregir els greuges històrics d'un esdeveniment;0;Carrera anterior en un paper específic;0;Dolor crònic o malaltia;0
+57;Figura;Solucionador de problemes o buscador de regals;0;Establir un imperi econòmic amb un material;Material;Va tenir una experiència traumàtica en una ubicació;Ubicació;Taral·leja, xiula o remuga;0
+58;Figura;Descuidat amb el temps o els diners;0;Escapar de quelcom o algú que el persegueix;Personatge;Conegut anteriorment per un altre nom;0;Collidor experimentat d'un material;Material
+59;Figura;Jura molt;0;Buscar o desenvolupar un tractament per a una malaltia;0;Empresonat o protegit per una facció;Facció;Coneix la ubicació d'un artefacte poderós;Objecte
+60;Figura;Li encanten els jocs de paraules o les bromes;0;Recuperar-se dels efectes d'un esdeveniment;0;Creat un objecte notable;Objecte;Aclaparador o entusiasta;0
+61;Figura;Remeia un cor trencat;Personatge;Únic pel seu naixement o llinatge;Personatge;Connexions amb l'inframón o l'alta societat;Facció;Considerat un geni;0
+62;Figura;Aspecte descurat;0;Restaurar una espècie a una ubicació;Criatura/Ubicació;Trenca-promeses conegut;0;Políglota o erudit;0
+63;Figura;Pròtesi o membre perdut;Personatge;Restaurar la reputació després de calúmnies;0;Va fugir del seu poble i mai va mirar enrere;Ubicació;Escapar d'un somni o malson recurrent;0
+64;Figura;Propens al deliri;0;Robar un objecte;Objecte;Propietari d'una ubicació específica;Ubicació;Sempre porta un llibre o diari;Objecte
+65;Figura;Persona impecable, reputació o aparença;0;Unir o reconciliar faccions en conflicte;Facció;Carrera anterior en un paper específic;0;Persona de confiança o manipuladora;Personatge
+66;Figura;Camaleó social o papallona social;0;Construir o assentar una ubicació;Ubicació;Construït o assentat una ubicació;Ubicació;Fòbia greu a una criatura;Criatura
+67;Figura;Reparar o restaurar un artefacte poderós;Objecte;Notable pentinat, pèl facial o corporal;0;Construït o assentat una ubicació;Ubicació;Fòbia greu a una criatura;Criatura
+68;Figura;Exposar una figura o facció com a fraudulenta;Personatge/Facció;Únic supervivent d'una tragèdia;0;Bona mà amb les plantes o animals;Criatura;Hàbil treballant amb un material;Material
+69;Figura;Va tenir un paper improbable en un gran esdeveniment;0;Infiltrar-se en una facció;Facció;Vinculat a un crim;Personatge/Facció;Ansiós o temerós;0
+70;Figura;Venjar-se d'alguna cosa no humana;Criatura;Parla una llengua morta;0;Memòries significatives perdudes;0;Descobrir els orígens d'una catàstrofe;0
+71;Figura;D'una família amb una ocupació específica;0;Políglota o erudit;0;Fortuna familiar en un recurs o bé comercial;Material/Objecte;Art corporal (criatura, objecte o facció);Criatura/Objecte/Facció
+72;Figura;Trobar un amic o familiar perdut fa molt de temps;Personatge;Ferrer;Personatge;Deixeble;Personatge;Educador;Personatge
+1;Esdeveniment;Batalla;0;Estampida;0;Acord;0;Aniquilació;0
+2;Esdeveniment;Derrota;0;Ajustament de comptes;0;Herència;0;Cisma;0
+3;Esdeveniment;Jurament;0;Prova;0;Competició;0;Xoc;0
+4;Esdeveniment;Rendició;0;Delmament;0;Controvèrsia;0;Crisi;0
+5;Esdeveniment;Judici;0;Sacrifici;0;Cursa;0;Concert;0
+6;Esdeveniment;Corrupció;0;Pluja;0;Aposta;0;Aldarull;0
+7;Esdeveniment;Abdicació;0;Onada;0;Funeral;0;Cop mestre;0
+6;Esdeveniment;Coronació;0;Collita;0;Reconciliació;0;Profecia;0
+9;Esdeveniment;Èxode;0;Vòrtex;0;Victòria;0;Mort;0
+10;Esdeveniment;Cirurgia;0;Explosió;0;Successió;0;Assassinat;0
+11;Esdeveniment;Escaramussa;0;Col·lapse;0;Espectacle;0;Recessió;0
+12;Esdeveniment;Vincle;0;Sequera;0;Concurs;0;Revolta;0
+13;Esdeveniment;Punt mort;0;Extinció;0;Invasió;0;Cop d'estat;0
+14;Esdeveniment;Devoració;0;Inundació;0;Ambuscada;0;Atzucac;0
+15;Esdeveniment;Foscor;0;Plaga;0;Duel;0;Revolució;0
+16;Esdeveniment;Dansa;0;Pressa;0;Emancipació;0;Elecció;0
+17;Esdeveniment;Incendi;0;Pandèmia;0;Judici;0;Ascensió;0
+18;Esdeveniment;Resurrecció;0;Solstici;0;Alliberament;0;Execució;0
+19;Esdeveniment;Epidèmia;0;Marfiment;0;Tragèdia;0;Escàndol;0
+20;Esdeveniment;Conflagració;0;Guerra;0;Renaixement;0;Boda;0
+21;Esdeveniment;Apogeu;0;Massacre;0;Gresca;0;Règim;0
+22;Esdeveniment;Atracament;0;Desglaç;0;Assalt;0;Extorsió;0
+23;Esdeveniment;Arribada;0;Setge;0;Crim;0;Traïció;0
+24;Esdeveniment;Destrossa;0;Enverinament;0;Torneig;0;Proclamació;0
+25;Esdeveniment;Floració;0;Calamitat;0;Annexió;0;Trama;0
+26;Esdeveniment;Reunió;0;Cataclisme;0;Banquet;0;Gàmbit;0
+27;Esdeveniment;Treva;0;Bombardeig;0;Robatori;0;Armistici;0
+28;Esdeveniment;Despertar;0;Apocalipsi;0;Engany;0;Naixement;0
+29;Esdeveniment;Fosió;0;Flagell;0;Broma;0;Tempesta;0
+30;Esdeveniment;Revelació;0;Detonació;0;Blasfèmia;0;Disculpa;0
+31;Esdeveniment;Temporada;0;Congelació;0;Renaixement;0;Venjança;0
+32;Esdeveniment;Auge;0;Hivern;0;Trencament;0;Purga;0
+33;Esdeveniment;Cometa;0;Esquerda;0;Caça;0;Eclipsi;0
+34;Esdeveniment;Retorn;0;Diluvi;0;Purga;0;Caça;0
+35;Esdeveniment;Engany;0;Naixement;0;Broma;0;Tempesta;0
+36;Esdeveniment;Purga;0;Disculpa;0;Venjança;0;Eclipsi;0
+37;Esdeveniment;Gel o foscor invasora;0;Moment de glòria o fracàs d'una figura;Personatge;Desacord de jurisdicció sobre una ubicació;Ubicació;Esborrat de la història;0
+38;Esdeveniment;Destrucció o abandonament d'una ubicació;Ubicació;Va implicar molta especulació descarada;0;Deute impagat d'una figura o facció;Personatge/Facció;Esdeveniment de rèplica;Esdeveniment
+39;Esdeveniment;Escassetat sobtada d'un recurs o tipus d'objecte;Material/Objecte;Cràter fumejant o ruïna;Ubicació;Cobdícia d'una figura notable;Personatge;Incomprès en el seu moment;0
+40;Esdeveniment;Aliment bàsic, ingredient o espècie esgotat;Material/Criatura;Notablement silenciós o sorollós;0;Creença en una falsa predicció o profeta;Personatge/Facció;Facció que funda una nova nació o seu;Facció
+41;Esdeveniment;Ascens meteòric d'una figura o facció;Personatge/Facció;Tenia la intenció de ser una distracció d'un altre esdeveniment;Esdeveniment;Caprici sobtat;0;Construcció o disseny d'un memorial;Ubicació
+42;Esdeveniment;Contaminació en una ubicació;Ubicació;Va comptar amb molts assistents o espectadors;0;Lliurament tardà d'alguna cosa;Objecte/Material;Facció o figura que està sent esborrada de la història;Personatge/Facció
+43;Esdeveniment;Creació d'un artefacte;Objecte;Va passar de la nit al dia o va agafar a tothom per sorpresa;0;La gota que va fer vessar el got;0;Criatura o espècie que abandona una ubicació per sempre;Criatura/Ubicació
+44;Esdeveniment;Reunió molt esperada;Personatge/Facció;Notablement incruent o sagnant;0;La decepció d'un pare o la curiositat d'un nen;0;Taca permanent en la reputació d'una facció;Facció
+45;Esdeveniment;Exposició dels draps bruts d'una figura;Personatge;Es creia erròniament que havia estat un muntatge;0;Una flagrant exhibició de poder;0;Transformació d'un artefacte;Objecte
+46;Esdeveniment;Exili d'una facció o figura;Facció/Personatge;Molt endarrerit;0;Acte de blasfèmia o adoració;0;Canvi de nom d'un objecte o ubicació;Objecte/Ubicació
+47;Esdeveniment;Ocupació d'una ubicació per una facció;Ubicació/Facció;Presenciat per només una o poques persones;0;Petició, instruccions o contracte ambigu;0;Creació d'una recepta o cançó;0
+48;Esdeveniment;Descobriment d'un nou material o ubicació;Material/Ubicació;Molt polititzat per una facció;Facció;Un plat preparat incorrectament;0;Mapes redibuixats;0
+49;Esdeveniment;Quarantena o bloqueig al voltant d'una ubicació;Ubicació;Espontani o d'ocurrència natural;0;Element renegat dins d'una facció;Facció;Va revelar el veritable poder d'un artefacte;Objecte
+50;Esdeveniment;Resurrecció d'una llengua morta;0;Tot part d'un encanteri o ritual elaborat;0;Coronació d'un monarca improbable;Personatge;Nou sobrenom per a un material;Material
+51;Esdeveniment;Marxa o retorn d'una figura llegendària;Personatge;Orquestrat per una facció per distreure d'un esdeveniment;Facció/Esdeveniment;Burocràcia o falta de voluntat política;0;Nova art marcial o estil de lluita;0
+52;Esdeveniment;Exposició dels secrets d'una facció;Facció;Especialment unificador o divisiu;0;Ús temerari d'un objecte o artefacte;Objecte;Nou panteó o calendari;0
+53;Esdeveniment;Nou líder d'una facció;Personatge/Facció;Gegantí o revelador;0;Dol o venjança equivocada;0;Obra mestra artística o arquitectònica;Objecte/Ubicació
+54;Esdeveniment;Descobriment d'un objecte o artefacte perdut;Objecte;Va tenir lloc principalment al voltant d'una ubicació;Ubicació;Confiar en la persona o grup equivocat;Personatge/Facció;Nou model per entendre el cosmos;0
+55;Esdeveniment;Fi d'un llinatge;0;Va implicar el trencament d'un tabú;0;Esdeveniment precursor;Esdeveniment;Desconfiança pública en una facció o institució;Facció
+56;Esdeveniment;Migració massiva cap a o des d'una ubicació;Ubicació;Recordat cada any en un aniversari;0;Llançament de moneda o tirada de daus;0;Expulsió del líder d'una facció;Facció/Personatge
+57;Esdeveniment;Descobriment d'una nova arma poderosa;Objecte;Considerat un punt d'inflexió;0;Pressió de les expectatives ancestrals;0;Prohibició d'una professió, rol o pràctica específica;0
+58;Esdeveniment;Aliança refeta entre faccions;Facció;Inquietantment bonic;0;Amenaça emesa per o cap a una figura;Personatge;Restauració o floriment d'una espècie;Criatura
+59;Esdeveniment;Nova forma de mitjà o gènere d'art;0;Ressò o reflex d'un esdeveniment anterior;Esdeveniment;Intent d'assassinat fallit;Personatge;Prohibició d'un material;Material
+60;Esdeveniment;La gran aposta d'una facció o figura;Facció/Personatge;Fugaç o persistent;0;Broma o riure inoportú;0;Pèrdua d'un mètode de construcció o elaboració;Objecte/Material
+61;Esdeveniment;Nou material experimental;Material;Sovint recordat erròniament o mitificat;0;Els dimonis personals d'una figura;Personatge;Revisionisme històric;0
+62;Esdeveniment;Prohibició d'un tipus d'objecte;Objecte;Considerat la fi d'una era;0;La paraula adequada a l'orella equivocada;0;Guerra entre faccions;Facció
+63;Esdeveniment;Nova tecnologia impulsada per un material;Objecte/Material;Només registrat en una ubicació;Ubicació;Rancúnia de segles;0;Canvi sobtat en l'estat de la màgia;0
+64;Esdeveniment;Canvi inesperat en l'herència;0;Va causar un altre esdeveniment;Esdeveniment;Sentiments ferits o lleuger menyspreu;0;Obsessió o encantament d'una persona o lloc;Personatge/Ubicació
+65;Esdeveniment;Criatura que entra o surt de la hibernació;Criatura;Sobrenomenat en honor a una figura o facció;Personatge/Facció;Xoc de dos artefactes poderosos;Objecte;Nova paraula, expressió o modisme;0
+66;Esdeveniment;Destrucció d'un artefacte;Objecte;Celebrat per una facció;Facció;Broma o engany que se'n va anar de les mans;0;Nous títols, quotes, impostos o tributs;0
+67;Esdeveniment;Malaltia transmesa per una espècie;Criatura;Destinat a quedar-se dins d'una família o facció;Facció;Un secret revelat o una promesa trencada;0;Canvis ràpids en l'ús de la tecnologia;0
+68;Esdeveniment;Objecte important desaparegut;Objecte;Injustament culpat a una facció o figura;Facció/Personatge;Conflicte de valors;0;Llarg període de neteja o reconstrucció;0
+69;Esdeveniment;Migració o extinció d'una criatura;Criatura;Va implicar forces sobrenaturals;0;Frase mal escoltada o traduïda d'una figura;Personatge;Canvi permanent en com la gent dorm o somia;0
+70;Esdeveniment;Assentament d'una ubicació;Ubicació;Predit per una facció o figura;Facció/Personatge;Joc o aposta perduda;0;Naixement del primer immortal;0
+71;Esdeveniment;Rivalitat entre dues figures;Personatge;Sobrenomenat per una criatura o esdeveniment;Criatura/Esdeveniment;Un moment de desatenció;0;Disculpa infame;0
+72;Esdeveniment;Col·lapse d'una potència abans gran;Facció/Ubicació;Ferida autoinfligida;0;Indecisió o vacil·lació;0;Creació o eradicació d'una llengua;0
+1;Lloc;Una abadia;;Un abisme;;Un altar;;Un arxipèlag;
+2;Lloc;Una armeria;;Un asil;;Un atri;;Una zona erma;
+3;Lloc;Un barri;;Una banyera;;Un camp de batalla;;Un far;
+4;Lloc;Un pont;;Un cau;;Un búnquer;;Un cementiri;
+5;Lloc;Un campament;;Un canal;;Un canyó;;Un capitoli;
+6;Lloc;Un castell;;Una catedral;;Una cova;;Una cel·la;
+7;Lloc;Un cementiri;;Una capella;;Un punt de control;;Una ciutadella;
+8;Lloc;Una ciutat;;Un claustre;;Una costa;;Un coliseu;
+9;Lloc;Una colònia;;Un compost;;Un complex;;Un conducte;
+10;Lloc;Un convent;;Una cort;;Un cràter;;Una cruïlla;
+11;Lloc;Una cripta;;Una presa;;Un cau;;Un barri marginal;
+12;Lloc;Un desert;;Un districte;;Un dic;;Una masia;
+13;Lloc;Un territori;;Un hort;;Una galeria;;Una porta;
+14;Lloc;Un gueto;;Una glacera;;Un bosc;;Una farga;
+15;Lloc;Una fortalesa;;Un fòrum;;Una font;;Un jardí;
+16;Lloc;Una guarnició;;Una porta;;Una fonda;;Una illa;
+17;Lloc;Una selva;;Un laboratori;;Un laberint;;Un llac;
+18;Lloc;Un lloc de recerca;;Un pas;;Un cim;;Un santuari;
+19;Lloc;Arquitectura impossible;;Estat de ruïna;;Aura de pau;;Presència sinistra;
+20;Lloc;Abundància de recursos;;Escassetat extrema;;Ubicació estratègica;;Aïllament geogràfic;
+21;Lloc;Clima extrem;;Fenòmens inexplicables;;Fauna perillosa;;Flora exuberant;
+22;Lloc;Història de tragèdia;;Passat gloriós;;Lloc de pelegrinatge;;Secret sota terra;
+23;Lloc;Contaminació màgica;;Puresa espiritual;;Alta tecnologia;;Abandó total;
+24;Lloc;Defenses impenetrables;;Vulnerabilitat evident;;Camins laberíntics;;Vistes impressionants;
+25;Lloc;Centre de comerç;;Lloc de culte;;Seu del govern;;Camp de presoners;
+26;Lloc;Sòl inestable;;Rocs flotants;;Aigües termals;;Vents incessants;
+27;Lloc;Estructura modular;;Construcció orgànica;;Geometria sagrada;;Caos arquitectònic;
+28;Lloc;Vibracions constants;;Silenci absolut;;Eco etern;;Música ambiental;
+29;Lloc;Il·luminació natural;;Foscor perpètua;;Llums de neó;;Llum filtrada;
+30;Lloc;Aroma de flors;;Olor de podridura;;Aire salí;;Olor metàl·lica;
+31;Lloc;Gravetat alterada;;Pressió atmosfèrica alta;;Sense oxigen;;Camp magnètic fort;
+32;Lloc;Accés restringit;;Cruïlla de camins;;Lloc de trobada;;Refugi segur;
+33;Lloc;Entorn canviant;;Paisatge estàtic;;Naturalesa invasiva;;Esterilitat absoluta;
+34;Lloc;Proximitat a l'aigua;;Encerclat per muntanyes;;Sota la superfície;;En suspensió;
+35;Lloc;Població densa;;Territori deshabitat;;Diversitat cultural;;Segregació social;
+36;Lloc;Llegat antic;;Modernitat radical;;Temporalitat alterada;;Portal a un altre lloc;
+37;Lloc;Establert o construït per una facció;;Ubicació oculta o secreta;;Danyat o destruït recentment;;Centre d'una activitat inusual;
+38;Lloc;Propici per a la meditació;;Lloc de naixement d'una llegenda;;Freqüentat per esperits;;Escenari d'un pacte antic;
+39;Lloc;Conté una font d'energia;;S'hi senten veus del passat;;La gravetat hi és feble;;El temps hi passa més lent;
+40;Lloc;Protegit per trampes;;Llar d'una criatura rara;;Punt de trobada de faccions;;Oculta un objecte poderós;
+41;Lloc;Ofereix una vista privilegiada;;Difícil d'arribar-hi a peu;;S'hi arriba per un portal;;Canvia de lloc constantment;
+42;Lloc;Sembla més gran per dins;;Està format per cristall;;Creix com un ésser viu;;Es manté a una temperatura constant;
+43;Lloc;Emet una resplendor a la nit;;És totalment silenciós;;Fa olor de terra mullada;;S'hi respira un aire pur;
+44;Lloc;Connectat amb el cel;;Sota una cascada;;Dins d'un arbre gegant;;Sota les onades;
+45;Lloc;Lloc de coronació;;Lloc d'execució;;Lloc de celebració;;Lloc de dol;
+46;Lloc;Vigilat per autòmats;;Ple de records oblidats;;Absorbeix la llum;;Reflecteix els desitjos;
+47;Lloc;Construït sobre ruïnes;;Inspirat en les estrelles;;Dins d'una bombolla;;Suspès en el buit;
+48;Lloc;Només visible per a algunes persones;;Obert només en certs moments;;Protegeix un llinatge;;Marca la fi d'un camí;
+49;Lloc;Les brúixoles no hi funcionen;;Els animals hi tenen por;;Les plantes hi brillen;;L'aigua hi corre cap amunt;
+50;Lloc;Antic lloc de culte;;Antiga fortalesa;;Antic mercat;;Antic laboratori;
+51;Lloc;Se'n diu que està maleït;;Se'n diu que és sagrat;;Se'n diu que dóna vida;;Se'n diu que porta pau;
+52;Lloc;Lloc de trobada d'amants;;Lloc de trobada de traïdors;;Lloc de trobada d'herois;;Lloc de trobada de savis;
+53;Lloc;Estructura de metall i vidre;;Estructura de pedra i os;;Estructura de fusta i seda;;Estructura de llum i ombra;
+54;Lloc;Recorda una cara humana;;Recorda un animal;;Recorda una arma;;Recorda una gemma;
+55;Lloc;Neix de la terra;;Neix del mar;;Neix del cel;;Neix del foc;
+56;Lloc;Produeix una música constant;;Emet un crit de tant en tant;;Té un batec propi;;Murmura noms;
+57;Lloc;Prohibit per les autoritats;;Oblidat pel món;;Buscat pels buscadors de tresors;;Guardat pel silenci;
+58;Lloc;S'hi troben objectes perduts;;S'hi troben flors rares;;S'hi troben minerals estranys;;S'hi troben llibres vells;
+59;Lloc;Atrau la pluja;;Atrau els llamps;;Atrau la boira;;Atrau la neu;
+60;Lloc;És el cor d'una ciutat;;És el final del món;;És l'inici del viatge;;És el centre de tot;
+61;Lloc;Només s'hi pot entrar sol;;Només s'hi pot entrar de nit;;Només s'hi pot entrar somiant;;Només s'hi pot entrar amb fe;
+62;Lloc;Està en constant moviment;;Es manté immòbil;;Es desfà a poc a poc;;Es reconstrueix sol;
+63;Lloc;Té milers de portes;;Té milers de finestres;;Té milers de miralls;;Té milers d'ombres;
+64;Lloc;Està pintat de colors vius;;És totalment blanc;;És totalment negre;;Canvia de color;
+65;Lloc;Dóna força als febles;;Dóna saviesa als necis;;Dóna pau als turmentats;;Dóna veu als muts;
+66;Lloc;És una trampa mortal;;És un refugi segur;;És una escola de vida;;És una presó de l'ànima;
+67;Lloc;Està connectat a les estrelles;;Està connectat a l'abisme;;Està connectat al passat;;Està connectat al futur;
+68;Lloc;Lloc de creació artística;;Lloc de recerca científica;;Lloc de guerra política;;Lloc de pau espiritual;
+69;Lloc;S'hi senten passos;;S'hi senten rialles;;S'hi senten plors;;S'hi senten sospirs;
+70;Lloc;Brilla amb la veritat;;S'enfosqueix amb la mentida;;S'escalfa amb l'amor;;Es refreda amb l'odi;
+71;Esdeveniment;Només s'hi pot arribar caminant;;Nomes s'hi pot arribar volant;;Nomes s'hi pot arribar somiant;;Nomes s'hi pot arribar morint;
+72;Lloc;És el principi;;És el final;;És la part;;És el tot;
+1;Objecte;Un amulet;;Un àncora;;Una armadura;;Un artefacte;
+2;Objecte;Una eina;;Una urna;;Un estendard;;Una campana;
+3;Objecte;Un llibre;;Una bota;;Un arc;;Una caixa;
+4;Objecte;Un fermall;;Un calze;;Un canó;;Una capa;
+5;Objecte;Un carro;;Un cofre;;Una moneda;;Un collaret;
+6;Objecte;Una corona;;Un cub;;Una daga;;Un dispositiu;
+7;Objecte;Un disc;;Una porta;;Un vestit;;Un tambor;
+8;Objecte;Un motor;;Un ull;;Una figura;;Un velló;
+9;Objecte;Un guant;;Una gemma;;Un calze;;Un martell;
+10;Objecte;Un arnès;;Un casc;;Una icona;;Una joia;
+11;Objecte;Una clau;;Un ganivet;;Una llàntia;;Una llança;
+12;Objecte;Un medalló;;Un mirall;;Un collaret;;Un orbe;
+13;Objecte;Una pintura;;Un pergamí;;Un penjoll;;Un pilar;
+14;Objecte;Una pipa;;Una planta;;Un plat;;Un bol;
+15;Objecte;Un anell;;Una túnica;;Una vara;;Un ceptre;
+16;Objecte;Un segell;;Un escut;;Un crani;;Una llança;
+17;Objecte;Un bastó;;Una estàtua;;Una espasa;;Una tauleta;
+18;Objecte;Un tòtem;;Un vehicle;;Un vessel;;Una arma;
+19;Objecte;Aparença ornamentada;;Estat de deteriorament;;Disseny minimalista;;Origen d'un altre món;
+20;Objecte;Mida colossal;;Mida microscòpica;;Pes increïble;;Lleugeresa impossible;
+21;Objecte;Propietats telepatia o telequinesi;;Capacitat de levitació;;Emissió de llum;;Generació de calor;
+22;Objecte;Història de maledicció;;Passat llegendari;;Vincle amb la reialesa;;Secret a l'interior;
+23;Objecte;Material indestructible;;Fragilitat extrema;;Superfície canviant;;Textura orgànica;
+24;Objecte;Símbol d'autoritat;;Eina de destrucció;;Objecte de culte;;Peça de tecnologia antiga;
+25;Objecte;Funcionament silenciós;;So constant;;Vibració rítmica;;Veu interior;
+26;Objecte;Aura de por;;Sensació de pau;;Presència magnètica;;Efecte de repulsió;
+27;Objecte;Ús quotidià;;Funció desconeguda;;Propòsit cerimonial;;Arma oculta;
+28;Objecte;Mecanisme complex;;Simplicitat absoluta;;Peces intercanviables;;Construcció d'una peça;
+29;Objecte;Color canviant;;Transparència total;;Superfície reflectant;;Opacitat absoluta;
+30;Objecte;Olor característica;;Temperatura sota zero;;Calidesa humana;;Absència de tacte;
+31;Objecte;Gravetat pròpia;;Alteració del temps;;Font d'energia;;Efecte sobre la ment;
+32;Objecte;Peça d'un conjunt;;Objecte únic;;Còpia perfecta;;Prototip inacabat;
+33;Objecte;Marca del fabricant;;Símbol prohibit;;Inscripció antiga;;Sense marques;
+34;Objecte;Necessitat de manteniment;;Autoreparació;;Evolució constant;;Obsolescència programada;
+35;Objecte;Connexió espiritual;;Control tecnològic;;Vincle biològic;;Interfície mental;
+36;Objecte;Llegat familiar;;Trofeu de guerra;;Objecte trobat;;Regal d'una deïtat;
+37;Objecte;Crea una il·lusió;;Altera els records;;Emet una música suau;;Produeix una olor forta;
+38;Objecte;Drena la vida;;Concedeix força;;Neteja el verí;;Propaga una plaga;
+39;Objecte;Cura la bogeria;;Dóna visions del passat;;Esborra el dolor;;Protegeix dels somnis;
+40;Objecte;Indueix el riure;;Canvia de forma al tocar-lo;;Vibra amb la veritat;;Es refreda amb l'amor;
+41;Objecte;Atrau la bona sort;;Calma les tempestes;;Atrau els ocells;;Fa morir les plantes;
+42;Objecte;Es torna pesat;;Es torna intangible;;Es torna de plata;;Es torna pols;
+43;Objecte;Guarda secrets;;Menja paraules;;Repeteix sons;;Plora en el silenci;
+44;Objecte;Brilla prop de la màgia;;Calent com el foc;;Suau com la pell;;Dur com el diamant;
+45;Objecte;Marca els herois;;Protegeix els nens;;Cura els vells;;Mata els traïdors;
+46;Objecte;Servei per obrir portals;;Servei per tancar ments;;Servei per forjar vincles;;Servei per trencar il·lusions;
+47;Objecte;Mostra la cara real;;Oculta el destí;;Dissimula el pes;;Transmet el pensament;
+48;Objecte;Cerca el seu propietari;;Fuig de la foscor;;Accepta el sacrifici;;Recorda el futur;
+49;Objecte;Viatja per la llum;;Es mou sol;;Canvia de color;;No té pes;
+50;Objecte;S'alimenta de joia;;S'alimenta de sang;;S'alimenta de silenci;;S'alimenta de records;
+51;Objecte;Produeix pau;;Causa terror;;Dóna visió;;Porta la pèrdua;
+52;Objecte;Provoca un somni;;Crea una flama;;Gela l'ànima;;Crema el desig;
+53;Objecte;Neix de l'espurna;;Neix de la llàgrima;;Neix de la roca;;Neix del sospir;
+54;Objecte;És part d'un pacte;;És part d'una màquina;;És part de la terra;;És part d'un somni;
+55;Objecte;Vén de les profunditats;;Vén del cel;;Vén d'un altre temps;;Vén del buit;
+56;Material;Brilla amb l'esperança;;S'apaga amb la por;;Restaura la memòria;;Causa l'oblit;
+57;Objecte;Es desfà amb el sol;;Es reforça amb la lluna;;S'evapora amb el tacte;;Es congela amb la veu;
+58;Objecte;Té un gust amarg;;Té una olor de mar;;Té un tacte de vidre;;Té un so d'acer;
+59;Objecte;Guia els navegants;;Enganya els buscadors;;Tanca els camins;;Obre les portes;
+60;Objecte;És sagrat;;És maleït;;És artificial;;És viu;
+61;Objecte;Crea veritats;;Destrueix il·lusions;;Mostra el futur;;Oculta el passat;
+62;Objecte;Es transforma amb el foc;;Es torna tou amb el fred;;Es fon amb l'odi;;Es trenca amb la veu;
+63;Objecte;Viu en el vent;;Habita en el metall;;Neix de la ràbia;;Mor amb la pau;
+64;Objecte;Atura el moviment;;Accelera el temps;;Ralenteix la vida;;Dóna la joventut;
+65;Objecte;Resisteix el foc;;Condueix la veu;;Aïlla del soroll;;Reflecteix la por;
+66;Objecte;És l'essència de l'ordre;;És el rebuig del caos;;És el regal dels déus;;És el preu de la pau;
+67;Objecte;S'ha de mantenir en moviment;;S'ha de mantenir en silenci;;S'ha de guardar sota l'aigua;;S'ha de portar a la mà;
+68;Objecte;Produeix sons de natura;;Emet crits de socors;;Crea un buit de so;;Murmura mentides;
+69;Objecte;Atrau la fama;;Porta l'anonimat;;Dóna la saviesa;;Causa la bogeria;
+70;Objecte;És la clau del cel;;És el cor de la màquina;;És l'ull del bosc;;És la veu del desert;
+71;Objecte;Canvia segons la llum;;Reacciona al metall;;Brilla en la pau;;S'enfosqueix en la guerra;
+72;Objecte;És l'inici;;És el final;;És la part;;És el tot;
+1;Material;Un àmbar;;Un aliatge;;Un os;;Un llautó;
+2;Material;Un bronze;;Una ceràmica;;Un carbó;;Un cobalt;
+3;Material;Un coure;;Un cristall;;Un diamant;;Una pols;
+4;Material;Una essència;;Un teixit;;Una fibra;;Un vidre;
+5;Material;Un or;;Un gra;;Un grafit;;Una herba;
+6;Material;Un gel;;Un ferro;;Un ivori;;Un jade;
+7;Material;Un cuir;;Un lli;;Un líquid;;Un metall;
+8;Material;Un meteorit;;Un fang;;Un nacre;;Un oli;
+9;Material;Un mineral;;Un paper;;Un pergamí;;Un pigment;
+10;Material;Un plasma;;Un plàstic;;Un platí;;Un polímer;
+11;Material;Una pols;;Un quars;;Una resina;;Una roca;
+12;Material;Una sal;;Una sorra;;Una seda;;Una plata;
+13;Material;Una pell;;Una escòria;;Un fum;;Un vapor;
+14;Material;Un acer;;Una pedra;;Un sofre;;Un talc;
+15;Material;Un quitrà;;Un tèxtil;;Un estany;;Un titani;
+16;Material;Una toxina;;Un verí;;Un vellut;;Un vitriol;
+17;Material;Una cera;;Un vímet;;Una fusta;;Una llana;
+18;Material;Un zinc;;Un mineral;;Una gemma;;Un combustible;
+19;Material;Altament inflamable;;Extremadament tòxic;;Propietats curatives;;Font d'energia pura;
+20;Material;Indestructible;;Fragilitat de vidre;;Molt lleuger;;Pes insuportable;
+21;Material;Conductivitat màgica;;Aïllant espiritual;;Reflector d'energia;;Absorbent de llum;
+22;Material;D'origen extraterrestre;;Restes d'una civilització antiga;;Creat per alquímia;;Subproducte d'una criatura;
+23;Material;Textura canviant;;Color iridiscent;;Emet una resplendor suau;;Transparent com l'aire;
+24;Material;Olor penetrant;;Sabor metàl·lic;;Sona com una campana;;Vibra en presència de vida;
+25;Material;Propietats radioactives;;Corrosiu per al metall;;Purificador d'aigua;;Fertilitzant potent;
+26;Material;Símbol de riquesa;;Material prohibit;;Sagrat per a una fe;;Utilitzat en el mercat negre;
+27;Material;Estat líquid a temperatura ambient;;S'evapora ràpidament;;Es torna rígid amb el so;;S'expandeix amb el fred;
+28;Material;Es troba a les profunditats;;Creix a les muntanyes;;Recol·lectat dels núvols;;Sintetitzat en laboratori;
+29;Material;Memòria de forma;;Intel·ligència orgànica;;Capacitat d'autoreparació;;Degradació ràpida;
+30;Material;Resistent a la calor;;Congela al tacte;;Absorbeix la humitat;;Repel·leix la brutícia;
+31;Material;Vinculat a un llinatge;;Reacciona a les emocions;;Propietats de viatge temporal;;Clau per a un portal;
+32;Material;Molt abundant;;Extremadament rar;;Difícil de processar;;Peces úniques;
+33;Material;Ús en medicina;;Ús en construcció;;Ús en armament;;Ús en decoració;
+34;Material;Material sintètic;;Material biològic;;Material mineral;;Material eteri;
+35;Material;Canvia amb la llum solar;;Reacciona a la llum lunar;;S'enfosqueix sota terra;;Brilla a la foscor;
+36;Material;Es desfà en aigua;;Rígid com el diamant;;Flexible com el cautxú;;Porós i lleuger;
+37;Material;Causa al·lucinacions;;Altera la gravetat;;Emet un so constant;;Crea un camp magnètic;
+38;Material;Drena l'energia;;Potencia la màgia;;Neteja la corrupció;;Propaga una maledicció;
+39;Material;Cura ferides fatals;;Dóna visions del futur;;Esborra els records;;Protegeix contra esperits;
+40;Material;Indueix un somni profund;;Canvia de color amb el tacte;;Vibra amb la mentida;;S'escalfa amb l'odi;
+41;Material;Atrau la mala sort;;Atrau les tempestes;;Calma els animals;;Fa créixer les plantes;
+42;Material;Es torna invisible;;Es torna intangible;;Es torna d'or;;Es torna cendra;
+43;Material;Guarda records;;Menja secrets;;Repeteix paraules;;Canta amb el vent;
+44;Material;Brilla prop del perill;;Pesat com el plom;;Lleuger com una ploma;;Fred com el gel;
+45;Material;Marca els traïdors;;Protegeix els innocents;;Cura els malalts;;Mata els reis;
+46;Material;Serveix per tancar portals;;Serveix per obrir ments;;Serveix per forjar destins;;Serveix per trencar cadenes;
+47;Material;Oculta la identitat;;Mostra la veritat;;Dissimula el rastre;;Transmet la veu;
+48;Material;Recorda el seu origen;;Cerca el seu creador;;Fuig de la llum;;Accepta la seva fi;
+49;Material;Viatja per les ombres;;Es mou sol;;Canvia de forma;;No té ombra;
+50;Material;S'alimenta de por;;S'alimenta de llum;;S'alimenta de temps;;S'alimenta d'ànimes;
+51;Material;Produeix bellesa;;Causa dolor;;Dóna vida;;Porta la mort;
+52;Material;Provoca una explosió;;Crea un buit;;Gela la sang;;Crema la pell;
+53;Material;Neix del foc;;Neix de l'aigua;;Neix de la terra;;Neix de l'aire;
+54;Material;És part d'un déu;;És part d'un monstre;;És part del món;;És part de tu;
+55;Material;Vén del passat;;Vén del futur;;Vén de les estrelles;;Vén de l'abisme;
+56;Material;Brilla amb la veritat;;S'apaga amb la mentida;;Restaura l'equilibri;;Causa el caos;
+57;Material;Es desfà amb el so;;Es reforça amb la por;;S'evapora amb el sol;;Es congela amb el crit;
+58;Material;Té un gust dolç;;Té una olor de flors;;Té un tacte de seda;;Té un so de vidre;
+59;Material;Guia els perduts;;Enganya els viatgers;;Tanca les ferides;;Obre els camins;
+60;Material;És indestructible;;És efímer;;És sagrat;;És maleït;
+61;Material;Crea il·lusions;;Destrueix mentides;;Mostra el passat;;Oculta el present;
+62;Material;Es transforma amb la lluna;;Es torna rígid amb el fred;;Es fon amb l'amor;;Es trenca amb el silenci;
+63;Material;Viu en els somnis;;Habita en les pedres;;Neix de les llàgrimes;;Mor amb el riure;
+64;Material;Atura el temps;;Accelera el creixement;;Ralenteix el moviment;;Dóna la immortalitat;
+65;Material;Resisteix l'oxidació;;Condueix l'esperit;;Aïlla del mal;;Reflecteix l'ànima;
+66;Material;És l'essència de la vida;;És el rebuig del món;;És el regal dels antics;;És el preu de la màgia;
+67;Material;S'ha de mantenir en silenci;;S'ha de mantenir a les fosques;;S'ha de guardar sota terra;;S'ha de portar al pit;
+68;Material;Produeix música celestial;;Emet crits de guerra;;Crea un silenci absolut;;Murmura veritats;
+69;Material;Atreu la riquesa;;Porta la pobresa;;Dóna el poder;;Causa la ruïna;
+70;Material;És la clau de la ciutat;;És el cor del bosc;;És l'ull del món;;És la veu del mar;
+71;Material;Canvia segons l'humor;;Reacciona a la sang;;Brilla en la foscor;;S'enfosqueix al migdia;
+72;Material;És el principi;;És el final;;És el tot;;És el res;
+1;Criatura;Un ésser aberrant;;Un animal;;Una bèstia;;Una construcció;
+2;Criatura;Un ésser celestial;;Un ésser elemental;;Un ésser feèric;;Un ésser infernal;
+3;Criatura;Un gegant;;Un ésser humanoide;;Un ésser monstruós;;Un ooze o llim;
+4;Criatura;Una planta;;Un ésser no-mort;;Una aberració;;Un ésser autòmat;
+5;Criatura;Un drac;;Un esperit;;Un híbrid;;Un paràsit;
+6;Criatura;Un depredador;;Una presa;;Una criatura de càrrega;;Una muntura;
+7;Criatura;Un guardià;;Un carronyer;;Un ésser tòxic;;Un ésser camaleònic;
+8;Criatura;Un ésser volador;;Un ésser aquàtic;;Un ésser subterrani;;Un ésser interdimensional;
+9;Criatura;Un eixam;;Una reina;;Un ésser solitari;;Una colònia;
+10;Criatura;Un ésser simbiòtic;;Un ésser invasor;;Un ésser protector;;Un ésser destructor;
+11;Criatura;Un ésser sapient;;Un ésser salvatge;;Un ésser domèstic;;Un ésser sagrat;
+12;Criatura;Un ésser maleït;;Un ésser llegendari;;Un ésser extint;;Un ésser artificial;
+13;Criatura;Una quimera;;Un golem;;Una ombra;;Un polímorf;
+14;Criatura;Un ésser titànic;;Un ésser microscòpic;;Un ésser eteri;;Un ésser cristal·lí;
+15;Criatura;Un ésser migratori;;Un ésser territorial;;Un ésser nòmada;;Un ésser sedentari;
+16;Criatura;Un ésser nocturn;;Un ésser diürn;;Un ésser crepuscular;;Un ésser immortal;
+17;Criatura;Un ésser devorador;;Un ésser curador;;Un ésser missatger;;Un ésser servent;
+18;Criatura;Un ésser del bosc;;Un ésser del desert;;Un ésser de l'àrtic;;Un ésser de l'oceà;
+19;Criatura;Mida monumental;;Cos translúcid;;Múltiples extremitats;;Aparença aterridora;
+20;Criatura;Capacitat de camuflatge;;Regeneració ràpida;;Sentits augmentats;;Producció de toxines;
+21;Criatura;Intel·ligència superior;;Instint primari;;Comunicació telepàtica;;Capacitat d'aprenentatge;
+22;Criatura;Vulnerable a la llum;;Resistent al foc;;Depenent de l'aigua;;Immune al verí;
+23;Criatura;Comportament agressiu;;Natura pacífica;;Curiositat extrema;;Por a les persones;
+24;Criatura;Cicle de vida curt;;Longevitat extrema;;Metamorfosi complexa;;Reproducció asexual;
+25;Criatura;Vincle amb la màgia;;Font d'energia biològica;;Emanació de calor;;Control del clima;
+26;Criatura;Hàbitat restringit;;Adaptabilitat total;;Necessitat de migració;;Espècie invasora;
+27;Criatura;Presència inquietant;;Aura de calma;;Cant hipnòtic;;Crit paralitzant;
+28;Criatura;Organització social;;Vida solitària;;Estructura de rusc;;Jerarquia de poder;
+29;Criatura;Alimentació exòtica;;Dieta carronyera;;Fotosíntesi;;Absorció d'energia;
+30;Criatura;Mecanismes de defensa;;Armes naturals;;Velocitat increïble;;Força bruta;
+31;Criatura;Origen diví;;Creació de laboratori;;Evolució natural;;Error dimensional;
+32;Criatura;Símbol de bona sort;;Presagi de desgràcia;;Objecte d'adoració;;Objecte de caça;
+33;Criatura;Pell escamosa;;Plomatge brillant;;Pèl espès;;Exoesquelet rígid;
+34;Criatura;Sang freda;;Calor interna constant;;Sense pols;;Energia pura;
+35;Criatura;Visió nocturna;;Ecolocalització;;Rastreig d'emocions;;Detecció de màgia;
+36;Criatura;Fideltat absoluta;;Traïció instintiva;;Protecció de les cries;;Cerca de parella;
+37;Criatura;Actua com un paràsit;;Causa una plaga;;Controla altres ments;;Destrueix un ecosistema;
+38;Criatura;Exhibeix una puresa rara;;Guarda un tresor;;Cerca un llar;;Fuig d'un depredador;
+39;Criatura;Mata per esport;;Devora la por;;Alimenta la natura;;Protegeix un lloc sagrat;
+40;Criatura;Segresta persones;;Crea il·lusions;;Altera la realitat local;;Manifesta malsons;
+41;Criatura;Es transforma en objectes;;Imita veus humanes;;Prevé un desastre natural;;Provoca un terratrèmol;
+42;Criatura;Drena l'energia màgica;;Cura ferides fatals;;Neteja la corrupció;;Propaga una maledicció;
+43;Criatura;Viatja a través de miralls;;Camina entre dimensions;;Atura el temps breument;;Preveu la mort;
+44;Criatura;Recull records;;Menja secrets;;Enterra objectes preciosos;;Construeix estructures complexes;
+45;Criatura;Viu en els somnis;;Habita en les ombres;;Neix de la cendra;;Es forma a partir de gemmes;
+46;Criatura;Emet una melodia trista;;Produeix una resplendor encegadora;;Genera un fred intens;;Irradia una calor extrema;
+47;Criatura;Atreu les tempestes;;Calma les aigües;;Fa créixer les plantes;;Podreix tot el que toca;
+48;Criatura;Exigeix sacrificis;;Ofereix pactes;;Concedeix desitjos;;Imposa proves;
+49;Criatura;Es mou a través del metall;;Neda en la lava;;Vola sense ales;;Excava a través de la roca;
+50;Criatura;Canvia de color segons l'humor;;Invisible per a les persones adultes;;Brilla en presència de maldat;;S'esvaeix amb la llum solar;
+51;Criatura;Parla llengües oblidades;;Escriu en la sorra;;Pinta en les parets de les coves;;Canta en el vent;
+52;Criatura;Cerca la il·luminació;;Abraça el caos;;Manté l'ordre natural;;Busca la venjança;
+53;Criatura;Crea portals;;Tanca bretxes;;Guia els perduts;;Enganya els viatgers;
+54;Criatura;Venerat com un déu;;Caçat per la seva pell;;Estudiat per la ciència;;Temut per la tradició;
+55;Criatura;Viu en comunitat;;Reclama un territori;;No té casa fixa;;Protegeix el clan;
+56;Criatura;Simbolitza l'esperança;;Marca el final de tot;;Anuncia l'arribada d'algú;;Observa en silenci;
+57;Criatura;Es divideix en ser atacat;;Es fusiona amb altres;;Canvia de forma constant;;No pot ser tocat;
+58;Criatura;Té por de la tecnologia;;Adora les màquines;;Menja metall;;Dorm sobre l'or;
+59;Criatura;Es comunica per colors;;Es comunica per vibracions;;Es comunica per olors;;Es comunica per contacte;
+60;Criatura;Neix d'un ou de cristall;;Neix de la terra;;Neix de la tempesta;;Neix d'un pensament;
+61;Criatura;Viu mil anys;;Viu només un dia;;No té temps;;Riu del futur;
+62;Criatura;Plora gemmes;;Sagna oli;;Respira fum;;Escup foc;
+63;Criatura;Té ales de vidre;;Té pell de pedra;;Té ossos de ferro;;Té sang de mercuri;
+64;Criatura;Recorda totes les cares;;Oblida la seva pròpia natura;;Cerca la seva identitat;;Té múltiples personalitats;
+65;Criatura;Dorm durant segles;;Mai dorm;;Somia despert;;Menja els somnis d'altres;
+66;Criatura;Protegeix la infància;;Ataca els culpables;;Jutja els cors;;Perdona els pecats;
+67;Criatura;Viatja amb el vent;;Viatja per les arrels;;Viatja per la sang;;Viatja per la llum;
+68;Criatura;És una part del paisatge;;És una part de la ciutat;;És una part del bosc;;És una part del buit;
+69;Criatura;Té una veu preciosa;;Té un crit horrorós;;És totalment silenciós;;Emet sons de màquines;
+70;Criatura;Segueix les estrelles;;Segueix el camp magnètic;;Segueix el rastre de la màgia;;Segueix la por;
+71;Criatura;Viu en el passat;;Viu en el futur;;Està a tot arreu;;No està enlloc;
+72;Criatura;És l'últim de la seva espècie;;És el primer de molts;;És un experiment fallit;;És una creació divina;
+1;Modificadors;Crucial;;Amb taques;;Repel·lent;;Persistent;
+2;Modificadors;Noble;;Fracturant;;Calmant;;Humorístic;
+3;Modificadors;Heroic;;Irredimible;;Climàtic;;Sense precedents;
+4;Modificadors;Mític;;Èpic;;Crestat;;Arrelat;
+5;Modificadors;Amb voluntat;;Conductiu;;Rugós;;Transcendental;
+6;Modificadors;Llustrós;;Flexible;;Graciós;;Animat;
+7;Modificadors;Metàl·lic;;Deplorable;;Musical;;Resilient;
+8;Modificadors;Efímer;;En relleu;;Atroç;;Àrtic;
+9;Modificadors;Absorbent;;Fragant;;Tumultuós;;Serendipitós;
+10;Modificadors;Lent;;Vejat;;Rodonet;;Punxegut;
+11;Modificadors;Fet a mida;;Llustrós;;Divertit;;Maliciós;
+12;Modificadors;Creatiu;;Crític;;Ficaxapes;;Vidriat;
+13;Modificadors;Químic;;Tens;;Acrimoniós;;Sibilant;
+14;Modificadors;Nu;;Sense paraules;;Angoixat;;Críptic;
+15;Modificadors;Esquerdat;;Represaliat;;Cruixent;;Alat;
+16;Modificadors;Bombollejant;;Placent;;Teixit;;Ursí;
+17;Modificadors;Apegalós;;Farsesc;;Robust;;Brut;
+18;Modificadors;Resilient;;Apocalíptic;;Lluminós;;Moldejable;
+19;Modificadors;Rígid;;Tràgic;;Adhesiu;;Il·luminat;
+20;Modificadors;Insípid;;Catastròfic;;Grotesc;;Amb pèl;
+21;Modificadors;Apagat;;Sever;;Orgànic;;Lleuger;
+22;Modificadors;Flamejant;;Equivocat;;Lleoní;;Humit;
+23;Modificadors;Apocalíptic;;Farsesc;;Robust;;Brut;
+24;Modificadors;Multicolored;;Atroç;;Àrtic;;Estrany;
+25;Modificadors;Resistent;;Desapiadat;;Il·luminat;;Encrustat;
+26;Modificadors;Salsós;;Sensacional;;Dramàtic;;Serpentí;
+27;Modificadors;Crostós;;Dramàtic;;Serpentí;;Paperós;
+28;Modificadors;Sidus;;Cataclismàtic;;Paperós;;Jocós;
+29;Modificadors;Esmussat;;Inhumà;;Nervut;;Plegable;
+30;Modificadors;Enganxós;;Discordant;;Vulpí;;Cruixent;
+31;Modificadors;Transparent;;Cerós;;Multifacètic;;Encrustat;
+32;Modificadors;Cerós;;Flexible;;Venomós;;Enroscat;
+33;Modificadors;Moldejable;;Olorós;;Fotofòbic;;Escultural;
+34;Modificadors;Olorós;;Fibrós;;Soterrat;;Esvelt;
+35;Modificadors;Sorollós;;Pelat;;Esvelt;;Rampant;
+36;Modificadors;Ferm;;Gelatinós;;Letal;;Enèrgic;
+37;Modificadors;Intacte;;Desgastat;;Imaginatiu;;Steampunk;
+38;Modificadors;Primeval;;Cínic;;Eclèctic;;Sense cor;
+39;Modificadors;Històric;;Nàutic;;Filantrop;;Elegant;
+40;Modificadors;Icònic;;Tenebrós;;Calm;;Amb gran saber;
+41;Modificadors;Segur;;Nostàlgic;;Conscient;;Atent;
+42;Modificadors;Gòtic;;Impràctic;;Aventurer;;Sagnant;
+43;Modificadors;Misteriós;;Brillant;;Inconvencional;;Empàtic;
+44;Modificadors;Lluent;;Connectat;;Bresca;;Sorollós;
+45;Modificadors;Antiquat;;Artesanal;;Ocupat;;Ruïnós;
+46;Modificadors;Nervut;;Submergit;;Texturat;;Apagat;
+47;Modificadors;Obert de ment;;Mal informat;;Impressionant;;Acadèmic;
+48;Modificadors;Optimista;;Net;;Translúcid;;Porós;
+49;Modificadors;Majestuós;;Amb ulls vius;;Capritxós;;Alegre;
+50;Modificadors;Diplomàtic;;Perspicaç;;Resplendent;;Narcisista;
+51;Modificadors;Ornamentat;;Intens;;Estimulant;;Fàcil de tractar;
+52;Modificadors;Perdonador;;Cridaner;;Fascinant;;Independent;
+53;Modificadors;Profund;;Ferm;;Religiós;;Pacient;
+54;Modificadors;Oportunista;;Fosc;;Intricat;;Encisador;
+55;Modificadors;Luxós;;Bronzejat;;Esgotat;;Artístic;
+56;Modificadors;Amb gust;;Fràgil;;Imponent;;Pragmàtic;
+57;Modificadors;Alt;;Atemporal;;Fortuït;;Insensible;
+58;Modificadors;Independent;;Escàs;;Adversarial;;Disciplinat;
+59;Modificadors;Atlètic;;Aïllat;;Patriòtic;;Pacient;
+60;Modificadors;Entusiasta;;Amable;;Sorollós;;Ruïnós;
+61;Modificadors;Artístic;;Robust;;Steampunk;;Sense cor;
+62;Modificadors;Pragmàtic;;Insensible;;Elegant;;Amb gran saber;
+63;Modificadors;Insensible;;Espaiós;;Fi;;Afilat;
+64;Modificadors;Disciplinat;;Pacient;;Escantellat;;Eficient;
+65;Modificadors;Pacient;;Encisador;;Sagnant;;Empàtic;
+66;Modificadors;Ruïnós;;Apagat;;Bramador;;Suau;
+67;Modificadors;Alegre;;Sense cor;;Narcisista;;D'actitud jovial;
+68;Modificadors;Elegant;;Amb gran saber;;Fàcil de tractar;;Amable;
+69;Modificadors;Fi;;Afilat;;Atent;;Net;
+70;Modificadors;Escantellat;;Eficient;;Sagnant;;Empàtic;
+71;Modificadors;Venomós;;Empàtic;;Suau;;Tranquil;
+72;Modificadors;Bramador;;Porós;;Penedit;;Imparcial;
