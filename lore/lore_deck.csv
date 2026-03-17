@@ -71,42 +71,42 @@
 70;Faccions;Sovint operen des d'un cert tipus d'ubicació;Ubicació;Transmetre els ensenyaments d'una figura mítica;Personatge;Fundat per supervivents d'un desastre;0;Fer que un recurs sigui públic;Material
 71;Faccions;Recuperar un artefacte apropiat;Objecte;Estudiar o protegir un text o document;0;Ocultació de la implicació en un esdeveniment;0;Reclutar amb publicitat enganyosa;0
 72;Faccions;Estudiar o protegir una ruïna o monument;Ubicació;Tabú que involucra una ubicació o objecte;Ubicació/Objecte;Establert per un esdeveniment;0;Tabú que involucra un material o criatura;Material/Criatura
-1;Figura;Constructor;; Sanador;; Oligarca;; Arcanista;
-2;Figura;Ambaixador;; Corredor;; Vagamunt;; Instructor;
-3;Figura;Administratiu;; Contacontes;; Idealista;; Inspector;
-4;Figura;Arxiver;; Armer;; Disruptor;; Artesà;
-5;Figura;Compositor;; Ecologista;; Tradicionalista;; Innovador;
-6;Figura;Bromista;; Explorador;; Alumne;; Autor;
-7;Figura;Rastrejador;; Maquinista;; Refugiat;; Tecnòleg;
-8;Figura;Agent;; Centinella;; Delinqüent;; Pirata;
-9;Figura;Artista;; Metge;; Pensador;; Autònom;
-10;Figura;Recruta;; Apicultor;; Reporter;; Entrenador;
-11;Figura;Lingüista;; Comando;; Penitent;; Portaveu;
-12;Figura;Botiguer;; Botànic;; Lluminària;; Detectiu;
-13;Figura;Conseller;; Soldat;; Defensor;; Gimnasta;
-14;Figura;Enllaç;; Cartògraf;; Autòcrata;; Magnat;
-15;Figura;Poeta;; Armer;; Marginat;; Assistent;
-16;Figura;Estratega;; Predicador;; As;; Custodi;
-17;Figura;Artesà;; Estilista;; Aventurer;; Capità;
-18;Figura;Àrbitre;; Assessor;; Fanàtic;; Emprenedor;
-19;Figura;Lluitador;; Comerciant;; Cabdill;; Lladre;
-20;Figura;Advocat;; Reporter;; Denunciant;; Erudit;
-21;Figura;Oficial;; Artiller;; Aprenent de tot;; Apòstata;
-22;Figura;Actor;; Mariscal;; Viatger;; Mag;
-23;Figura;Crític;; Investigador;; Dignatari;; Comandant;
-24;Figura;Elementalista;; Missatger;; Estafador;; Entrenador;
-25;Figura;Auditor;; Espeleòleg;; Sobirà;; Enquadernador;
-26;Figura;Voluntari;; Consultor;; Solitari;; Cuidador;
-27;Figura;Conseller;; Invocador;; Cuidador;; Especialista;
-28;Figura;Proveïdor;; Especialista;; Subaltern;; Justícia;
-29;Figura;Bussot;; Geòleg;; Denunciant;; Subaltern;
-30;Figura;Erudit;; Geòleg;; Denunciant;; Erudit;
-31;Figura;Taxador;; Demolidor;; Ancià;; Animador;
-32;Figura;Advocat;; Cuiner;; Perfeccionista;; Demolidor;
-33;Figura;Artífex;; Corredor;; Director;; Cuiner;
-34;Figura;Economista;; Metge;; Aficionat;; Corredor;
-35;Figura;Conductor;; Mariner;; Creient;; Metge;
-36;Figura;Educador;; Ferrer;; Deixeble;; Mariner;
+1;Figura;Constructor;;Sanador;;Oligarca;;Arcanista;
+2;Figura;Ambaixador;;Trapecista;;Rodamón;;Instructor;
+3;Figura;Administratiu;;Contacontes;;Idealista;;Inspector;
+4;Figura;Arxiver;;Armer;;Disruptor;;Artesà;
+5;Figura;Compositor;;Ecologista;;Tradicionalista;;Innovador;
+6;Figura;Bromista;;Explorador;;Alumne;;Autor;
+7;Figura;Rastrejador;;Maquinista;;Refugiat;;Tecnòleg;
+8;Figura;Agent;;Centinella;;Delinqüent;;Pirata;
+9;Figura;Artista;;Metge;;Pensador;;Autònom;
+10;Figura;Recruta;;Apicultor;;Reporter;;Entrenador;
+11;Figura;Lingüista;;Comando;;Penitent;;Portantveu;
+12;Figura;Botiguer;;Botànic;;Lluminària;;Detectiu;
+13;Figura;Conseller;;Soldat;;Defensor;; Gimnasta;
+14;Figura;Enllaç;;Cartògraf;;Autòcrata;;Magnat;
+15;Figura;Poeta;;Armer;;Marginat;;Assistent;
+16;Figura;Estratega;;Predicador;;As;;Custodi;
+17;Figura;Artesà;;Estilista;;Aventurer;;Capità;
+18;Figura;Àrbitre;;Assessor;;Fanàtic;;Emprenedor;
+19;Figura;Lluitador;;Comerciant;;Cabdill;;Lladre;
+20;Figura;Advocat;;Reporter;;Denunciant;;Erudit;
+21;Figura;Oficial;; Artiller;;Aprenent de tot;;Apòstata;
+22;Figura;Actor;;Mariscal;;Viatger;;Mag;
+23;Figura;Crític;;Investigador;; Dignatari;;Comandant;
+24;Figura;Elementalista;;Missatger;; Estafador;;Entrenador;
+25;Figura;Auditor;;Espeleòleg;; Sobirà;;Enquadernador;
+26;Figura;Voluntari;;Consultor;; Solitari;;Cuidador;
+27;Figura;Conseller;;Invocador;;Fisca;;Especialista;
+28;Figura;Proveïdor;;Especialista;;Director d'orquestra;;Jutge;
+29;Figura;Bussot;;Atleta;;Assassí;;Subaltern;
+30;Figura;Erudit;;Geòleg;;Lladregot;;Erudit;
+31;Figura;Taxador;;Demolidor;;Ancià;;Animador;
+32;Figura;Advocat;;Cuiner;;Perfeccionista;;Pianista;
+33;Figura;Artífex;;Corredor;;Director;;Cuiner;
+34;Figura;Economista;; Metge;;Aficionat;; Corredor;
+35;Figura;Conductor;; Mariner;;Creient;;Imfermer;
+36;Figura;Educador;;Ferrer;;Deixeble;;Osteòpata;
 37;Figura;Telepàtic o empàtic;0;Extremadament loquaç o taciturn;0;Derrotar un enemic o rival;Personatge;Emblema o sobrenom inspirat en un objecte;Objecte
 38;Figura;Quec o balbuceja;0;Especialment maldestre o àgil;0;Col·leccionar un recurs o tipus d'objecte;Objecte/Material;Va rebre una visió d'un esdeveniment futur;Esdeveniment
 39;Figura;Trets físics o de personalitat d'una criatura;Criatura;Propens a les xafarderies o a l'escàndol;0;Difondre o desmantellar una ideologia;0;Va obrir-se camí fins al cim d'una facció;Facció
