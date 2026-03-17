@@ -445,7 +445,7 @@
             
             <select id="category-select" class="w-full p-3 border border-gray-300 rounded mb-6 text-lg bg-gray-50">
                 <option value="Faccions">Faccions</option>
-                <option value="Figura">Figura</option>
+                <option value="Personatge">Personatge</option>
                 <option value="Esdeveniment">Esdeveniment</option>
                 <option value="Ubicació">Ubicació</option>
                 <option value="Objecte">Objecte</option>
@@ -570,7 +570,7 @@
         const config = {
             colors: {
                 "Faccions": "bg-purple-700",
-                "Figura": "bg-yellow-600",
+                "Personatge": "bg-yellow-600",
                 "Esdeveniment": "bg-pink-700",
                 "Ubicació": "bg-orange-900",
                 "Objecte": "bg-blue-600",
@@ -580,7 +580,7 @@
             },
             hexColors: {
                 "Faccions": "#7e22ce",     
-                "Figura": "#ca8a04",       
+                "Personatge": "#ca8a04",       
                 "Esdeveniment": "#be185d", 
                 "Ubicació": "#7c2d12",         
                 "Objecte": "#2563eb",      
@@ -590,7 +590,7 @@
             },
             textColors: {
                 "Faccions": "text-purple-700",
-                "Figura": "text-yellow-600",
+                "Personatge": "text-yellow-600",
                 "Esdeveniment": "text-pink-700",
                 "Ubicació": "text-orange-900",
                 "Objecte": "text-blue-600",
@@ -600,7 +600,7 @@
             },
             icons: {
                 "Faccions": "👥",
-                "Figura": "👤",
+                "Personatge": "👤",
                 "Esdeveniment": "⏱️",
                 "Ubicació": "🗺️",
                 "Objecte": "⚔️",
@@ -610,7 +610,7 @@
             },
             categoryMap: {
                 "Facció": "Faccions", "Faccions": "Faccions",
-                "Personatge": "Figura", "Figura": "Figura",
+                "Personatge": "Personatge", "Figura": "Personatge",
                 "Esdeveniment": "Esdeveniment",
                 "Ubicació": "Ubicació", "Lloc": "Ubicació",
                 "Objecte": "Objecte",
@@ -818,12 +818,14 @@
                 const ca = document.getElementById('canvas-area');
                 if (ca) ca.style.display = 'block';
 
-                const categories = ["Faccions", "Figura", "Esdeveniment", "Ubicació", "Objecte", "Material", "Criatura"];
+                const categories = ["Faccions", "Personatge", "Esdeveniment", "Ubicació", "Objecte", "Material", "Criatura"];
                 let clustersCreated = 0;
                 let availableSymbols = [];
                 let lastClusterId = null;
+                let failsafe = 0;
 
-                while (clustersCreated < 6) {
+                while (clustersCreated < 6 && failsafe < 100) {
+                    failsafe++;
                     let cat;
                     let sourceSymbol = null;
 
@@ -840,7 +842,10 @@
                     }
 
                     const card = this.getRandomCard(cat, false);
-                    if (!card) break; 
+                    if (!card) {
+                        // S'ha esgotat o no hi ha cartes primàries d'aquesta categoria
+                        continue; 
+                    }
 
                     const newId = 'cluster-' + Date.now() + '-' + clustersCreated;
                     
@@ -908,7 +913,7 @@
                                 const cats = cueData.sym.split('/');
                                 cats.forEach((catRaw, idx) => {
                                     const normCat = config.categoryMap[catRaw.trim()];
-                                    if (normCat) {
+                                    if (normCat && normCat !== 'Modificadors') {
                                         availableSymbols.push({
                                             sourceClusterId: newId,
                                             slotName: slot,
@@ -1672,9 +1677,7 @@
                             const isMod = type === 'modifier';
                             const textColorClass = isMod ? 'text-gray-500' : (config.textColors[data.card.category] || 'text-gray-800');
                             const cueData = data.card.cues[data.cueIndex];
-                            
-                            const identifier = `tucked-${slotName}-${type}`;
-                            const displayHtml = ui.generateContentHtml(cueData, cluster.id, identifier, isMod);
+                            const displayHtml = ui.generateContentHtml(cueData, cluster.id, `tucked-${slotName}-${type}`, isMod);
                             
                             return `
                                 <div class="tucked-card" onclick="logic.promptEdit('${cluster.id}', '${slotName}', '${type}', event)" title="Clica per editar o eliminar">
