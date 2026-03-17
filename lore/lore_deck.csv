@@ -35,41 +35,41 @@
 34;Faccions;MOVIMENT;;COLLA;;COALICIÓ;;PACTE;
 35;Faccions;CONVENI;;AGÈNCIA;;EMPRESA;;GIMNÀS;
 36;Faccions;GERMANDAT;;MONESTIR;;PROTESTA;;CONGRÉS;
-37;Faccions;Seu hostil;Facció;Es creuen per sobre de la llei;Facció;Noms canviats;0;Propensió a l'extremisme;Facció
+37;Faccions;Seu notable;Facció;Es creuen per sobre de la llei;Facció;Noms canviats;0;Propensió a l'extremisme o a la burocràcia;Facció
 38;Faccions;Grans reserves de material;Material;Obrir una porta prohibida;0;Va causar la ruïna d'una facció o figura;Facció/Personatge;Guardar o protegir un objecte o substància;Objecte/Material
-39;Faccions;Base o arma secreta;Ubicació/Objecte;Atribució indeguda de resoldre o causar una crisi;0;Estètica inspirada en una criatura;Criatura;Mestres d'una arma de curt o llarg abast;0
-40;Faccions;Recolzat per doctrina religiosa;Facció;Adorar un aspecte o avatar d'una deïtat;0;Orígens oblidats per la història;0;Oradors polítics amb talent;Personatge
+39;Faccions;Base o arma secreta;Ubicació/Objecte;Atribució indeguda de resoldre o causar una crisi;0;Estètica inspirada en una criatura;Criatura;Mestres d'una eina o d'una arma;0
+40;Faccions;Recolzat per doctrina religiosa;Facció;Adorar un aspecte o avatar d'una deïtat;0;Orígens oblidats per la història;0;Oradors polítics manipuladors;Personatge
 41;Faccions;Recolzat per un patrocinador ric;Personatge;Entrenadors experts d'una criatura;Personatge/Criatura;Va causar la mort d'una figura notable;Personatge;Biblioteca notable de textos o documents;Objecte
 42;Faccions;Fort recolzament comunitari;Facció;Connectat amb una història de creació;0;Va causar l'extinció d'una criatura;Criatura;Tecnologia o màgia innovadora;0
-43;Faccions;Sense líder;Facció;Enderrocar una figura;Personatge;Recentment han perdut el recolzament d'una figura important;Personatge;Fomentar un esdeveniment apocalíptic;0
+43;Faccions;Sense líder;Facció;Enderrocar una figura;Personatge;Recentment han perdut el recolzament d'una figura important;Personatge;Evitar un esdeveniment apocalíptic;0
 44;Faccions;Lladres de noms, paraules o identitats;Personatge;Principis socialistes;Facció;Van perdre el control de la seva antiga seu;Ubicació;Poder ancestral;0
 45;Faccions;Sempre en moviment;Facció;Principis democràtics;Facció;Va causar la destrucció d'una ubicació;Ubicació;Trobar un líder perdut o desaparegut;Personatge
-46;Faccions;Operar sota un codi estricte;Facció;Coneguts per protestar sobre un fet històric;0;Doctrina o principis inspirats en una criatura;Criatura;Resoldre una lluita entre dos enemics històrics;Personatge
+46;Faccions;Operar sota un codi estricte;Facció;Coneguts per negar un fet històric;0;Doctrina o principis inspirats en una criatura;Criatura;Resoldre una lluita entre dos líders;Personatge
 47;Faccions;Coneguts per cuinar o fabricar amb un material;Material;Coneixements arcans o tecnològics extensos;0;L'uniforme inclou el material;Material;Contribuir o encarregar art o actuacions;0
-48;Faccions;Estètica inspirada en un material;Material;Vinculat a una guerra o arma;0;L'uniforme inclou el material;Material;Proporcionar o dispensar un material especialitzat;Material
+48;Faccions;Estètica inspirada en un material;Material;Vinculat a un crim de guerra;0;L'uniforme inclou el material;Material;Proporcionar o dispensar un material especialitzat;Material
 49;Faccions;L'uniforme inclou el material;Material;Considerar un lloc com a sagrat;Ubicació;L'uniforme inclou el material;Material;Vinculat a una guerra o arma;0
-50;Faccions;Escriure, signar o codificar en fum;0;Mort d'alguna cosa que es creia immortal;Personatge/Criatura;L'uniforme inclou el material;Material;Protegir o restaurar un bosc;Ubicació
+50;Faccions;Escriure, signar o parlar en codi;0;Mort d'alguna cosa que es creia immortal;Personatge/Criatura;L'uniforme inclou el material;Material;Protegir o restaurar una espècie;Criatura
 51;Faccions;Controlar el comerç il·lícit d'un material;Material;Orquestrar un esdeveniment;0;L'uniforme inclou el material;Material;Mort d'alguna cosa que es creia immortal;Personatge/Criatura
 52;Faccions;Assegurar un recurs difícil;Material;Mantenir una criatura com a mascota o bestiar;Criatura;Sobrenom d'una criatura;Criatura;Biblioteca notable de textos o documents;Objecte
 53;Faccions;Esquema piramidal;Facció;Líder de culte o celebritat;Personatge;Associat amb una gran mentida;0;Recol·lectors o proveïdors de somnis;0
 54;Faccions;Regular una professió o ofici;Facció;El lideratge és considerat un càstig;Facció;L'emblema representa un objecte;Objecte;Conegut per una forma de mitjà, art o actuació;0
-55;Faccions;Establir o eliminar una moneda;Material;El lideratge és considerat un càstig;Facció;Aliats propers d'una altra facció;Facció;Ús freqüent de rentat de cervell o intimidació;0
-56;Faccions;Cobrar un deute;Material;Fundat per rancor o ràbia;0;Va forçar una facció a l'exili o amagatall;Facció;Reputació alegre o negativa per alguna cosa;0
+55;Faccions;Establir o eliminar un culte;Facció;El lideratge és considerat un càstig;Facció;Aliats propers d'una altra facció;Facció;Ús freqüent de rentat de cervell o intimidació;0
+56;Faccions;Recaptar un tribut;Material;Fundat per rancor o ràbia;0;Va forçar una facció a l'exili o amagatall;Facció;Reputació positiva o negativa per alguna cosa;0
 57;Faccions;Només una façana per a una altra facció;Facció;Líder excèntric;Personatge;Vinculat a una conspiració sobre un esdeveniment;0;Adorar un aspecte o avatar d'una deïtat;0
 58;Faccions;Molt secretista;Facció;Líder excèntric;Personatge;Fundat sobre principis diferents dels actuals;0;Alliberar un monstre;Criatura
 59;Faccions;Socialment influent;Facció;Propensió al vigilantisme;0;Fundat per preservar una tradició cultural;0;Reclamar o restaurar un lloc sagrat;Ubicació
-60;Faccions;Promoure el vigilantisme;0;Propensió al vigilantisme;0;Fundat com a broma o repte;0;Exposar una ficció o màgia;0
+60;Faccions;Promoure el vigilantisme;0;Propensió al vigilantisme;0;Fundat com a broma o repte;0;Exposar una facció o personatge;facció/Personatge
 61;Faccions;Cronistes d'un fet històric;Personatge;Etiqueta estricta o elaborada;0;Creat o descobert un objecte o material;Objecte/Material;Desmantellar un sistema o institució;Facció
 62;Faccions;Xarxa d'espionatge o intel·ligència;Facció;Etiqueta estricta o elaborada;0;Format per interessos colonials o resistència;0;Trobar una paraula, nom o cançó perduda;Objecte
-63;Faccions;Guanyar el monopoli d'un comerç;Material;Subcontracta el seu treball brut a una altra facció;Facció;Coneguts per crear o encarregar una obra mestra;Objecte;Dibuixants excel·lents;Personatge
-64;Faccions;Custodiar o capturar una figura llegendària;Personatge;Subcontracta el seu treball brut a una altra facció;Facció;Matrimoni fora del grup prohibit;0;Desfer un esdeveniment;0
+63;Faccions;Guanyar el monopoli d'un comerç;Material;Subcontracta el seu treball brut a una altra facció;Facció;Coneguts per crear o encarregar una obra mestra;Objecte;Propagandistes excel·lents;Personatge
+64;Faccions;Custodiar o capturar un déu-bèstia;Personatge;Subcontracta el seu treball brut a una altra facció;Facció;Matrimoni fora del grup prohibit;0;Desfer un esdeveniment;0
 65;Faccions;Completar una col·lecció;Objecte;Construir o colonitzar una ubicació;Ubicació;Expulsió d'un antic líder;Personatge;Reputació d'innovació;0
-66;Faccions;Trobar o ressuscitar un déu perdut;Personatge;Construir o colonitzar una ubicació;Ubicació;Col·lecció massiva d'alguna cosa;Objecte;Construir o colonitzar una ubicació;Ubicació
+66;Faccions;Trobar o ressuscitar un heroi perdut;Personatge;Construir o colonitzar una ubicació;Ubicació;Col·lecció massiva d'alguna cosa;Objecte;Construir o colonitzar una ubicació;Ubicació
 67;Faccions;Molt corrupte;Facció;Líder excèntric;Personatge;Creat o criat una criatura;Criatura;Cerca d'un heroi perdut o objecte mític;Personatge/Objecte
 68;Faccions;Suports de salut mental;Facció;Prevenir que es repeteixi una tragèdia;0;Cofundat per amics o rivals;Personatge;Reclamar o restaurar un lloc sagrat;Ubicació
 69;Faccions;Vibra de culte;Facció;Coneguts per càstigs corporals;0;Ubicació restaurada;Ubicació;Coneguts per càstigs corporals;0
 70;Faccions;Ubicació restaurada;Ubicació;Transmetre els ensenyaments d'una figura mítica;Personatge;Fundat per supervivents d'un desastre;0;Fer que un recurs sigui públic;Material
-71;Faccions;Recuperar un artefacte apropiat;Objecte;Estudiar o protegir una ruïna o monument;Ubicació;Ocultació de la implicació en un esdeveniment;0;Reclutar amb publicitat enganyosa;0
+71;Faccions;Recuperar un artefacte apropiat;Objecte;Estudiar o protegir un text o document;0;Ocultació de la implicació en un esdeveniment;0;Reclutar amb publicitat enganyosa;0
 72;Faccions;Estudiar o protegir una ruïna o monument;Ubicació;Restaurar una ubicació;Ubicació;Establert per un esdeveniment;0;Ubicació restaurada;Ubicació
 1;Figura;Constructor;; Sanador;; Oligarca;; Arcanista;
 2;Figura;Ambaixador;; Corredor;; Vagamunt;; Instructor;
@@ -329,7 +329,7 @@
 40;Objecte;Propietats de control mental;0;Creat o donat com a ofrena de pau en un conflicte;Facció/Esdeveniment;Mètode de fabricació protegit per una figura o facció;Personatge/Facció;Propietats de navegació o orientació;0
 41;Objecte;Sentient o conscient;0;Causa contribuent d'un esdeveniment;Esdeveniment;Encarregat per una figura o facció;Personatge/Facció;Porta la semblança d'una figura o tret facial;Personatge
 42;Objecte;Propietats de levitació o vol;0;Donat com a regal a una figura o facció;Personatge/Facció;Creat o decorat amb un material;Material/Criatura;S'ha d'alimentar o recarregar amb un material;Material/Criatura
-43;Objecte;Propietats d'endevinació o espionatge;0;L'original va ser canviat en secret per una falsificació;0;Fabricat a partir de peces desmantellades d'una ubicació;Ubicació/Objecte;Dissenipa, augmenta o comparteix màgia;0
+43;Objecte;Propietats d'endevinació o espionatge;0;L'original va ser canviat en secret per una falsificació;0;Fabricat a partir de peces desmantellades d'una ubicació;Ubicació/Objecte;Dissipa, augmenta o invoca màgia;0
 44;Objecte;Propietats que afecten la memòria;0;Vinculat a una mort misteriosa;Personatge;Creat en o al costat d'una ubicació;Ubicació;Comanda o invoca un tipus de criatura;Criatura
 45;Objecte;Propietats de camuflatge o disfressa;0;Molt modificat per una figura;Personatge;Robat o apropiat repetidament;0;Atorga accés a una ubicació específica;Ubicació/Objecte
 46;Objecte;Imbuït amb els poders d'una criatura;Criatura/Material;Apareix sovint en iconografia religiosa;0;Orígens desconeguts;0;Es destrueix una mica cada vegada que s'utilitza;0
@@ -342,7 +342,7 @@
 53;Objecte;Proporciona refugi o defensa portàtil;0;Creat per contrarestar un altre objecte;Objecte/Material;Utilitzat com a emblema d'una figura o facció;Personatge/Facció;Inflexible o irrompible;0
 54;Objecte;Propietats que milloren el carisma;0;Empasat o guardat per una criatura massiva;Criatura/Ubicació;Apostat en una aposta entre dues figures;Personatge;Autopropulsat o animat;0
 55;Objecte;Indestructible o això es creia;0;Creat per demostrar un punt per una figura o facció;Personatge/Facció;Creat en resposta a una crisi;Esdeveniment/Ubicació;Aspecte brillant o lluminós;0
-56;Material;Pot donar forma, influir o espiar els somnis;0;Desaparegut d'una ubicació específica;Ubicació;Utilitzat per un rol o professió específica;Personatge/Facció;Plagat de rèpliques i falsificacions;0
+56;Objecte;Pot donar forma, influir o espiar els somnis;0;Desaparegut d'una ubicació específica;Ubicació;Utilitzat per un rol o professió específica;Personatge/Facció;Plagat de rèpliques i falsificacions;0
 57;Objecte;Propietats musicals o acústiques;0;Conté restes d'una figura o criatura;Personatge/Criatura;Utilitzat per a la jura d'un jurament d'una facció;Facció;Esborrat del registre històric;0
 58;Objecte;Propietats restauradores o curatives;0;Utilitzat per caçar una criatura específica;Criatura/Material;Un cop restaurat per una facció o figura;Facció/Personatge;Cada cultura té la seva pròpia versió;0
 59;Objecte;Causa creixement o decadència;0;Conté una dimensió de butxaca;0;Es pensava erròniament que havia estat destruït en un esdeveniment;Esdeveniment;Utilitzat com a prova en el judici d'una figura;Personatge/Facció
@@ -352,10 +352,10 @@
 63;Objecte;Imbuït amb les propietats del seu material;Material/Criatura;Cobert de paraules, guardes o glifs;0;Descobert al costat d'un altre objecte;Objecte/Material;Creat per funcionar en climes extrems;0
 64;Objecte;Propietats de fase o teletransport;0;Conté una eina o arma oculta;Objecte/Material;Preuat pels col·leccionistes;0;Punt focal d'un conflicte o crisi;Esdeveniment/Facció
 65;Objecte;Propietats que afecten la velocitat o la força;0;Dèbil contra un material específic;Material/Criatura;Guardat en una ubicació específica;Ubicació/Esdeveniment;Vinculat a nombroses prediccions o profecies;0
-66;Objecte;Invoca o es transforma en una criatura;Criatura/Material;Marca de vergonya d'una facció a causa d'un esdeveniment;Facció/Esdeveniment;Sense informació;0;Vinculat a nombroses prediccions o profecies;0
+66;Objecte;Invoca o es transforma en una criatura;Criatura/Material;Marca de vergonya d'una facció a causa d'un esdeveniment;Facció/Esdeveniment;Esborra la memòria;0;Vinculat a nombroses prediccions o profecies;0
 67;Objecte;Propietats elementals;0;Parla o escriu secrets o revelacions;0;Vinculat a un esdeveniment profetitzat o apocalíptic;Esdeveniment/Ubicació;Aspecte brut;0
 68;Objecte;Millora la influència o l'autoritat;0;Article icònic d'una figura heroica o històrica;Personatge/Esdeveniment;Creat per commemorar un esdeveniment;Esdeveniment/Personatge;Conté un mapa ocult o direccions cap a una ubicació;Ubicació
-69;Objecte;Propietats de creació o destrucció de matèria;0;Oblidat a l'emmagatzematge d'una ubicació;Ubicació/Esdeveniment;Creat com un insult personal;Personatge;Propietats d'alteració de la sort o el destí;0
+69;Objecte;Propietats de creació o destrucció de matèria;0;Oblidat a l'emmagatzematge d'una ubicació;Ubicació/Esdeveniment;Creat com un insult personal;Personatge;Capacitat de manipular la sort o el destí;0
 70;Objecte;Propietats d'absorció o consum;0;Utilitzat en proves, judicis o interrogatoris;0;Responsable de la destrucció d'una ubicació;Ubicació/Esdeveniment;Fort contra un material específic;Material/Criatura
 71;Objecte;Atrapa, altera o manipula ànimes;0;Es rumoreja que està encantat per una figura;Personatge/Esdeveniment;Vinculat a històries antigues sobre una ubicació;Ubicació/Esdeveniment;Propietats químiques o alquímiques;0
 72;Objecte;Propietats de distorsió espacial;0;Enterrat amb una figura a la seva tomba;Personatge/Ubicació;Perdut o destruït en un esdeveniment;Esdeveniment/Facció;Propietats de transformació o transmutació;0
@@ -467,9 +467,9 @@
 34;Criatura;Unicorn;0;Tauró;0;Amfibi;0;Granota;0
 35;Criatura;Ant;0;Mussol;0;Tortuga;0;Estruç;0
 36;Criatura;Medusa;0;Cranc;0;Llimac;0;Ocell cantaire;0
-37;Criatura;Migrador o hivernador;0;S'alimenta de deïtats, esperits o visions;0;Associat amb somnis o visions;0;Cicle d'aparellament molt llarg o irregular;0
+37;Criatura;Migrador o hivernador;0;S'alimenta de deïtats, esperits o immortals;0;Associat amb somnis o visions;0;Cicle d'aparellament molt llarg o irregular;0
 38;Criatura;S'alimenta de calor, so o energia màgica;0;Presa d'una altra criatura;Criatura;Caçat o collit per una facció;Facció;Fotosintètic o fotofòbic;0
-39;Criatura;Filtrador o amb moltes dents;0;Canvia de temps o es teletransporta;0;Muntura d'una figura notable;Personatge;Capaç de parlar o imitar;0
+39;Criatura;Filtrador o amb moltes dents;0;Canvia de temps o es teletransporta;0;Muntura d'una figura notable;Personatge;Capaç de parlar o escriure;0
 40;Criatura;Fet d'un element, freqüència o energia;0;Visió especialitzada o ecolocalització;0;S'utilitza com a muntura per una facció;Facció;Bípede o humanoide;0
 41;Criatura;S'ossifica, es cristal·litza o es transforma a la mort;0;Només pot néixer o eclosionar a les flames;0;Utilitzat en la construcció d'una ubicació;Ubicació;Experimenta muda o metamorfosi;0
 42;Criatura;S'alimenta de residus o descomposició;0;S'alimenta d'un tipus de material o objecte;Material/Objecte;Subespècies notables en una ubicació;Ubicació;Creix o muta molt ràpidament;0
@@ -481,27 +481,27 @@
 48;Criatura;Juguetó o capritxós;0;Blubber o gepa;0;Va matar una figura històrica;Personatge;Comunica mitjançant gestos o patrons;0
 49;Criatura;Dimorfisme sexual múltiple;0;Trompa, bec o morro;0;Híbrid amb una altra criatura;Criatura;Banyes llargues o coll llarg;0
 50;Criatura;Es comunica mitjançant cançons;0;Tentacles, arrels o filaments;0;Donat com a regal a una figura notable;Personatge;Vida inusualment curta o llarga;0
-51;Criatura;Totalment solitari o altament social;0;Molt intel·ligent o incomprensible;0;Ja no es troba al seu hàbitat original;Ubicació;Articulacions reversibles o addicionals;0
+51;Criatura;Totalment solitari o altament social;0;Molt intel·ligent o de ment col·lectiva;0;Ja no es troba al seu hàbitat original;Ubicació;Articulacions reversibles o addicionals;0
 52;Criatura;Es comunica mitjançant brunzits o clics;0;Rugit, crit o grunyit potent;0;Senyal d'un esdeveniment profetitzat;Esdeveniment;Mandíbula desencaxable o inusual;0
 53;Criatura;Reproducció asexual;0;S'utilitza per a l'orientació o la navegació;0;Originat en una altra dimensió o regne;0;Menja plagues o es considera una plaga;0
-54;Criatura;Es comunica mitjançant olors, feromones o productes químics;0;Pell, escates o closca inusual;0;Símbol d'una facció;Facció;Molt ràpid o lent;0
+54;Criatura;Es comunica mitjançant olors, feromones o productes químics;0;Pell, escates o closca inusual;0;Símbol d'una facció;Facció;De metabolisme molt ràpid o lent;0
 55;Criatura;Depredador d'una altra criatura;Criatura;Pinces o punxes;0;Creat per màgia o tecnologia;0;Ulls, orelles o boques addicionals;0
 56;Criatura;Criatura coberta de líquen, algues o espores;0;Cos mineral o cristal·lí;0;Caçat o cultivat per a un material;Material;Capaç de detectar un material valuós;Material
 57;Criatura;Hàbitat polar o desèrtic;0;Fet d'un material;Material;Portat a prop de l'extinció durant un esdeveniment;Esdeveniment;Notablement pelut o sense pèl;0
 58;Criatura;Amfibi o aquàtic;0;Regeneració;0;Desplegat per ajudar durant un esdeveniment;Esdeveniment;Translúcid o transparent;0
-59;Criatura;Custodi d'una ubicació;Ubicació;Vomitador d'àcid o llançador de tinta;0;Guardià d'una criatura;Criatura;Cua o extremitats desmuntables;0
-60;Criatura;S'alimenta d'una ubicació;Ubicació;Forma colònies o famílies interespècies;0;Conegut per molts noms;0;Aletes, membranes o aletes per nedar;0
+59;Criatura;Custodi d'una ubicació;Ubicació;Vomitador d'àcid o llançador de tinta;0;Guardià d'un artefacte;Objecte;Cua o extremitats desmuntables;0
+60;Criatura;S'alimenta d'una ubicació;Ubicació;Forma colònies o famílies interespècies;0;Conegut per molts noms;0;Aletes, membranes o peülles;0
 61;Criatura;Diürn o nocturn;0;Resistent a la calor, al fred o al verí;0;S'utilitza per crear un artefacte;Objecte;Closca o exoesquelet;0
 62;Criatura;Habitant de coves o fons oceànics;0;Gran crinera, cresta o volants;0;Guardià d'un artefacte;Objecte;Ales no plomades o sense ales;0
 63;Criatura;Menjador d'herba, de fulles o pasturador;0;Camuflatge que s'assembla a un material;Material;Adorat per una facció;Facció;Cua amb maza o agulló;0
 64;Criatura;Consumeix, detecta o es comunica mitjançant els somnis;0;Antenes, peduncles oculars o bigotis;0;Utilitzat en el ritu d'iniciació d'una facció;Facció;Placa gruixuda del crani o closca mucosa;0
 65;Criatura;Només té un sol descendent alhora;0;En part mecànic o sintètic;0;Mascota d'una figura notable;Personatge;Extremadament lleuger o àgil;0
-66;Criatura;Amistós o horripilant;0;Canvi estacional de trets o pelatge;0;Utilitzat com a emblema d'una figura notable;Personatge;Estructura corporal asimètrica;0
+66;Criatura;Amistós però horripilant;0;Canvi estacional de trets o pelatge;0;Utilitzat com a emblema d'una figura notable;Personatge;Estructura corporal asimètrica;0
 67;Criatura;Llum o bateria viva;0;Entrenat per ajudar en un tipus d'esdeveniment;Esdeveniment;Capaç de detectar un material valuós;Material;Taques, ratlles o coloració d'advertència;0
 68;Criatura;Atac de projectils;0;Grans niuades o ventrades;0;Valorat per a un ingredient o reactiu;Material/Objecte;Escates, espines o crestes;0
 69;Criatura;Utilitza eines;Objecte;S'alimenta d'una ubicació;Ubicació;Sobrenomenat en honor a un material;Material;Creixement continu d'una part del cos;0
 70;Criatura;Branquies o pulmons especialitzats;0;Irradia una aura, núvol o camp;0;Sobrenomenat en honor a un esdeveniment;Esdeveniment;Els seus excrements es cullen per a un material;Material
-71;Criatura;Causa d'una plaga o calamitat;0;Té múltiples caps o cors;0;Telepàtic o telecinètic;0;Causa d'una plaga o calamitat;0
+71;Criatura;Causa d'una plaga o calamitat;0;Té múltiples caps o cors;0;Telepàtic o telecinètic;0;Construeix ruscos, teranyines o nius amb un material;Material
 72;Criatura;Monògam o polígam;0;Repel·lit per o atret per un material;Material;Associat amb un déu o esperit;0;Mimicrí o emboscador talentós;0
 1;Modificadors;Crucial;;Amb taques;;Repel·lent;;Persistent;
 2;Modificadors;Noble;;Fracturant;;Calmant;;Humorístic;
@@ -514,7 +514,7 @@
 9;Modificadors;Absorbent;;Fragant;;Tumultuós;;Serendipitós;
 10;Modificadors;Lent;;Vejat;;Rodonet;;Punxegut;
 11;Modificadors;Fet a mida;;Llustrós;;Divertit;;Maliciós;
-12;Modificadors;Creatiu;;Crític;;Ficaxapes;;Vidriat;
+12;Modificadors;Creatiu;;Crític;;Tafaner;;Vidriat;
 13;Modificadors;Químic;;Tens;;Acrimoniós;;Sibilant;
 14;Modificadors;Nu;;Sense paraules;;Angoixat;;Críptic;
 15;Modificadors;Esquerdat;;Represaliat;;Cruixent;;Alat;
