@@ -107,42 +107,42 @@
 34;Figura;Economista;; Metge;; Aficionat;; Corredor;
 35;Figura;Conductor;; Mariner;; Creient;; Metge;
 36;Figura;Educador;; Ferrer;; Deixeble;; Mariner;
-37;Figura;Balbuceja o tartamudeja;0;Recollir un recurs o tipus d'objecte;Material/Objecte;Va rebre una visió d'un esdeveniment futur;0;Especialment maldestre;0
-38;Figura;Trets de personalitat o físics d'una criatura;Criatura;Difondre o desmantellar una ideologia;Facció;Es va obrir camí fins al cim d'una facció;Facció;Propens a les xafarderies o l'escàndol;0
-39;Figura;Al·lèrgia greu a un material;Material;Escapar d'un grup tòxic o situació;Facció;Assoliments esborrats de la història;0;Obsessionat per un material;Material
-40;Figura;Empàtic o telepàtic;0;Derrotar un enemic o rival;Personatge;Emblema o sobrenom inspirat per un objecte;Objecte;Extremadament parraire;0
-41;Figura;Valent o temerari;0;Destruir o enterrar un objecte o artefacte;Objecte;Emblema o sobrenom inspirat per una criatura;Criatura;Fred o de cor cruel;0
-42;Figura;Barreteria culturalment específica;Objecte;Completar un prototip innovador;Objecte;Va causar la caiguda d'una facció o personatge;Facció/Personatge;Honest fins a l'extrem;0
-43;Figura;Sempre porta guants i/o una màscara;Objecte;Revifar una facció difunta;Facció;Últim practicant d'una professió;Facció/Personatge;Excés de confiança o desconfiança;0
-44;Figura;Cicatriu o ferida notable;Personatge;Recuperar una relíquia o herència perduda;Objecte;Traït o denunciat per un personatge o facció;Personatge/Facció;Còmic o mordaç;0
-45;Figura;Mascota o guardià animal;Criatura;Provocar un esdeveniment;0;Va desaparèixer durant anys;0;Propens a la preocupació o inestabilitat emocional;0
-46;Figura;Negociador o manipulador hàbil;Personatge;Pagar un deute a una figura;Personatge;Notable patrimoni familiar;0;Estil d'educació diferent;0
-47;Figura;Amant de la música, l'art o la literatura;0;Anunciar l'apocalipsi;0;Responsable de destruir un artefacte;Objecte;Tatuatges o pírcings prominents;0
-48;Figura;Sempre té pressa;0;Trobar redempció per la implicació en un esdeveniment;0;Buscat per una facció per completar un artefacte;Facció/Objecte;Optimista o pessimista extrem;0
-49;Figura;Ratxa rebel;0;Desenvolupar una nova via per obtenir un material;Material;Va causar la mort d'una figura notable;Personatge;Mirada intensa o fixa;0
-50;Figura;Trobar una parella adequada per al seu fill;Personatge;Girar la truita en una gran batalla;0;Diners vells o nou ric;0;Xerraire dolç, coqueteig o veu cantant;0
-51;Figura;Establir una nova xarxa d'espionatge;Facció;Enamorat en un triangle amorós;Personatge;Historial en un triangle amorós;0;Interminablement gris o avorrit;0
-52;Figura;Olor agradable;0;Completar una obra mestra en un mitjà específic;Objecte;Aprenentatge sota una figura o facció;Personatge/Facció;Terrible en un paper, habilitat o professió;0
-53;Figura;Oblit o distret;0;Venjar-se d'una figura o facció;Personatge/Facció;Va predir un gran esdeveniment;0;Presumit o fatxenda;0
-54;Figura;Sempre porta un record d'un esdeveniment;Objecte;Convertir-se en un artista o intèrpret aclamat;0;Patró d'una facció;Facció;Sentit de la moda atrevit;0
-55;Figura;Mastega o fa petar els dits constantment;0;Trobar un artefacte o ubicació perduts;Objecte/Ubicació;Implicat en una ruptura terrible;Personatge;Pensador divergent;0
-56;Figura;Enamorat d'algú prohibit;Personatge;Corregir els greuges històrics d'un esdeveniment;0;Carrera anterior en un paper específic;0;Dolor crònic o malaltia;0
-57;Figura;Solucionador de problemes o buscador de regals;0;Establir un imperi econòmic amb un material;Material;Va tenir una experiència traumàtica en una ubicació;Ubicació;Taral·leja, xiula o remuga;0
-58;Figura;Descuidat amb el temps o els diners;0;Escapar de quelcom o algú que el persegueix;Personatge;Conegut anteriorment per un altre nom;0;Collidor experimentat d'un material;Material
-59;Figura;Jura molt;0;Buscar o desenvolupar un tractament per a una malaltia;0;Empresonat o protegit per una facció;Facció;Coneix la ubicació d'un artefacte poderós;Objecte
-60;Figura;Li encanten els jocs de paraules o les bromes;0;Recuperar-se dels efectes d'un esdeveniment;0;Creat un objecte notable;Objecte;Aclaparador o entusiasta;0
-61;Figura;Remeia un cor trencat;Personatge;Únic pel seu naixement o llinatge;Personatge;Connexions amb l'inframón o l'alta societat;Facció;Considerat un geni;0
-62;Figura;Aspecte descurat;0;Restaurar una espècie a una ubicació;Criatura/Ubicació;Trenca-promeses conegut;0;Políglota o erudit;0
-63;Figura;Pròtesi o membre perdut;Personatge;Restaurar la reputació després de calúmnies;0;Va fugir del seu poble i mai va mirar enrere;Ubicació;Escapar d'un somni o malson recurrent;0
-64;Figura;Propens al deliri;0;Robar un objecte;Objecte;Propietari d'una ubicació específica;Ubicació;Sempre porta un llibre o diari;Objecte
-65;Figura;Persona impecable, reputació o aparença;0;Unir o reconciliar faccions en conflicte;Facció;Carrera anterior en un paper específic;0;Persona de confiança o manipuladora;Personatge
-66;Figura;Camaleó social o papallona social;0;Construir o assentar una ubicació;Ubicació;Construït o assentat una ubicació;Ubicació;Fòbia greu a una criatura;Criatura
-67;Figura;Reparar o restaurar un artefacte poderós;Objecte;Notable pentinat, pèl facial o corporal;0;Construït o assentat una ubicació;Ubicació;Fòbia greu a una criatura;Criatura
-68;Figura;Exposar una figura o facció com a fraudulenta;Personatge/Facció;Únic supervivent d'una tragèdia;0;Bona mà amb les plantes o animals;Criatura;Hàbil treballant amb un material;Material
-69;Figura;Va tenir un paper improbable en un gran esdeveniment;0;Infiltrar-se en una facció;Facció;Vinculat a un crim;Personatge/Facció;Ansiós o temerós;0
-70;Figura;Venjar-se d'alguna cosa no humana;Criatura;Parla una llengua morta;0;Memòries significatives perdudes;0;Descobrir els orígens d'una catàstrofe;0
-71;Figura;D'una família amb una ocupació específica;0;Políglota o erudit;0;Fortuna familiar en un recurs o bé comercial;Material/Objecte;Art corporal (criatura, objecte o facció);Criatura/Objecte/Facció
-72;Figura;Trobar un amic o familiar perdut fa molt de temps;Personatge;Ferrer;Personatge;Deixeble;Personatge;Educador;Personatge
+37;Figura;Telepàtic o empàtic;0;Extremadament loquaç o taciturn;0;Derrotar un enemic o rival;Personatge;Emblema o sobrenom inspirat en un objecte;Objecte
+38;Figura;Quec o balbuceja;0;Especialment maldestre o àgil;0;Col·leccionar un recurs o tipus d'objecte;Objecte/Material;Va rebre una visió d'un esdeveniment futur;Esdeveniment
+39;Figura;Trets físics o de personalitat d'una criatura;Criatura;Propens a les xafarderies o a l'escàndol;0;Difondre o desmantellar una ideologia;0;Va obrir-se camí fins al cim d'una facció;Facció
+40;Figura;Valent o temerari;0;Molt lògic, fred o cruel;0;Destruir o enterrar un objecte o artefacte;Objecte;Emblema o sobrenom inspirat en una criatura;Criatura
+41;Figura;Gorra o barret culturalment específic;0;Massa honest;0;Completar un prototip innovador;Objecte;Va causar la caiguda d'una facció o figura;Facció/Personatge
+42;Figura;Al·lèrgia greu a un material;Material;Turmentat o embruixat;0;Escapar d'un grup o situació tòxica;Facció/Esdeveniment;Assoliments esborrats de la història;0
+43;Figura;Negociador o manipulador hàbil;0;Expert en un estil de lluita;0;Saldar un deute amb una figura o facció;Personatge/Facció;Finca familiar notable;Ubicació
+44;Figura;Sempre porta guants i/o màscara;0;Massa confiat o desconfiat;0;Reviure una facció desapareguda;Facció;Últim practicant d'una professió;Personatge/Objecte
+45;Figura;Cicatriu o ferida notable;0;Divertit o eloqüent;0;Recuperar una relíquia o fortuna perduda;Objecte/Material;Va trair o denunciar una figura o facció;Personatge/Facció
+46;Figura;Amant de la música, l'art o la literatura;0;Tatuatge(s) o pírcing(s) prominent(s);0;Anunciar l'apocalipsi;Esdeveniment;Responsable de destruir un artefacte;Objecte
+47;Figura;Porta ulleres o un aparell per veure o escoltar;0;Sempre té pressa;0;Trobar redempció per la implicació en un esdeveniment;Esdeveniment;Buscat per una facció per completar un ritual;Facció
+48;Figura;Mascota o animal guardià;Criatura;Personalitat emocional (càlida o freda);0;Provocar un esdeveniment;Esdeveniment;Desaparegut durant anys;0
+49;Figura;Ulls o mirada intensa;0;Extremadament baix o alt;0;Completar una obra mestra (en un mitjà específic);Objecte;Aprenent sota una figura o facció;Personatge/Facció
+50;Figura;Extremadament optimista o pessimista;0;Energia aparentment inesgotable;0;Desenvolupar una nova manera de fabricar o obtenir un material;Objecte/Material;Va causar la mort d'una figura notable;Personatge
+51;Figura;Diners de tota la vida o nou ric;0;Vena rebel;0;Trobar una parella adequada per al seu fill;Personatge;Va canviar el rumb d'una gran batalla;Esdeveniment
+52;Figura;Equipament o roba distintiva;Objecte;Fa i perd amics fàcilment;0;Venjar-se d'una figura o facció;Personatge/Facció;Va predir un gran esdeveniment;Esdeveniment
+53;Figura;Oblidadís o distret;0;Fragància agradable;0;Convertir-se en un artista o intèrpret aclamat;0;Patró d'una facció;Facció
+54;Figura;Malsons terribles o altres alteracions del son;0;Enredaire, coquet o afalagador;0;Establir una nova facció;Facció;En un triangle amorós;Personatge
+55;Figura;Accent regionalment específic o mixt;0;Recol·lector hàbil d'un material específic;Material/Objecte;Escapar d'alguna cosa o d'algú que els persegueix;Personatge/Facció;Abans feia servir un nom diferent;0
+56;Figura;Sempre picant o mastegant alguna cosa;0;Descuidat amb el temps o els diners;0;Trobar un artefacte o ubicació perduda;Objecte/Ubicació;Implicat en una ruptura terrible;Personatge
+57;Figura;Insegur;0;Pensador creatiu o divergent;0;Esmenar els errors històrics d'un esdeveniment;Esdeveniment;Enamorat d'algú prohibit;Personatge
+58;Figura;Entusiasta o excitable;0;Segona vida o identitat secreta;Personatge;Cercar o desenvolupar un tractament per a una malaltia;Material;Empresonat o protegit per una facció;Facció
+59;Figura;Li encanten els jocs de paraules o les bromes;0;Diu moltes paraulotes;0;Recuperar-se dels efectes d'un esdeveniment;Esdeveniment/Objecte;Va crear un objecte notable;Objecte
+60;Figura;Taral·leja, xiula o remena coses;0;Hàbil resolent problemes o creant;0;Establir un imperi econòmic amb un material;Material/Objecte;Va tenir una experiència traumàtica en una ubicació;Ubicació
+61;Figura;Posseeix un artefacte poderós;Objecte;Sempre porta un record d'un esdeveniment;Esdeveniment;Escapar d'un somni o malson recurrent;0;Va escapar del seu poble natal i mai va mirar enrere;Ubicació/Esdeveniment
+62;Figura;Veu única per parlar o cantar;0;Li falta una extremitat o porta pròtesi;Objecte;Curar un cor trencat;Personatge;De naixement o llinatge desconegut;0
+63;Figura;Terrible en un rol, habilitat o professió específica;Personatge/Objecte;Considerat un geni;0;Restaurar una espècie en una ubicació;Criatura/Ubicació;Conegut trenca-juraments;0
+64;Figura;Dolor crònic o malaltia;0;Sentit de la moda audaç;0;Robar un objecte;Objecte;És propietari d'una ubicació específica;Ubicació
+65;Figura;Façana, reputació o aparença immaculades;0;Propens a enganys o paranoia;0;Unir o reconciliar faccions barallades;Facció;Antiga carrera en un rol específic;Personatge/Objecte
+66;Figura;Hàbil treballant o creant amb un objecte;Objecte;Aparença descuidada;0;Restaurar la reputació després de ser calumniat per algú;Personatge;Escàndol vergonyós;Facció
+67;Figura;Fòbia greu a una criatura;Criatura;Connexions de l'alta societat o de l'inframón;0;Venjar-se d'alguna cosa no humana;Criatura/Ubicació/Objecte;Vinculat a un crim;Esdeveniment/Facció
+68;Figura;Camaleó o papallona social;0;Manierismes ansiosos o pors;0;Reparar o restaurar un artefacte poderós;Objecte;Va construir o assentar-se en una ubicació;Ubicació
+69;Figura;Hàbil treballant o creant amb un material específic;Material/Objecte;Pentinat, pèl facial o borrissol notable;0;Exposar una figura o facció;Personatge/Facció;Únic supervivent d'una tragèdia;Esdeveniment/Facció
+70;Figura;Art corporal (d'una criatura, objecte o ubicació);Criatura/Objecte/Ubicació;D'una família amb una ocupació específica;Personatge/Objecte;Descobrir els orígens d'una catàstrofe;Esdeveniment;Pèrdua de records significatius;0
+71;Figura;Políglot o erudit;0;Parla una llengua morta;0;Trobar un amic o familiar perdut fa temps;Personatge;Fortuna familiar en un recurs o bé comercial;Material/Objecte
+72;Figura;Coneix la ubicació d'un artefacte poderós;Objecte;Bo amb els animals o bona mà per a les plantes;Criatura;Infiltrar-se en una facció;Facció;Va jugar un paper improbable en un gran esdeveniment;Esdeveniment
 1;Esdeveniment;Batalla;0;Estampida;0;Acord;0;Aniquilació;0
 2;Esdeveniment;Derrota;0;Ajustament de comptes;0;Herència;0;Cisma;0
 3;Esdeveniment;Jurament;0;Prova;0;Competició;0;Xoc;0
