@@ -143,78 +143,78 @@ Carta;Categoria;Idea1;Simbol1;Idea2;Simbol2;Idea3;Simbol3;Idea4;Simbol4
 70;Personatge;D'una família amb una ocupació específica;Personatge;Descobrir els orígens d'una catàstrofe;Esdeveniment;Li falten records significatius;0;Parla una llengua morta;0
 71;Personatge;Políglota o erudit;0;Trobar un amic o familiar perdut fa temps;Personatge;Fortuna familiar en un recurs o bé comercial;Material;Art corporal (d'una criatura, objecte o ubicació);Criatura/Objecte/Ubicació
 72;Personatge;Coneix la ubicació d'un artefacte poderós;Objecte;Infiltrar-se en una facció;Facció;Va tenir un paper improbable en un esdeveniment important;Esdeveniment;Bona mà amb les plantes o amb els animals;0
-1;Esdeveniments;Batalla;0;Derrota;0;Rendició;0;Aniquilació;0
-2;Esdeveniments;Estampida;0;Ajust de comptes;0;Tempesta(es);0;Delmació;0
-3;Esdeveniments;Tsunami;0;Acord;0;Herència;0;Controvèrsia;0
-4;Esdeveniments;Jurament;0;Terratrèmol;0;Competició;0;Prova;0
-5;Esdeveniments;Corrupció;0;Meteor;0;Aposta;0;Pluja(es);0
-6;Esdeveniments;Judici;0;Tornado;0;Cursa;0;Sacrifici;0
-7;Esdeveniments;Abdicació;0;Huracà;0;Funeral;0;Onada;0
-8;Esdeveniments;Coronació;0;Erupció(ns);0;Reconciliació;0;Collita;0
-9;Esdeveniments;Cirurgia;0;Explosió(ns);0;Successió;0;Hibernació;0
-10;Esdeveniments;Èxode;0;Fam;0;Victòria;0;Vòrtex;0
-11;Esdeveniments;Xoc;0;Sequera;0;Concurs;0;Lligam;0
-12;Esdeveniments;Cisma;0;Col·lapse;0;Espectacle;0;Escaramussa;0
-13;Esdeveniments;Crisi;0;Extinció;0;Invasió;0;Punt mort;0
-14;Esdeveniments;Concert;0;Inundació(ns);0;Emboscada;0;Devoració;0
-15;Esdeveniments;Cop mestre;0;Incendi(s);0;Emancipació;0;Dansa;0
-16;Esdeveniments;Aldarull(s);0;Plaga;0;Duel;0;Foscor;0
-17;Esdeveniments;Mort;0;Epidèmia;0;Alliberament;0;Resurrecció;0
-18;Esdeveniments;Profecia;0;Pandèmia;0;Judici(s);0;Pressa;0
-19;Esdeveniments;Deserció;0;Conflagració;0;Tragèdia;0;Solstici;0
-20;Esdeveniments;Assassinat;0;Guerra(es);0;Renaixement;0;Pansiment;0
-21;Esdeveniments;Revolta;0;Atracament;0;Assalt;0;Desgel;0
-22;Esdeveniments;Recessió;0;Massacre;0;Gresca;0;Apogeu;0
-23;Esdeveniments;Estancament;0;Enverinament;0;Torneig;0;Trencament;0
-24;Esdeveniments;Cop d'estat;0;Setge;0;Crim;0;Arribada;0
-25;Esdeveniments;Revolució;0;Calamitat;0;Annexió;0;Floració;0
-26;Esdeveniments;Elecció;0;Cataclisme;0;Festí;0;Reunió;0
-27;Esdeveniments;Execució;0;Apocalipsi;0;Armistici;0;Despertar;0
-28;Esdeveniments;Ascensió;0;Bombardeig(s);0;Robatori;0;Treva;0
-29;Esdeveniments;Casament;0;Tempesta;0;Naixement;0;Broma;0
-30;Esdeveniments;Escàndol;0;Flagell;0;Engany;0;Col·lapse;0
-31;Esdeveniments;Règim;0;Detonació;0;Blasfèmia;0;Desvetllament;0
-32;Esdeveniments;Extorsió;0;Congelació;0;Disculpa;0;Temporada;0
-33;Esdeveniments;Proclamació;0;Cometa;0;Venjança;0;Divisió;0
-34;Esdeveniments;Traïció;0;Hivern;0;Renaixement;0;Auge;0
-35;Esdeveniments;Tàctica;0;Diluvi;0;Cacera;0;Retorn;0
-36;Esdeveniments;Complot;0;Eclipsi;0;Purga;0;Escletxa;0
-37;Esdeveniments;Fundació d'una nova nació o seu per part d'una facció;Facció/Ubicació;Esborrat de la història o encobert;0;Ascens meteòric d'un personatge o facció;Personatge/Facció;Aliment bàsic, ingredient o espècie esgotat;Material/Criatura
-38;Esdeveniments;Desacord de jurisdicció sobre una ubicació;Ubicació;El moment de glòria o fracàs d'un personatge;Personatge;Gel o foscor invasora;0;Creença en un fals profeta;Personatge/Facció
-39;Esdeveniments;Destrucció o abandonament d'una ubicació;Ubicació;Escassetat sobtada d'un recurs o tipus d'objecte;Material/Objecte;Esdeveniment rèplica;Esdeveniment;Va implicar molta especulació descarada;0
-40;Esdeveniments;Construcció o disseny d'un monument commemoratiu;Ubicació;Exili d'una facció o Personatge;Facció/Personatge;Presenciat o atès per molts;0;Destrucció amb intenció de creació;0
-41;Esdeveniments;Contaminació en una ubicació;Ubicació;Facció o Personatge sent esborrada de la història;Facció/Personatge;Incomprès en el seu moment;0;Capritx sobtat;0
-42;Esdeveniments;Cràter fumejant o ruïnes;Ubicació;Reunió molt esperada;Esdeveniment;Avarícia d'un personatge notable;Personatge;Lliurament tardà d'alguna cosa;Material/Objecte
-43;Esdeveniments;Canvi de nom d'un objecte o ubicació;Objecte/Ubicació;Ocupació d'una ubicació per una facció;Ubicació/Facció;Va passar de la nit al dia o va atrapar a tothom per sorpresa;0;Molt endarrerit;0
-44;Esdeveniments;Creació d'un artefacte;Objecte;Descobriment d'un nou material o ubicació;Material/Ubicació;Criatura o espècie abandonant per sempre una ubicació;Criatura/Ubicació;La gota que fa vessar el got;0
-45;Esdeveniments;Taca permanent en la reputació d'una facció;Facció;Exposició dels draps bruts d'un personatge;Personatge;La decepció d'un pare o la curiositat d'un nen;0;Notablement sense sang o sagnant;0
-46;Esdeveniments;Cregut erròniament com a un muntatge;0;Transformació d'un artefacte;Objecte;Una flagrant demostració de poder;0;Presenciat per molts;0
-47;Esdeveniments;Fortament polititzat (per una facció);Facció;Un plat mal preparat;0;Mapes redibuixats;0;Creació d'una recepta o cançó;0
-48;Esdeveniments;Acte de blasfèmia o adoració;0;Petició, instruccions o contracte ambigu;0;Presenciat per ningú (o només per una persona);Personatge;Creació d'una recepta o cançó;0
-49;Esdeveniments;Resurrecció d'una llengua morta;0;Nou sobrenom per a un material;Material;Elaborat encanteri o ritual;0;Coronació d'un monarca improbable;0
-50;Esdeveniments;Va revelar el veritable poder d'un artefacte;Objecte;Quarantena o bloqueig al voltant d'una ubicació;Ubicació;Element rebel dins d'una facció;Facció;Descobriment d'una part d'un artefacte perdut;Objecte
-51;Esdeveniments;Nou panteó o calendari;0;Naturalment espontani;0;Nou líder d'una facció;Facció;Ús imprudent d'un objecte o artefacte;Objecte
-52;Esdeveniments;Obertura o retorn d'un personatge llegendari;Personatge;Nou art marcial o estil de lluita;0;Orquestrat per una facció per distreure d'un esdeveniment;Facció/Esdeveniment;Burocràcia o falta de voluntat política;0
-53;Esdeveniments;Nou model per entendre el cosmos;0;Lloc situat majoritàriament al voltant d'una ubicació;Ubicació;Confiar en la persona o grup equivocat;0;Desconfiança pública en una facció o institució;Facció
-54;Esdeveniments;Obra mestra artística o arquitectònica;0;Profundament poètic;0;Dol o venjança equivocada;0;Aliança reforjada entre faccions;Facció
-55;Esdeveniments;Migració massiva a o des d'una ubicació;Ubicació;Expulsió d'un líder de facció;Personatge;Recordat cada any en l'aniversari;0;Llançament de moneda o tirada de daus;0
-56;Esdeveniments;Fi d'un llinatge;0;Implicava trencar un tabú;0;Restauració o floriment d'una espècie;Criatura;Esdeveniment precursor;0
-57;Esdeveniments;Exposició dels secrets d'una facció;Facció;Especialment unificador o divisiu;0;Intent d'assassinat fallit;0;Amenaça (emesa per o a un personatge);Personatge
-58;Esdeveniments;Descobriment d'una nova arma poderosa;Objecte;Prohibició d'un rol social o professió específica;0;Pressió de les expectatives ancestrals;0;Punt d'inflexió;0
-59;Esdeveniments;La gran aposta d'una facció o Personatge;Facció/Personatge;Pèrdua d'un mètode de construcció o fabricació;0;Acudit o rialla inoportuna;0;Efímer o persistent;0
-60;Esdeveniments;Nova forma de mitjans de comunicació o gènere d'art;0;Prohibició d'un material;Material;Ressò o mirall d'un esdeveniment anterior;Esdeveniment;Catàrtic o revelador;0
-61;Esdeveniments;Prohibició d'un tipus d'objecte;Objecte;Guerra entre faccions;Facció;Finalització d'una era;0;La paraula correcta a l'orella equivocada;0
-62;Esdeveniments;Nou material experimental;Material;Revisió històrica;0;Sovint mal recordat o mitificat;0;Els dimonis personals d'un personatge;Personatge
-63;Esdeveniments;Desheretament inesperat o canvi en l'herència;0;Va passar desapercebut;0;Assalt d'una persona o lloc;Personatge/Ubicació;Sentiments ferits o menyspreu menor;0
-64;Esdeveniments;Nova tecnologia impulsada per un material;Material;Canvi sobtat en l'estat de la màgia;0;Només registrat en una ubicació;Ubicació;Rancúnia de segles;0
-65;Esdeveniments;Destrucció d'un artefacte;Objecte;Nous delmes, impostos o tributs;0;Nova paraula, expressió o modisme;0;Broma o engany que se'n va anar de les mans;0
-66;Esdeveniments;Criatura entrant o sortint de la hibernació;Criatura;Sobrenom a un personatge o facció;Personatge/Facció;Celebrat per una facció;Facció;Xoc de dos artefactes poderosos;Objecte/Objecte
-67;Esdeveniments;Important objecte desaparegut;Objecte;Llarg període de neteja o reconstrucció;0;Canvis ràpids en l'ús de la tecnologia;0;Culpa equivocada a una facció o Personatge;Facció/Personatge
-68;Esdeveniments;Malaltia transmesa per una espècie;Criatura;Va donar lloc al primer immortal;0;Destinat a romandre dins d'una família;0;Un secret revelat o una promesa trencada;0
-69;Esdeveniments;Assentament d'una ubicació;Ubicació;Predits (per un personatge o facció);Personatge/Facció;Joc perdut o aposta;0;Romanç i/o rivalitat entre dues figures;Personatge/Personatge
-70;Esdeveniments;Extinció o migració d'una criatura;Criatura;Canvi permanent en com la gent dorm o somia;0;Forces sobrenaturals implicades;0;Frase mal escoltada o traduïda d'un personatge;Personatge
-71;Esdeveniments;Creació o eradicació d'un idioma;0;Col·lapse d'un poder abans gran;0;Autoinfligit;0;Indecisió o vacil·lació;0
-72;Esdeveniments;Sobrenom a una criatura o ubicació;Criatura/Ubicació;Disculpa infame;0;Sobrenom a un material o objecte;Material/Objecte;Un moment de falta d'atenció;0
+1;Esdeveniment;Batalla;0;Derrota;0;Rendició;0;Aniquilació;0
+2;Esdeveniment;Estampida;0;Ajust de comptes;0;Tempesta(es);0;Delmació;0
+3;Esdeveniment;Tsunami;0;Acord;0;Herència;0;Controvèrsia;0
+4;Esdeveniment;Jurament;0;Terratrèmol;0;Competició;0;Prova;0
+5;Esdeveniment;Corrupció;0;Meteor;0;Aposta;0;Pluja(es);0
+6;Esdeveniment;Judici;0;Tornado;0;Cursa;0;Sacrifici;0
+7;Esdeveniment;Abdicació;0;Huracà;0;Funeral;0;Onada;0
+8;Esdeveniment;Coronació;0;Erupció(ns);0;Reconciliació;0;Collita;0
+9;Esdeveniment;Cirurgia;0;Explosió(ns);0;Successió;0;Hibernació;0
+10;Esdeveniment;Èxode;0;Fam;0;Victòria;0;Vòrtex;0
+11;Esdeveniment;Xoc;0;Sequera;0;Concurs;0;Lligam;0
+12;Esdeveniment;Cisma;0;Col·lapse;0;Espectacle;0;Escaramussa;0
+13;Esdeveniment;Crisi;0;Extinció;0;Invasió;0;Punt mort;0
+14;Esdeveniment;Concert;0;Inundació(ns);0;Emboscada;0;Devoració;0
+15;Esdeveniment;Cop mestre;0;Incendi(s);0;Emancipació;0;Dansa;0
+16;Esdeveniment;Aldarull(s);0;Plaga;0;Duel;0;Foscor;0
+17;Esdeveniment;Mort;0;Epidèmia;0;Alliberament;0;Resurrecció;0
+18;Esdeveniment;Profecia;0;Pandèmia;0;Judici(s);0;Pressa;0
+19;Esdeveniment;Deserció;0;Conflagració;0;Tragèdia;0;Solstici;0
+20;Esdeveniment;Assassinat;0;Guerra(es);0;Renaixement;0;Pansiment;0
+21;Esdeveniment;Revolta;0;Atracament;0;Assalt;0;Desgel;0
+22;Esdeveniment;Recessió;0;Massacre;0;Gresca;0;Apogeu;0
+23;Esdeveniment;Estancament;0;Enverinament;0;Torneig;0;Trencament;0
+24;Esdeveniment;Cop d'estat;0;Setge;0;Crim;0;Arribada;0
+25;Esdeveniment;Revolució;0;Calamitat;0;Annexió;0;Floració;0
+26;Esdeveniment;Elecció;0;Cataclisme;0;Festí;0;Reunió;0
+27;Esdeveniment;Execució;0;Apocalipsi;0;Armistici;0;Despertar;0
+28;Esdeveniment;Ascensió;0;Bombardeig(s);0;Robatori;0;Treva;0
+29;Esdeveniment;Casament;0;Tempesta;0;Naixement;0;Broma;0
+30;Esdeveniment;Escàndol;0;Flagell;0;Engany;0;Col·lapse;0
+31;Esdeveniment;Règim;0;Detonació;0;Blasfèmia;0;Desvetllament;0
+32;Esdeveniment;Extorsió;0;Congelació;0;Disculpa;0;Temporada;0
+33;Esdeveniment;Proclamació;0;Cometa;0;Venjança;0;Divisió;0
+34;Esdeveniment;Traïció;0;Hivern;0;Renaixement;0;Auge;0
+35;Esdeveniment;Tàctica;0;Diluvi;0;Cacera;0;Retorn;0
+36;Esdeveniment;Complot;0;Eclipsi;0;Purga;0;Escletxa;0
+37;Esdeveniment;Fundació d'una nova nació o seu per part d'una facció;Facció/Ubicació;Esborrat de la història o encobert;0;Ascens meteòric d'un personatge o facció;Personatge/Facció;Aliment bàsic, ingredient o espècie esgotat;Material/Criatura
+38;Esdeveniment;Desacord de jurisdicció sobre una ubicació;Ubicació;El moment de glòria o fracàs d'un personatge;Personatge;Gel o foscor invasora;0;Creença en un fals profeta;Personatge/Facció
+39;Esdeveniment;Destrucció o abandonament d'una ubicació;Ubicació;Escassetat sobtada d'un recurs o tipus d'objecte;Material/Objecte;Esdeveniment rèplica;Esdeveniment;Va implicar molta especulació descarada;0
+40;Esdeveniment;Construcció o disseny d'un monument commemoratiu;Ubicació;Exili d'una facció o Personatge;Facció/Personatge;Presenciat o atès per molts;0;Destrucció amb intenció de creació;0
+41;Esdeveniment;Contaminació en una ubicació;Ubicació;Facció o Personatge sent esborrada de la història;Facció/Personatge;Incomprès en el seu moment;0;Capritx sobtat;0
+42;Esdeveniment;Cràter fumejant o ruïnes;Ubicació;Reunió molt esperada;Esdeveniment;Avarícia d'un personatge notable;Personatge;Lliurament tardà d'alguna cosa;Material/Objecte
+43;Esdeveniment;Canvi de nom d'un objecte o ubicació;Objecte/Ubicació;Ocupació d'una ubicació per una facció;Ubicació/Facció;Va passar de la nit al dia o va atrapar a tothom per sorpresa;0;Molt endarrerit;0
+44;Esdeveniment;Creació d'un artefacte;Objecte;Descobriment d'un nou material o ubicació;Material/Ubicació;Criatura o espècie abandonant per sempre una ubicació;Criatura/Ubicació;La gota que fa vessar el got;0
+45;Esdeveniment;Taca permanent en la reputació d'una facció;Facció;Exposició dels draps bruts d'un personatge;Personatge;La decepció d'un pare o la curiositat d'un nen;0;Notablement sense sang o sagnant;0
+46;Esdeveniment;Cregut erròniament com a un muntatge;0;Transformació d'un artefacte;Objecte;Una flagrant demostració de poder;0;Presenciat per molts;0
+47;Esdeveniment;Fortament polititzat (per una facció);Facció;Un plat mal preparat;0;Mapes redibuixats;0;Creació d'una recepta o cançó;0
+48;Esdeveniment;Acte de blasfèmia o adoració;0;Petició, instruccions o contracte ambigu;0;Presenciat per ningú (o només per una persona);Personatge;Creació d'una recepta o cançó;0
+49;Esdeveniment;Resurrecció d'una llengua morta;0;Nou sobrenom per a un material;Material;Elaborat encanteri o ritual;0;Coronació d'un monarca improbable;0
+50;Esdeveniment;Va revelar el veritable poder d'un artefacte;Objecte;Quarantena o bloqueig al voltant d'una ubicació;Ubicació;Element rebel dins d'una facció;Facció;Descobriment d'una part d'un artefacte perdut;Objecte
+51;Esdeveniment;Nou panteó o calendari;0;Naturalment espontani;0;Nou líder d'una facció;Facció;Ús imprudent d'un objecte o artefacte;Objecte
+52;Esdeveniment;Obertura o retorn d'un personatge llegendari;Personatge;Nou art marcial o estil de lluita;0;Orquestrat per una facció per distreure d'un esdeveniment;Facció/Esdeveniment;Burocràcia o falta de voluntat política;0
+53;Esdeveniment;Nou model per entendre el cosmos;0;Lloc situat majoritàriament al voltant d'una ubicació;Ubicació;Confiar en la persona o grup equivocat;0;Desconfiança pública en una facció o institució;Facció
+54;Esdeveniment;Obra mestra artística o arquitectònica;0;Profundament poètic;0;Dol o venjança equivocada;0;Aliança reforjada entre faccions;Facció
+55;Esdeveniment;Migració massiva a o des d'una ubicació;Ubicació;Expulsió d'un líder de facció;Personatge;Recordat cada any en l'aniversari;0;Llançament de moneda o tirada de daus;0
+56;Esdeveniment;Fi d'un llinatge;0;Implicava trencar un tabú;0;Restauració o floriment d'una espècie;Criatura;Esdeveniment precursor;0
+57;Esdeveniment;Exposició dels secrets d'una facció;Facció;Especialment unificador o divisiu;0;Intent d'assassinat fallit;0;Amenaça (emesa per o a un personatge);Personatge
+58;Esdeveniment;Descobriment d'una nova arma poderosa;Objecte;Prohibició d'un rol social o professió específica;0;Pressió de les expectatives ancestrals;0;Punt d'inflexió;0
+59;Esdeveniment;La gran aposta d'una facció o Personatge;Facció/Personatge;Pèrdua d'un mètode de construcció o fabricació;0;Acudit o rialla inoportuna;0;Efímer o persistent;0
+60;Esdeveniment;Nova forma de mitjans de comunicació o gènere d'art;0;Prohibició d'un material;Material;Ressò o mirall d'un esdeveniment anterior;Esdeveniment;Catàrtic o revelador;0
+61;Esdeveniment;Prohibició d'un tipus d'objecte;Objecte;Guerra entre faccions;Facció;Finalització d'una era;0;La paraula correcta a l'orella equivocada;0
+62;Esdeveniment;Nou material experimental;Material;Revisió històrica;0;Sovint mal recordat o mitificat;0;Els dimonis personals d'un personatge;Personatge
+63;Esdeveniment;Desheretament inesperat o canvi en l'herència;0;Va passar desapercebut;0;Assalt d'una persona o lloc;Personatge/Ubicació;Sentiments ferits o menyspreu menor;0
+64;Esdeveniment;Nova tecnologia impulsada per un material;Material;Canvi sobtat en l'estat de la màgia;0;Només registrat en una ubicació;Ubicació;Rancúnia de segles;0
+65;Esdeveniment;Destrucció d'un artefacte;Objecte;Nous delmes, impostos o tributs;0;Nova paraula, expressió o modisme;0;Broma o engany que se'n va anar de les mans;0
+66;Esdeveniment;Criatura entrant o sortint de la hibernació;Criatura;Sobrenom a un personatge o facció;Personatge/Facció;Celebrat per una facció;Facció;Xoc de dos artefactes poderosos;Objecte/Objecte
+67;Esdeveniment;Important objecte desaparegut;Objecte;Llarg període de neteja o reconstrucció;0;Canvis ràpids en l'ús de la tecnologia;0;Culpa equivocada a una facció o Personatge;Facció/Personatge
+68;Esdeveniment;Malaltia transmesa per una espècie;Criatura;Va donar lloc al primer immortal;0;Destinat a romandre dins d'una família;0;Un secret revelat o una promesa trencada;0
+69;Esdeveniment;Assentament d'una ubicació;Ubicació;Predits (per un personatge o facció);Personatge/Facció;Joc perdut o aposta;0;Romanç i/o rivalitat entre dues figures;Personatge/Personatge
+70;Esdeveniment;Extinció o migració d'una criatura;Criatura;Canvi permanent en com la gent dorm o somia;0;Forces sobrenaturals implicades;0;Frase mal escoltada o traduïda d'un personatge;Personatge
+71;Esdeveniment;Creació o eradicació d'un idioma;0;Col·lapse d'un poder abans gran;0;Autoinfligit;0;Indecisió o vacil·lació;0
+72;Esdeveniment;Sobrenom a una criatura o ubicació;Criatura/Ubicació;Disculpa infame;0;Sobrenom a un material o objecte;Material/Objecte;Un moment de falta d'atenció;0
 1;Ubicació;Pavelló;0;Casa del gremi;0;Cambra cuirassada;0;Terres salvatges;0
 2;Ubicació;Granja;0;Ciutat;0;Fortalesa;0;Golf;0
 3;Ubicació;Matollar;0;Campanar;0;Casa;0;Escull;0
