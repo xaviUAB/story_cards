@@ -3,710 +3,1809 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador d'Històries - The Story Engine</title>
-    
-    <!-- Tailwind CSS -->
+    <title>Baralla del Mestratge de Lore</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- React & ReactDOM -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    
-    <!-- Babel -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
     <style>
-        /* Personalització de la barra de desplaçament */
-        .custom-scrollbar::-webkit-scrollbar {
-            height: 12px;
-            width: 12px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #111;
-            border-radius: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #d4af37;
-            border-radius: 6px;
-            border: 3px solid #111;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #b5952f;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@400;700&display=swap');
+
         body {
-            background-color: #1a1a1a;
-            color: #e5e5e5;
-            font-family: 'Times New Roman', serif;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            font-family: 'Lato', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            overflow: hidden;
+            user-select: none;
         }
-        #root {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
+
+        h1, h2, h3, .font-title {
+            font-family: 'Cinzel', serif;
         }
-        /* Contenidor per a l'input que s'adapta a l'amplada del text */
-        .auto-width-container {
-            display: inline-grid;
-            align-items: center;
-            position: relative;
-            min-width: 40px;
-        }
-        .auto-width-container::after {
-            content: attr(data-value) " ";
-            visibility: hidden;
-            white-space: pre;
-            grid-area: 1/1;
-            padding: 0 8px;
-        }
-        .auto-width-container input {
-            grid-area: 1/1;
+
+        /* Tauler i Grid del Clúster */
+        .board-container {
             width: 100%;
-            background: transparent;
-            border: none;
-            text-align: center;
-            outline: none;
-            color: white;
-            padding: 0 4px;
+            height: calc(100vh - 72px);
+            position: relative;
+            background-image: radial-gradient(circle at center, #e2e2e8 0%, #c1c1c8 100%);
+            overflow: hidden;
+            cursor: grab;
         }
-        /* Estil per evitar el desbordament del text a les cartes */
-        .card-text-container {
+        
+        .board-container:active {
+            cursor: grabbing;
+        }
+
+        #canvas-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8000px;
+            height: 8000px;
+            transform-origin: 0 0;
+            display: none;
+        }
+
+        .cluster-wrapper {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            pointer-events: auto; 
+        }
+
+        .lore-cluster {
+            display: grid;
+            grid-template-columns: 280px 240px 280px; 
+            grid-template-rows: 280px 240px 280px;
+            gap: 12px;
+            position: relative;
+        }
+
+        /* Contenidor de la carta principal */
+        .primary-card-wrapper {
+            grid-column: 2;
+            grid-row: 2;
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Carta Principal */
+        .primary-card {
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            color: white;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        .card-center-icon {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            letter-spacing: 1px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        
+        .card-center-icon:hover {
+            background-color: rgba(255, 255, 255, 0.35);
+            box-shadow: 0 0 15px rgba(255,255,255,0.5);
+        }
+
+        .cue-text {
+            position: absolute;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 4px;
+            text-align: center;
+            white-space: normal;
+            word-wrap: break-word;
+            line-height: 1.2;
+            width: 180px;
+            transition: color 0.2s, text-shadow 0.2s;
             pointer-events: none;
         }
-        .card-text-content {
+
+        .cue-active {
+            color: #ffd700;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+        }
+
+        .cue-active::after {
+            content: '▼';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+        }
+
+        .cue-top { top: 8px; left: 50%; transform: translateX(-50%); }
+        .cue-top.cue-active::after { bottom: -15px; transform: translateX(-50%) rotate(0deg); }
+
+        .cue-right { right: -40px; top: 50%; transform: translateY(-50%) rotate(90deg); }
+        .cue-right.cue-active::after { bottom: -15px; transform: translateX(-50%) rotate(0deg); }
+
+        .cue-bottom { bottom: 8px; left: 50%; transform: translateX(-50%) rotate(180deg); }
+        .cue-bottom.cue-active::after { bottom: -15px; transform: translateX(-50%) rotate(0deg); }
+
+        .cue-left { left: -40px; top: 50%; transform: translateY(-50%) rotate(-90deg); }
+        .cue-left.cue-active::after { bottom: -15px; transform: translateX(-50%) rotate(0deg); }
+
+        /* Contenidors de Cartes Solapades (Tucked Slots) */
+        .slot-container {
+            display: flex;
+            gap: 8px; 
+            z-index: 5;
+            pointer-events: none; 
+        }
+        
+        /* Direccions de columna */
+        .slot-top { grid-column: 2; grid-row: 1; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 12px; }
+        .slot-right { grid-column: 3; grid-row: 2; flex-direction: column; justify-content: center; align-items: flex-start; padding-left: 12px; }
+        .slot-bottom { grid-column: 2; grid-row: 3; flex-direction: column; justify-content: flex-start; align-items: center; padding-top: 12px; }
+        .slot-left { grid-column: 1; grid-row: 2; flex-direction: column; justify-content: center; align-items: flex-end; padding-right: 12px; }
+
+        /* Cartes Solapades Individuals */
+        .tucked-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, transform 0.2s;
+            border: 1px solid #e0e0e0;
+            padding: 8px;
+            min-width: 120px;
+            max-width: 140px;
             text-align: center;
+            cursor: pointer;
+            z-index: 20;
+            pointer-events: auto;
+        }
+
+        .tucked-card:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            transform: scale(1.03);
+        }
+        
+        .tucked-add-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.8);
+            border: 1px dashed #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.2rem;
             font-weight: bold;
-            line-height: 1.15;
-            word-wrap: break-word;
-            hyphens: auto;
-            max-width: 100%;
+            transition: all 0.2s;
+            cursor: pointer;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 40 !important;
+            pointer-events: auto;
+        }
+
+        .tucked-add-btn-large {
+            width: 44px;
+            height: 44px;
+            font-size: 1.5rem;
+        }
+
+        .tucked-add-btn:hover {
+            background: white;
+            border-color: #333;
+            color: #333;
+            transform: scale(1.15);
+        }
+
+        .tucked-content {
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            padding: 4px;
+            pointer-events: none;
+        }
+
+        .modifier-arrows::before { content: '▲ '; font-size: 0.7em; }
+        .modifier-arrows::after { content: ' ▲'; font-size: 0.7em; }
+
+        /* Botó Eliminar Clúster situat a la cantonada inferior dreta */
+        .delete-cluster-btn {
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            width: 44px;
+            height: 44px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+            transition: transform 0.2s, background-color 0.2s;
+            z-index: 30;
+            pointer-events: auto;
+        }
+        
+        .delete-cluster-btn:hover {
+            background: #dc2626;
+            transform: scale(1.1);
+        }
+
+        /* Botó Anotacions situat a la cantonada superior dreta */
+        .notes-cluster-btn {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 44px;
+            height: 44px;
+            background: #4f46e5;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+            transition: transform 0.2s, background-color 0.2s;
+            z-index: 30;
+            pointer-events: auto;
+        }
+
+        .notes-cluster-btn:hover {
+            background: #4338ca;
+            transform: scale(1.1);
+        }
+        
+        .notes-cluster-btn.has-notes {
+            background: #22c55e;
+            color: white;
+        }
+
+        .notes-cluster-btn.has-notes:hover {
+            background: #16a34a;
+        }
+
+        /* Simbols Interactius */
+        .symbol-icon {
+            display: inline-block;
+            margin-left: 4px;
+            font-size: 1.1em;
+            transition: transform 0.2s ease, filter 0.2s ease;
+            cursor: pointer;
+            pointer-events: auto;
+            position: relative;
+            z-index: 30;
+        }
+        
+        .symbol-icon:hover {
+            transform: scale(1.3);
+            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.8));
+        }
+
+        /* Botó d'eliminar línies d'enllaç - HTML per sobre de la resta */
+        .delete-line-btn-html {
+            width: 28px;
+            height: 28px;
+            background: #ef4444;
+            color: white;
+            border: 2px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.2s, background-color 0.2s;
+            pointer-events: auto;
+        }
+
+        .delete-line-btn-html:hover {
+            background: #dc2626;
+            transform: scale(1.2);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(3px);
+            z-index: 50;
+        }
+        
+        /* Instruccions List */
+        .instructions-list li {
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
-    <div id="root"></div>
 
-    <script type="text/babel">
-        const { useState, useEffect, useCallback, Fragment } = React;
-
-        // --- Constants per a la càrrega remota ---
-        const REMOTE_CONTENT_BASE_URL = 'https://raw.githubusercontent.com/xaviuab/story_cards/main/cartes/';
-        const GITHUB_API_URL = "https://api.github.com/repos/xaviuab/story_cards/contents/cartes";
-
-        // --- CONFIGURACIÓ DE CATEGORIES I ESTILS ---
-        const CATEGORY_STYLES = {
-            agent: { label: 'AGENT', type: 'quad', color: 'border-blue-400', bg: 'bg-blue-900/20', text: 'text-blue-400', promptBg: 'bg-blue-900/60' },
-            engine: { label: 'MOTOR', type: 'binary', color: 'border-yellow-500', bg: 'bg-yellow-600/20', text: 'text-yellow-500', promptBg: 'bg-yellow-600/60' },
-            anchor: { label: 'ÀNCORA', type: 'quad', color: 'border-emerald-500', bg: 'bg-emerald-900/20', text: 'text-emerald-500', promptBg: 'bg-emerald-900/60' },
-            conflict: { label: 'CONFLICTE', type: 'binary', color: 'border-red-500', bg: 'bg-red-900/20', text: 'text-red-500', promptBg: 'bg-red-900/60' },
-            aspect: { label: 'ASPECTE', type: 'quad', color: 'border-purple-500', bg: 'bg-purple-900/20', text: 'text-purple-500', promptBg: 'bg-purple-900/60' },
-        };
-
-        const GENERATION_MODES = {
-            SEED: { id: 'SEED', label: 'Llavor de la Història', slots: ['agent', 'engine', 'anchor', 'conflict'] },
-            CIRCLE: { id: 'CIRCLE', label: 'Cercle del Destí', slots: ['agent', 'engine', 'conflict', 'agent', 'engine', 'conflict'] },
-            CLASH: { id: 'CLASH', label: 'Xoc de Voluntats', slots: ['agent', 'engine', 'conflict', 'anchor', 'conflict', 'engine', 'agent'] },
-            SOUL: { id: 'SOUL', label: 'Una Ànima Dividida', slots: ['agent', 'engine', 'conflict', 'anchor', 'engine', 'conflict', 'anchor'] }
-        };
-
-        // --- SISTEMA D'ICONES SVG MANUALS ---
-        const Icon = ({ name, size = 24, className = "", ...props }) => {
-            const icons = {
-                RotateCw: <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 12M21 3v9h-9"/>,
-                Trash2: <Fragment><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></Fragment>,
-                Dices: <Fragment><rect width="12" height="12" x="2" y="10" rx="2" ry="2"/><path d="m17.92 14 3.5-3.5a2.24 2.24 0 0 0 0-3l-5-4.92a2.24 2.24 0 0 0-3 0L10 6"/><path d="M6 18h.01"/><path d="M10 14h.01"/><path d="M15 6h.01"/><path d="M18 9h.01"/></Fragment>,
-                Database: <Fragment><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></Fragment>,
-                BookOpen: <Fragment><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></Fragment>,
-                ArrowRight: <Fragment><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></Fragment>,
-                ArrowLeft: <Fragment><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></Fragment>,
-                CheckSquare: <Fragment><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></Fragment>,
-                Square: <rect width="18" height="18" x="3" y="3" rx="2"/>,
-                Repeat: <Fragment><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></Fragment>,
-                X: <path d="M18 6 6 18M6 6l12 12"/>,
-                Lock: <Fragment><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></Fragment>,
-                Loader: <Fragment><line x1="12" x2="12" y1="2" y2="6"/><line x1="12" x2="12" y1="18" y2="22"/><line x1="4.93" x2="7.76" y1="4.93" y2="7.76"/><line x1="16.24" x2="19.07" y1="16.24" y2="19.07"/><line x1="2" x2="6" y1="12" y2="12"/><line x1="18" x2="22" y1="12" y2="12"/><line x1="4.93" x2="7.76" y1="19.07" y2="16.24"/><line x1="16.24" x2="19.07" y1="7.76" y2="4.93"/></Fragment>,
-                MoveRight: <path d="M18 8L22 12L18 16M2 12H22"/>,
-                MoveDownLeft: <path d="M11 19H5V13M19 5L5 19"/>,
-                MoveUpLeft: <path d="M5 11V5H11M5 5L19 19"/>,
-                MoveUpRight: <path d="M13 5H19V11M19 5L5 19"/>,
-                Check: <polyline points="20 6 9 17 4 12"/>,
-                Skull: <path d="M9 10L9.01 10M15 10L15.01 10M12 2C8.13 2 5 5.13 5 9C5 12.18 6.72 14.94 9.27 16.35C9.41 16.42 9.5 16.55 9.5 16.7V20C9.5 21.1 10.4 22 11.5 22H12.5C13.6 22 14.5 21.1 14.5 20V16.7C14.5 16.55 14.59 16.42 14.73 16.35C17.28 14.94 19 12.18 19 9C19 5.13 15.87 2 12 2ZM9 22L9 18M15 22L15 18" />,
-                Rocket: <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09zM12 15l-3.5 3.5L7 17l3.5-3.5M9 15l-5 5M15 12l-3.5 3.5L10 14l3.5-3.5M13.5 6.5l1 1M16 11l-3.5 3.5M15 11l-3.5 3.5M10 14l3.5-3.5M22 2s-4 0-7 3c-1.5 1.5-2 3.5-2 5l1 1s1.5-.5 3-2c3-3 3-7 3-7z" />,
-                Cpu: <Fragment><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="15" x2="23" y2="15"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="15" x2="4" y2="15"/></Fragment>,
-                Eye: <Fragment><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></Fragment>,
-                Zap: <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />,
-                Radioactive: <Fragment><circle cx="12" cy="12" r="2"/><path d="M7 12a5 5 0 0 1 5-5v-4a9 9 0 0 0-9 9h4z"/><path d="M17 12a5 5 0 0 1-5 5v4a9 9 0 0 0 9-9h-4z"/><path d="M12 17a5 5 0 0 1-5-5h-4a9 9 0 0 0 9 9v-4z"/><path d="M12 7a5 5 0 0 1 5 5h4a9 9 0 0 0-9-9v4z"/></Fragment>,
-                Cog: <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z" />,
-                Sword: <Fragment><polyline points="14.5 17.5 3 6 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="22" y2="22"/></Fragment>,
-                Search: <Fragment><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></Fragment>,
-                Crown: <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" />,
-                Key: <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.78 7.78 5.5 5.5 0 0 1 7.78-7.78zM15 5l.5 1.5L17 7l-1.5.5L15 9l-.5-1.5L13 7l1.5-.5L15 5z" />,
-                Map: <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" />,
-                Anchor: <Fragment><path d="M12 22V8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/><circle cx="12" cy="5" r="3"/></Fragment>,
-                Ghost: <path d="M9 10h.01M15 10h.01M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z" />
-            };
-
-            return (
-                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>
-                    {icons[name] || <circle cx="12" cy="12" r="10" />}
-                </svg>
-            );
-        };
-
-        // Lògica per assignar una icona única estricta a cada temàtica
-        const getDeckIconName = (deckId, allDecks) => {
-            const id = (deckId || "").toLowerCase();
+    <!-- Barra de navegació -->
+    <header class="bg-gray-900 text-white p-4 shadow-md flex justify-between items-center z-20 relative h-[72px]">
+        <div class="hidden md:flex flex-col justify-center">
+            <h1 class="text-2xl font-bold tracking-wider leading-tight">Lore Master's Deck</h1>
+            <span class="text-xs text-gray-400 font-light tracking-wide mt-0.5">Una adaptació d'en Xavier Ribes per al GameLab de la UAB</span>
+        </div>
+        <div class="flex gap-3 items-center ml-auto">
+            <button onclick="ui.showInstructionsModal()" class="bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded font-semibold transition text-sm sm:text-base" id="btn-instruccions">
+                Instruccions
+            </button>
+            <div class="w-px h-8 bg-gray-600 mx-1 hidden sm:block"></div>
             
-            if (id.includes('genèric') || id.includes('generic')) return 'Dices';
-            if (id.includes('scifi')) return 'Rocket';
-            if (id.includes('tecnologia') || id.includes('tecnologic') || id.includes('technology')) return 'Cpu';
-            if (id.includes('distopia') || id.includes('dystopia')) return 'Eye';
-            if (id.includes('cyberpunk')) return 'Zap';
-            if (id.includes('post-apocaliptic') || id.includes('post-apocalyptic') || id.includes('apocalipsi')) return 'Radioactive';
-            if (id.includes('terror') || id.includes('horror')) return 'Skull';
-            if (id.includes('steampunk')) return 'Cog';
-            if (id.includes('mitologia') || id.includes('fantasy') || id.includes('fantasia')) return 'Sword';
-            if (id.includes('misteri') || id.includes('mystery')) return 'Search';
-
-            const ICON_POOL = ['Crown', 'Key', 'Map', 'Anchor', 'Ghost'];
-            const deckIndex = allDecks.findIndex(d => d.id === deckId);
-            return ICON_POOL[deckIndex % ICON_POOL.length] || 'Database';
-        };
-
-        // --- COMPONENTS DE CARTA ---
-        const CardText = ({ position, text, color }) => {
-            const containerBase = "absolute card-text-container ";
-            const textBase = `card-text-content ${color} text-[9px] md:text-[11px] `;
+            <!-- Botons de Guardar/Carregar -->
+            <button onclick="document.getElementById('load-file').click()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded font-semibold transition text-sm sm:text-base" id="btn-carrega" disabled>
+                Carrega
+            </button>
+            <button onclick="logic.saveLore()" class="bg-cyan-600 hover:bg-cyan-500 text-white px-3 py-2 rounded font-semibold transition text-sm sm:text-base" id="btn-desa" disabled>
+                Desa
+            </button>
+            <input type="file" id="load-file" style="display: none;" accept=".json" onchange="logic.loadLore(event)">
             
-            if (position === 'top') {
-                return (
-                    <div className={containerBase + "top-0 left-0 right-0 h-[45%] items-start pt-4 px-2"}>
-                        <span className={textBase}>{text}</span>
-                    </div>
-                );
+            <div class="w-px h-8 bg-gray-600 mx-1 hidden sm:block"></div>
+            
+            <!-- Botons de Creació/Neteja -->
+            <button onclick="logic.generateRandomLore()" class="bg-fuchsia-600 hover:bg-fuchsia-500 text-white px-3 py-2 rounded font-semibold transition text-sm sm:text-base" id="btn-lore-aleatori" disabled>
+                Lore Aleatori (6)
+            </button>
+            <button onclick="ui.showStartModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded font-semibold transition text-sm sm:text-base" id="btn-nou-cluster" disabled>
+                Nou Clúster
+            </button>
+            <button onclick="ui.clearBoard()" class="bg-red-700 hover:bg-red-600 text-white px-3 py-2 rounded font-semibold transition text-sm sm:text-base" id="btn-neteja" disabled>
+                Neteja
+            </button>
+        </div>
+    </header>
+
+    <!-- Àrea Principal (Tauler interactiu) -->
+    <main class="board-container" id="board">
+        <!-- Missatge de càrrega o estat buit -->
+        <div id="status-message" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-gray-500 max-w-lg p-8 bg-white/80 rounded-xl shadow-lg border border-gray-300 z-50">
+            <h2 class="text-3xl mb-4 text-gray-800 font-title" id="status-title">Carregant dades...</h2>
+            <p class="mb-6 text-lg" id="status-text">Estem obtenint la base de dades de cartes des del servidor.</p>
+        </div>
+
+        <!-- Llenç expandible on viuen els clústers -->
+        <div id="canvas-area">
+            <!-- Capa de fons per a les línies SVG -->
+            <svg id="connections-svg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;"></svg>
+            <!-- Contenidor dels clústers HTML amb pointer-events desactivats per permetre clicar a la capa inferior on hi hagi espai lliure -->
+            <div id="clusters-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; pointer-events: none;"></div>
+            <!-- Contenidor per a la interacció HTML amb les línies per damunt de tot -->
+            <div id="line-buttons-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; pointer-events: none;"></div>
+        </div>
+    </main>
+
+    <!-- Modal d'Instruccions -->
+    <div id="instructions-modal" class="fixed inset-0 modal-overlay hidden flex items-center justify-center z-[60]">
+        <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 font-title">Instruccions d'Ús</h2>
+            <p class="text-gray-600 mb-4">Benvinguda o benvingut al <strong>Lore Master's Deck</strong>, una eina per crear xarxes interconnectades de rerefons i construcció de mons.</p>
+            
+            <ul class="list-disc pl-5 text-gray-700 instructions-list">
+                <li><strong>Navegació:</strong> Feu clic a qualsevol zona lliure del tauler i arrossegueu per desplaçar la vista. Utilitzeu la roda del ratolí per ampliar o reduir la perspectiva (zoom).</li>
+                <li><strong>Generar Clústers:</strong> Utilitzeu el botó "Nou Clúster" per crear una carta principal independent en qualsevol moment, o "Lore Aleatori (6)" per generar un entramat complet automàticament.</li>
+                <li><strong>Desar i Carregar:</strong> Podeu guardar tot el vostre tauler actual (cartes i connexions) fent clic a "Desa" (es descarregarà un fitxer .json). Podeu recuperar-lo més endavant amb el botó "Carrega".</li>
+                <li><strong>Moure i Rotar:</strong> Feu clic al fons d'una carta principal i arrossegueu-la per moure tota l'estructura. Si feu un sol clic al fons d'una carta principal, aquesta girarà 90 graus.</li>
+                <li><strong>Anotacions:</strong> Trobareu un botó (✏️) a la part superior dreta de la carta principal per escriure i guardar notes i detalls personals per a cada clúster. La icona es tornarà <strong>verda</strong> si té contingut desat.</li>
+                <li><strong>Modificar la Carta Central:</strong> Fent clic a la icona gran del mig de qualsevol carta principal en canviareu els textos per uns altres de la mateixa categoria.</li>
+                <li><strong>Afegir Detalls:</strong> A cada costat de la carta principal hi ha espais. Cliqueu als botons <strong>(+)</strong> per afegir una carta <em>Secundària</em> o <em>Modificadora</em>.</li>
+                <li><strong>Editar Detalls:</strong> Si cliqueu sobre una carta solapada que ja estigui col·locada, podreu substituir-la per una de nova o eliminar-la per alliberar l'espai.</li>
+                <li><strong>Connexions Automàtiques:</strong> Alguns textos contenen icones de categories. Fent clic a aquestes icones podreu estirar un fil narratiu (creant o enllaçant clústers).</li>
+                <li><strong>Eliminar Elements:</strong> Podeu eliminar un enllaç entre clústers fent clic al botó vermell (×) de la línia. Podeu eliminar un clúster sencer fent clic a la paperera (🗑️).</li>
+            </ul>
+
+            <div class="mt-8 flex justify-center">
+                <button onclick="ui.hideInstructionsModal()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold shadow-md transition">Entès!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal d'Inici -->
+    <div id="start-modal" class="fixed inset-0 modal-overlay hidden flex items-center justify-center z-[60]">
+        <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 font-title">Iniciar un Clúster</h2>
+            <p class="text-gray-600 mb-6">Tria el tipus de rerefons que vols utilitzar com a base per al teu nou clúster principal.</p>
+            
+            <select id="category-select" class="w-full p-3 border border-gray-300 rounded mb-6 text-lg bg-gray-50">
+                <option value="Faccions">Faccions</option>
+                <option value="Figura">Figura</option>
+                <option value="Esdeveniment">Esdeveniment</option>
+                <option value="Ubicació">Ubicació</option>
+                <option value="Objecte">Objecte</option>
+                <option value="Material">Material</option>
+                <option value="Criatura">Criatura</option>
+            </select>
+
+            <div class="flex justify-end gap-3">
+                <button onclick="ui.hideStartModal()" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded">Cancel·la</button>
+                <button onclick="logic.startCluster()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded font-bold">
+                    Genera Carta
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Selecció d'Acció (Afegeix Carta) -->
+    <div id="action-modal" class="fixed inset-0 modal-overlay hidden flex items-center justify-center z-[60]">
+        <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 font-title" id="action-modal-title">Afegeix una Carta</h2>
+            <p class="text-gray-600 mb-6">Què vols afegir en aquesta posició de l'estructura?</p>
+            
+            <div class="flex flex-col gap-4">
+                <button id="btn-add-secondary" onclick="logic.promptDrawSecondary()" class="p-4 border-2 border-indigo-200 hover:border-indigo-500 hover:bg-indigo-50 rounded-lg flex flex-col items-center text-center transition">
+                    <span class="font-bold text-indigo-700 text-lg">Carta Secundària</span>
+                    <span class="text-sm text-gray-500 mt-1">Afegeix detalls, context o enllaços relacionats (del mateix tipus).</span>
+                </button>
+                <button id="btn-add-modifier" onclick="logic.promptDrawModifier()" class="p-4 border-2 border-gray-200 hover:border-gray-500 hover:bg-gray-50 rounded-lg flex flex-col items-center text-center transition">
+                    <span class="font-bold text-gray-700 text-lg">Carta Modificadora</span>
+                    <span class="text-sm text-gray-500 mt-1">Afegeix atributs descriptius o trets que modifiquen la carta principal.</span>
+                </button>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <button onclick="ui.hideActionModal()" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded">Cancel·la</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal d'Edició de Carta Solapada (Eliminar o Substituir) -->
+    <div id="edit-modal" class="fixed inset-0 modal-overlay hidden flex items-center justify-center z-[60]">
+        <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm text-center">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 font-title">Edita la Carta</h2>
+            <p class="text-gray-600 mb-6">Què vols fer amb aquesta carta solapada?</p>
+            
+            <div class="flex flex-col gap-3">
+                <button onclick="logic.replaceCard()" class="p-3 bg-indigo-100 text-indigo-700 hover:bg-indigo-200 rounded-lg font-bold transition">
+                    Substitueix per una de nova
+                </button>
+                <button onclick="logic.deleteCard()" class="p-3 bg-red-100 text-red-700 hover:bg-red-200 rounded-lg font-bold transition">
+                    Elimina la carta
+                </button>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <button onclick="ui.hideEditModal()" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded">Cancel·la</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal per Escollir entre Crear o Enllaçar Clúster -->
+    <div id="link-modal" class="fixed inset-0 modal-overlay hidden flex items-center justify-center z-[60]">
+        <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 font-title">Enllaçar o Crear</h2>
+            <p class="text-gray-600 mb-6">Ja existeixen clústers d'aquesta categoria al tauler. Què vols fer?</p>
+            
+            <div class="flex flex-col gap-3 max-h-60 overflow-y-auto" id="link-options-container">
+                <!-- Aquí es llisten els clústers compatibles -->
+            </div>
+            
+            <div class="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
+                <button onclick="logic.spawnFromPending()" class="p-3 border-2 border-indigo-600 text-indigo-700 hover:bg-indigo-50 rounded-lg font-bold transition flex justify-center items-center gap-2">
+                    <span class="text-lg">+</span> Crea un nou clúster
+                </button>
+            </div>
+            
+            <div class="mt-6 flex justify-end">
+                <button onclick="ui.hideLinkModal()" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded">Cancel·la</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Selecció d'Indicador (Cue) -->
+    <div id="cue-modal" class="fixed inset-0 modal-overlay hidden flex items-center justify-center z-[60]">
+        <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2 font-title">Selecciona l'Indicador</h2>
+            <p class="text-gray-600 mb-6">S'ha revelat una nova carta de tipus <strong id="drawn-card-type" class="text-indigo-600"></strong>. Tria quin dels 4 indicadors vols utilitzar per connectar al clúster.</p>
+            
+            <div class="grid grid-cols-1 gap-3" id="cue-options">
+                <!-- S'omple per JS -->
+            </div>
+
+            <div class="mt-6 flex justify-between items-center">
+                <div class="flex items-center">
+                    <button onclick="logic.redrawPendingCard()" class="px-4 py-2 bg-teal-100 text-teal-800 hover:bg-teal-200 rounded font-semibold transition shadow-sm">
+                        Genera una altra opció
+                    </button>
+                    <span id="drawn-card-id" class="text-gray-500 font-medium text-sm ml-3"></span>
+                </div>
+                <button onclick="ui.hideCueModal()" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded transition">Cancel·la</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal d'Anotacions -->
+    <div id="notes-modal" class="fixed inset-0 modal-overlay hidden flex items-center justify-center z-[60]">
+        <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 font-title">Anotacions del Clúster</h2>
+            <p class="text-gray-600 mb-4">Escriu aquí qualsevol detall o història vinculada a aquest element per recordar-la.</p>
+            
+            <textarea id="cluster-notes-input" class="w-full h-48 p-3 border border-gray-300 rounded mb-6 text-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Escriu les teves anotacions aquí..."></textarea>
+
+            <div class="flex justify-end gap-3">
+                <button onclick="ui.hideNotesModal()" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded">Cancel·la</button>
+                <button onclick="logic.saveNotes()" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded font-bold">Desa</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuració Global i Estat
+        const config = {
+            colors: {
+                "Faccions": "bg-purple-700",
+                "Figura": "bg-yellow-600",
+                "Esdeveniment": "bg-pink-700",
+                "Ubicació": "bg-orange-900",
+                "Objecte": "bg-blue-600",
+                "Material": "bg-orange-600",
+                "Criatura": "bg-teal-600",
+                "Modificadors": "bg-gray-500"
+            },
+            hexColors: {
+                "Faccions": "#7e22ce",     
+                "Figura": "#ca8a04",       
+                "Esdeveniment": "#be185d", 
+                "Ubicació": "#7c2d12",         
+                "Objecte": "#2563eb",      
+                "Material": "#ea580c",     
+                "Criatura": "#0d9488",     
+                "Modificadors": "#6b7280"  
+            },
+            textColors: {
+                "Faccions": "text-purple-700",
+                "Figura": "text-yellow-600",
+                "Esdeveniment": "text-pink-700",
+                "Ubicació": "text-orange-900",
+                "Objecte": "text-blue-600",
+                "Material": "text-orange-600",
+                "Criatura": "text-teal-600",
+                "Modificadors": "text-gray-500"
+            },
+            icons: {
+                "Faccions": "👥",
+                "Figura": "👤",
+                "Esdeveniment": "⏱️",
+                "Ubicació": "🗺️",
+                "Objecte": "⚔️",
+                "Material": "💎",
+                "Criatura": "🐾",
+                "Modificadors": "✨"
+            },
+            categoryMap: {
+                "Facció": "Faccions", "Faccions": "Faccions",
+                "Personatge": "Figura", "Figura": "Figura",
+                "Esdeveniment": "Esdeveniment",
+                "Ubicació": "Ubicació", "Lloc": "Ubicació",
+                "Objecte": "Objecte",
+                "Material": "Material",
+                "Criatura": "Criatura"
             }
-            if (position === 'bottom') {
-                return (
-                    <div className={containerBase + "bottom-0 left-0 right-0 h-[45%] items-end pb-4 px-2"}>
-                        <span className={textBase + " transform rotate-180"}>{text}</span>
-                    </div>
-                );
-            }
-            if (position === 'right') {
-                return (
-                    <div className={containerBase + "top-0 bottom-0 right-0 w-[45%] items-center pr-1"}>
-                        <div className="transform rotate-90 w-[140px] flex justify-center items-center">
-                            <span className={textBase}>{text}</span>
-                        </div>
-                    </div>
-                );
-            }
-            if (position === 'left') {
-                return (
-                    <div className={containerBase + "top-0 bottom-0 left-0 w-[45%] items-center pl-1"}>
-                        <div className="transform -rotate-90 w-[140px] flex justify-center items-center">
-                            <span className={textBase}>{text}</span>
-                        </div>
-                    </div>
-                );
-            }
-            return null;
         };
 
-        const CardComponent = ({ data, parentUid = null, isAspect = false, onRotate, onChange, style = {}, onMouseEnter, allDecks }) => {
-            if (!data) return null;
-            const catConfig = CATEGORY_STYLES[data.category];
-            const iconName = getDeckIconName(data.deckId, allDecks);
-
-            return (
-                <div className="relative group/card perspective-1000 cursor-pointer" onClick={(e) => { e.stopPropagation(); onRotate(isAspect ? data.uid : data.uid, data.category, isAspect, parentUid); }} onMouseEnter={onMouseEnter} style={style}>
-                    {!isAspect && <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20 text-[#d4af37] animate-bounce pointer-events-none">▼</div>}
-                    <div 
-                        className={`relative w-40 h-40 md:w-48 md:h-48 bg-[#0f0f0f] border-2 ${catConfig.color} rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-transform duration-500 ease-in-out`}
-                        style={{ transform: `rotate(${data.rotation}deg)`, boxShadow: `0 0 20px ${catConfig.color.replace('border-', '')}20` }}
-                    >
-                        <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.8\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.5\'/%3E%3C/svg%3E")' }}></div>
-                        <div className="absolute inset-2 border border-white/5 rounded pointer-events-none"></div>
-                        
-                        <CardText position="top" text={data.options[0]} color={catConfig.text} />
-                        {catConfig.type === 'binary' ? (
-                            <Fragment>
-                                <CardText position="bottom" text={data.options[1]} color={catConfig.text} />
-                                <div className="absolute top-1/2 left-2 right-2 h-px bg-white/10 transform -translate-y-1/2"></div>
-                            </Fragment>
-                        ) : (
-                            <Fragment>
-                                <CardText position="right" text={data.options[1]} color={catConfig.text} />
-                                <CardText position="bottom" text={data.options[2]} color={catConfig.text} />
-                                <CardText position="left" text={data.options[3]} color={catConfig.text} />
-                            </Fragment>
-                        )}
-
-                        <div className="absolute inset-0 flex items-center justify-center z-50 pointer-events-none">
-                            <div 
-                                className={`w-10 h-10 rounded-full border-2 ${catConfig.color} flex items-center justify-center bg-[#1a1a1a] transition-all duration-300 shadow-lg group/center pointer-events-auto hover:bg-[#333] hover:scale-125 cursor-pointer`}
-                                onClick={(e) => { e.stopPropagation(); onChange(isAspect ? data.uid : data.uid, data.category, isAspect, parentUid); }}
-                            >
-                                <div style={{ transform: `rotate(${-data.rotation}deg)`, transition: 'transform 0.5s ease-in-out' }}>
-                                    <Icon name="RotateCw" size={18} className="text-white hidden group-hover/card:block group-hover/center:hidden animate-pulse" />
-                                    <Icon name="Trash2" size={18} className="text-red-400 hidden group-hover/center:block" />
-                                    <Icon name={iconName} size={18} className={`${catConfig.text} block group-hover/card:hidden opacity-80`} />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
+        const state = {
+            cards: [],
+            clusters: {}, 
+            lines: [], // Línies de connexió: { id, sourceNodeId, targetClusterId }
+            pendingAction: null, 
+            pendingDrawnCard: null,
+            pendingType: null,
+            pendingLink: null 
         };
 
-        const CardSlot = ({ card, activeAspects, toggleAspect, changeCard, rotateCard, canSwapType, onSwapType, allDecks }) => {
-            const [hoverTarget, setHoverTarget] = useState(null); 
-            if (!card) return null; 
-            const catConfig = CATEGORY_STYLES[card.category];
-            const isAspectActive = (card.category === 'agent' || card.category === 'anchor') && card.aspectData && activeAspects[card.uid];
-            let mainZ = 20, aspectZ = 30;
-            if (hoverTarget === 'main') { mainZ = 50; aspectZ = 30; } 
-            else if (hoverTarget === 'aspect') { aspectZ = 50; mainZ = 20; }
+        // Càmera global pel desplaçament i l'escala (Zoom/Pan)
+        const camera = { x: 0, y: 0, scale: 1 };
 
-            return (
-                <div key={card.uid} className={`flex flex-col items-center gap-2 relative pointer-events-auto transition-all duration-300 ${hoverTarget ? 'z-[100]' : 'z-0'} shrink-0`} onMouseLeave={() => setHoverTarget(null)}>
-                    <div className="flex items-center gap-2 z-[60] bg-[#1a1a1a]/80 px-2 py-1 rounded-full border border-white/5 backdrop-blur-sm">
-                        <div className={`text-[10px] tracking-[0.2em] font-bold ${catConfig.text} uppercase`}>{catConfig.label}</div>
-                        <div className="flex items-center gap-1 border-l border-white/20 pl-2 ml-1">
-                            {canSwapType && <button onClick={() => onSwapType(card.uid)} className="text-gray-400 hover:text-white transition-colors" title="Canviar tipus"><Icon name="Repeat" size={14} /></button>}
-                            {(card.category === 'agent' || card.category === 'anchor') && 
-                                <button onClick={() => toggleAspect(card.uid)} className={`transition-colors hover:text-[#d4af37] ${isAspectActive ? 'text-[#d4af37]' : 'text-gray-600'}`} title="Activar Aspecte">
-                                    <Icon name={isAspectActive ? "CheckSquare" : "Square"} size={14} />
-                                </button>
-                            }
-                        </div>
-                    </div>
-                    <div className="relative">
-                        {isAspectActive && <div className="absolute top-12 left-4 transform -rotate-3 transition-all duration-300" style={{ zIndex: aspectZ }}><CardComponent data={card.aspectData} parentUid={card.uid} isAspect={true} onRotate={rotateCard} onChange={changeCard} onMouseEnter={(e) => { e.stopPropagation(); setHoverTarget('aspect'); }} allDecks={allDecks} /></div>}
-                        <div className="relative transition-all duration-300" style={{ zIndex: mainZ }}><CardComponent data={card} onRotate={rotateCard} onChange={changeCard} onMouseEnter={(e) => { e.stopPropagation(); setHoverTarget('main'); }} allDecks={allDecks} /></div>
-                    </div>
-                </div>
-            );
-        };
+        // Variables de gestió d'esdeveniments interactius
+        let isPanning = false;
+        let isDraggingCluster = false;
+        let draggedClusterId = null;
+        let startX, startY;
+        let initialCamX, initialCamY;
+        let initialClustX, initialClustY;
+        let hasDragged = false;
 
-        // --- APP PRINCIPAL ---
-        function StoryEngineApp() {
-            const [appStatus, setAppStatus] = useState('SETUP'); 
-            const [availableDecks, setAvailableDecks] = useState([]);
-            const [selectedDecks, setSelectedDecks] = useState(new Set());
-            const [currentMode, setCurrentMode] = useState('SEED');
-            const [hand, setHand] = useState([]); 
-            const [cardPool, setCardPool] = useState({ agent: [], engine: [], anchor: [], conflict: [], aspect: [] });
-            const [usedIndices, setUsedIndices] = useState({});
-            const [promptOrder, setPromptOrder] = useState([]); 
-            const [manualEdits, setManualEdits] = useState({}); 
-            const [showInstructions, setShowInstructions] = useState(false);
-            const [activeAspects, setActiveAspects] = useState({}); 
-
-            // 1. DESCOBERTA DE FITXERS (GITHUB API)
-            useEffect(() => {
-                const discoverDecks = async () => {
-                    const foundFiles = [];
-                    const seenNames = new Set();
-                    try {
-                        const response = await fetch(GITHUB_API_URL);
-                        if (response.ok) {
-                            const data = await response.json();
-                            data.filter(item => item.name.toLowerCase().endsWith('.csv')).forEach(item => {
-                                if (!seenNames.has(item.name)) {
-                                    seenNames.add(item.name);
-                                    foundFiles.push({ id: item.name, url: REMOTE_CONTENT_BASE_URL + item.name });
-                                }
-                            });
-                        }
-                    } catch (e) { console.warn("GitHub API error"); }
-                    
-                    const mandatoryFiles = ['cat - Genèric.csv', 'cat - SciFi.csv'];
-                    for (const f of mandatoryFiles) {
-                        if (!seenNames.has(f)) {
-                            foundFiles.push({ id: f, url: REMOTE_CONTENT_BASE_URL + f });
-                            seenNames.add(f);
-                        }
-                    }
-                    setAvailableDecks(foundFiles);
-                };
-                discoverDecks();
-            }, []);
-
-            const loadSelectedDecks = async () => {
-                setAppStatus('LOADING');
-                const pools = { agent: [], engine: [], anchor: [], conflict: [], aspect: [] };
-                try {
-                    const selected = availableDecks.filter(d => selectedDecks.has(d.id));
-                    for (const deck of selected) {
-                        const response = await fetch(deck.url);
-                        const text = await response.text();
-                        const lines = text.split('\n').filter(line => line.trim() !== '');
-                        const dataRows = lines.slice(1);
-                        dataRows.forEach(row => {
-                            const cols = row.split(';');
-                            if (cols.length < 5) return;
-                            const cardEntry = (txt) => ({ text: txt.trim(), deckId: deck.id });
-                            if (cols[0]) pools.agent.push(cardEntry(cols[0]));
-                            if (cols[1]) pools.engine.push(cardEntry(cols[1]));
-                            if (cols[2]) pools.anchor.push(cardEntry(cols[2]));
-                            if (cols[3]) pools.conflict.push(cardEntry(cols[3]));
-                            if (cols[4]) pools.aspect.push(cardEntry(cols[4]));
-                        });
-                    }
-                    setCardPool(pools);
-                    const initialUsed = {};
-                    Object.keys(pools).forEach(key => initialUsed[key] = new Set());
-                    setUsedIndices(initialUsed);
-                    setAppStatus('READY');
-                } catch (e) {
-                    setAppStatus('SETUP');
-                    alert("Error carregant els fitxers CSV.");
-                }
+        function getIconsForSymbolString(symStr) {
+            if (!symStr || symStr.trim() === '0' || symStr.trim() === '') return '';
+            
+            const iconMap = {
+                "Facció": "👥", "Faccions": "👥",
+                "Personatge": "👤", "Figura": "👤",
+                "Esdeveniment": "⏱️",
+                "Ubicació": "🗺️", "Lloc": "🗺️",
+                "Objecte": "⚔️",
+                "Material": "💎",
+                "Criatura": "🐾"
             };
-
-            const toggleAspect = useCallback((uid) => { setActiveAspects(prev => ({ ...prev, [uid]: !prev[uid] })); }, []);
-            const rotateCard = useCallback((uid, categoryKey, isAspect, parentUid) => {
-                const degree = CATEGORY_STYLES[categoryKey].type === 'binary' ? 180 : 90;
-                setHand(prev => prev.map(card => {
-                    if (isAspect && card.uid === parentUid) return { ...card, aspectData: { ...card.aspectData, rotation: card.aspectData.rotation + degree } };
-                    if (!isAspect && card.uid === uid) return { ...card, rotation: card.rotation + degree };
-                    return card;
-                }));
-            }, []);
-
-            const getUniqueRandomItems = useCallback((categoryKey, count) => {
-                const pool = cardPool[categoryKey] || [];
-                const used = usedIndices[categoryKey] || new Set();
-                const result = [];
-                const tempUsed = new Set(used);
-                for (let i = 0; i < count; i++) {
-                    let av = pool.map((_, idx) => idx).filter(idx => !tempUsed.has(idx));
-                    if (av.length === 0) { tempUsed.clear(); av = pool.map((_, idx) => idx); }
-                    if (av.length === 0) return { items: [], updatedUsed: tempUsed };
-                    const r = av[Math.floor(Math.random() * av.length)];
-                    result.push(pool[r]);
-                    tempUsed.add(r);
-                }
-                return { items: result, updatedUsed: tempUsed };
-            }, [cardPool, usedIndices]);
-
-            const changeCard = useCallback((uid, categoryKey, isAspect, parentUid) => {
-                const count = CATEGORY_STYLES[categoryKey].type === 'binary' ? 2 : 4;
-                const { items, updatedUsed } = getUniqueRandomItems(categoryKey, count);
-                if (items.length === 0) return;
-                
-                setHand(prev => prev.map(card => {
-                    if (isAspect && card.uid === parentUid) {
-                        return { ...card, aspectData: { ...card.aspectData, options: items.map(i => i.text), deckId: items[0].deckId, rotation: 0 } };
-                    }
-                    if (!isAspect && card.uid === uid) {
-                        return { ...card, options: items.map(i => i.text), deckId: items[0].deckId, rotation: 0 };
-                    }
-                    return card;
-                }));
-                setUsedIndices(prev => ({...prev, [categoryKey]: updatedUsed}));
-            }, [getUniqueRandomItems]);
-
-            const swapCardCategory = useCallback((uid) => {
-                setHand(prevHand => prevHand.map(card => {
-                    if (card.uid === uid) {
-                        const newCat = card.category === 'agent' ? 'anchor' : 'agent';
-                        const { items, updatedUsed } = getUniqueRandomItems(newCat, 4);
-                        if (items.length === 0) return card;
-                        return { ...card, category: newCat, options: items.map(i => i.text), deckId: items[0].deckId, rotation: 0 };
-                    }
-                    return card;
-                }));
-            }, [getUniqueRandomItems]);
-
-            const generateFullHand = useCallback(() => {
-                if (appStatus !== 'READY') return;
-                const modeConfig = GENERATION_MODES[currentMode];
-                const newHand = [];
-                let currentUsedIndices = { ...usedIndices };
-
-                const getItemsLocally = (cat, cnt) => {
-                    const pool = cardPool[cat] || [];
-                    const used = currentUsedIndices[cat] || new Set();
-                    const result = [];
-                    for(let i=0; i<cnt; i++) {
-                        let available = pool.map((_, idx) => idx).filter(idx => !used.has(idx));
-                        if(available.length === 0) { used.clear(); available = pool.map((_, idx) => idx); }
-                        if (available.length === 0) { result.push({text: "...", deckId: ""}); continue; }
-                        const randomIdx = available[Math.floor(Math.random() * available.length)];
-                        result.push(pool[randomIdx]);
-                        used.add(randomIdx);
-                    }
-                    currentUsedIndices[cat] = used;
-                    return result;
-                };
-
-                modeConfig.slots.forEach((catKey, index) => {
-                    const count = CATEGORY_STYLES[catKey].type === 'binary' ? 2 : 4;
-                    const items = getItemsLocally(catKey, count);
-                    let aspectData = null;
-                    if (catKey === 'agent' || catKey === 'anchor') {
-                        const aspItems = getItemsLocally('aspect', 4);
-                        aspectData = { uid: `asp-${index}-${Math.random()}`, category: 'aspect', options: aspItems.map(i => i.text), deckId: aspItems[0].deckId, rotation: 0 };
-                    }
-                    newHand.push({ uid: `${catKey}-${index}-${Math.random()}`, category: catKey, options: items.map(i => i.text), deckId: items[0].deckId, rotation: 0, aspectData: aspectData });
-                });
-                setHand(newHand);
-                setUsedIndices(currentUsedIndices);
-                setManualEdits({});
-                setPromptOrder(newHand.map(card => card.uid));
-                setActiveAspects({});
-            }, [appStatus, currentMode, cardPool, usedIndices]);
-
-            useEffect(() => { if (appStatus === 'READY') generateFullHand(); }, [appStatus, currentMode]);
-
-            const getActiveText = (obj) => {
-                if(!obj) return "";
-                if(manualEdits[obj.uid]) return manualEdits[obj.uid];
-                const conf = CATEGORY_STYLES[obj.category];
-                if (!conf) return "";
-                const r = (Math.abs(obj.rotation) / (conf.type === 'binary' ? 180 : 90)) % (conf.type === 'binary' ? 2 : 4);
-                if(conf.type === 'binary') return r === 0 ? obj.options[0] : obj.options[1];
-                return obj.options[r === 0 ? 0 : (r === 1 ? 3 : (r === 2 ? 2 : 1))];
-            };
-
-            const handleDrop = (e, dropIdx) => {
-                const dragIdx = Number(e.dataTransfer.getData('dragIndex'));
-                const newO = [...promptOrder];
-                const item = newO[dragIdx];
-                newO.splice(dragIdx, 1);
-                newO.splice(dropIdx, 0, item);
-                setPromptOrder(newO);
-            };
-
-            // PANTALLA DE SELECCIÓ
-            if (appStatus === 'SETUP') {
-                return (
-                    <div className="min-h-screen flex items-center justify-center p-4">
-                        <div className="max-w-md w-full bg-[#222] border-2 border-[#d4af37] rounded-lg p-8 shadow-2xl">
-                            <h1 className="text-3xl font-bold text-[#d4af37] text-center mb-8 uppercase tracking-widest border-b border-[#d4af37] pb-4">Story Engine</h1>
-                            <div className="space-y-4">
-                                <p className="text-gray-400 text-center mb-6">Baralles CSV detectades:</p>
-                                <div className="space-y-3 max-h-64 overflow-y-auto custom-scrollbar pr-2">
-                                    {availableDecks.length === 0 && (
-                                        <div className="flex flex-col items-center py-4">
-                                            <Icon name="Loader" className="animate-spin text-[#d4af37] mb-2" size={32} />
-                                            <p className="text-xs italic text-gray-500">Cercant fitxers...</p>
-                                        </div>
-                                    )}
-                                    {availableDecks.map(deck => {
-                                        const cIcon = getDeckIconName(deck.id, availableDecks);
-                                        return (
-                                            <div key={deck.id} onClick={() => {
-                                                const next = new Set(selectedDecks);
-                                                if (next.has(deck.id)) next.delete(deck.id); else next.add(deck.id);
-                                                setSelectedDecks(next);
-                                            }} className={`flex items-center p-4 rounded-md cursor-pointer border transition-all ${selectedDecks.has(deck.id) ? 'bg-[#d4af37]/20 border-[#d4af37]' : 'bg-[#111] border-gray-800'}`}>
-                                                <div className={`w-5 h-5 rounded border flex items-center justify-center ${selectedDecks.has(deck.id) ? 'bg-[#d4af37] border-[#d4af37]' : 'border-gray-500'}`}>
-                                                    {selectedDecks.has(deck.id) && <Icon name="Check" size={14} className="text-black" />}
-                                                </div>
-                                                <div className="ml-3 flex items-center gap-3">
-                                                    <Icon name={cIcon} size={18} className="text-[#d4af37] opacity-80" />
-                                                    <span className="text-sm font-medium">{deck.id.replace('.csv', '')}</span>
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                                <button disabled={selectedDecks.size === 0} onClick={loadSelectedDecks} className={`w-full mt-6 py-4 rounded font-bold uppercase tracking-widest transition-all ${selectedDecks.size > 0 ? 'bg-[#d4af37] text-black hover:bg-[#b5952f] shadow-lg' : 'bg-gray-700 text-gray-500 cursor-not-allowed'}`}>
-                                    Començar Càrrega
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                );
-            }
-
-            if (appStatus === 'LOADING') return <div className="min-h-screen flex flex-col items-center justify-center"><Icon name="RotateCw" className="animate-spin text-[#d4af37] mb-4" size={48} /><p className="uppercase tracking-widest text-[#d4af37]">Preparant la baralla...</p></div>;
-
-            // --- LÒGICA DE RENDER DEL PROMPT ---
-            const renderPromptElements = () => {
-                if (appStatus !== 'READY' || hand.length === 0) return null;
-                
-                let order = [];
-                if (currentMode === 'SOUL') {
-                    if (hand.length < 7) return null;
-                    order = [
-                        { type: 'card', uid: hand[0].uid },
-                        { type: 'card', uid: hand[1].uid },
-                        { type: 'card', uid: hand[3].uid },
-                        { type: 'card', uid: hand[2].uid },
-                        { type: 'separator', text: ' i també ' },
-                        { type: 'card', uid: hand[4].uid },
-                        { type: 'card', uid: hand[6].uid },
-                        { type: 'card', uid: hand[5].uid }
-                    ];
-                } else if (currentMode === 'CLASH') {
-                    if (hand.length < 7) return null;
-                    order = [
-                        { type: 'card', uid: hand[0].uid },
-                        { type: 'card', uid: hand[1].uid },
-                        { type: 'card', uid: hand[3].uid },
-                        { type: 'card', uid: hand[2].uid },
-                        { type: 'separator', text: ' Al mateix temps ' },
-                        { type: 'card', uid: hand[6].uid },
-                        { type: 'card', uid: hand[5].uid },
-                        { type: 'card', uid: hand[3].uid, isRef: true, refLabel: "Àncora (Rep.)" },
-                        { type: 'card', uid: hand[4].uid }
-                    ];
-                } else if (currentMode === 'CIRCLE') {
-                    if (hand.length < 6) return null;
-                    order = [
-                        { type: 'card', uid: hand[0].uid },
-                        { type: 'card', uid: hand[1].uid },
-                        { type: 'card', uid: hand[3].uid, isRef: true, refLabel: "Agent (2)" },
-                        { type: 'card', uid: hand[2].uid },
-                        { type: 'card', uid: hand[3].uid },
-                        { type: 'card', uid: hand[4].uid },
-                        { type: 'card', uid: hand[0].uid, isRef: true, refLabel: "Agent (1)" },
-                        { type: 'card', uid: hand[5].uid }
-                    ];
-                } else {
-                    order = promptOrder.map(uid => ({ type: 'card', uid }));
-                }
-
-                return order.map((item, idx) => {
-                    if (item.type === 'separator') {
-                        return <div key={`sep-${idx}`} className="flex items-center px-2 pt-4 text-[#d4af37] font-bold italic opacity-80">{item.text}</div>;
-                    }
-
-                    const card = hand.find(c => c.uid === item.uid);
-                    if (!card) return null;
-                    const txt = getActiveText(card);
-
-                    return (
-                        <div key={`${card.uid}-${idx}`} className="flex flex-col gap-1 p-1 rounded border border-transparent">
-                            <div className={`p-2 rounded shadow-lg ${CATEGORY_STYLES[card.category].promptBg} border border-white/10 flex flex-col items-center`}>
-                                <span className={`text-[8px] uppercase font-bold ${CATEGORY_STYLES[card.category].text} opacity-80 tracking-tighter`}>
-                                    {item.isRef ? item.refLabel : CATEGORY_STYLES[card.category].label}
-                                </span>
-                                <div className="auto-width-container" data-value={txt}>
-                                    <input type="text" value={txt} readOnly={item.isRef} onChange={e => !item.isRef && setManualEdits(p=>({...p, [card.uid]: e.target.value}))} onMouseDown={e=>e.stopPropagation()} />
-                                </div>
-                            </div>
-                            {card.aspectData && activeAspects[card.uid] && !item.isRef && (
-                                <div className="p-2 rounded bg-purple-900/60 border border-white/10 flex flex-col items-center scale-90">
-                                    <span className="text-[8px] uppercase font-bold text-purple-400 opacity-80 tracking-tighter">ASPECTE</span>
-                                    <div className="auto-width-container" data-value={getActiveText(card.aspectData)}>
-                                        <input type="text" value={getActiveText(card.aspectData)} onChange={e => setManualEdits(p=>({...p, [card.aspectData.uid]: e.target.value}))} onMouseDown={e=>e.stopPropagation()} className="text-xs" />
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    );
-                });
-            };
-
-            return (
-                <div className="flex flex-col min-h-screen overflow-x-hidden">
-                    <header className="pt-8 px-4 text-center space-y-4 relative z-20">
-                        <h1 className="text-3xl md:text-5xl font-bold tracking-widest text-[#d4af37] uppercase border-b-2 border-[#d4af37] pb-2 inline-block">GENERADOR D'HISTÒRIES</h1>
-                        <div className="flex flex-wrap justify-center gap-4 items-center">
-                            <select value={currentMode} onChange={(e) => setCurrentMode(e.target.value)} className="bg-[#2a2a2a] border border-[#d4af37] text-[#d4af37] py-2 px-4 rounded focus:outline-none uppercase text-xs font-bold">
-                                {Object.values(GENERATION_MODES).map(m => <option key={m.id} value={m.id}>{m.label}</option>)}
-                            </select>
-                            <button onClick={() => setShowInstructions(true)} className="px-4 py-2 bg-transparent border border-gray-600 text-gray-400 rounded hover:border-[#d4af37] hover:text-[#d4af37] transition-all flex items-center gap-2 text-xs">
-                                <Icon name="BookOpen" size={16} /> Instruccions
-                            </button>
-                        </div>
-                        <div className="mt-8 p-4 border-t border-b border-gray-800 bg-[#111] flex flex-wrap justify-center gap-3 min-h-[80px]">
-                            {renderPromptElements()}
-                        </div>
-                    </header>
-
-                    <main className="flex-grow flex items-center justify-center py-12 px-4">
-                        {currentMode === 'SOUL' ? (
-                            <div className="w-full max-w-[100vw] overflow-x-auto pb-16 pt-32 px-4 custom-scrollbar"> 
-                                <div className="flex flex-col items-center gap-8 min-w-max mx-auto px-12 relative">
-                                    <div className="flex flex-nowrap items-center gap-8">
-                                        {/* Extrem Esquerre: CONFLICTE 2 (5) -> ÀNCORA 2 (6) -> MOTOR 2 (4) */}
-                                        <div className="flex flex-row items-center gap-4 order-1">
-                                            <CardSlot card={hand[5]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} allDecks={availableDecks} />
-                                            <Icon name="ArrowLeft" className="text-[#d4af37] shrink-0 opacity-40" size={24} />
-                                            <CardSlot card={hand[6]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} allDecks={availableDecks} />
-                                            <Icon name="ArrowLeft" className="text-[#d4af37] shrink-0" size={24} />
-                                            <CardSlot card={hand[4]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} allDecks={availableDecks} />
-                                            <Icon name="ArrowLeft" className="text-[#d4af37] shrink-0" size={24} />
-                                        </div>
-                                        <div className="order-2 z-20 transform scale-110 mx-4">
-                                            <CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} allDecks={availableDecks} />
-                                        </div>
-                                        {/* Extrem Dret: MOTOR 1 (1) -> ÀNCORA 1 (3) -> CONFLICTE 1 (2) */}
-                                        <div className="flex flex-row items-center gap-4 order-3">
-                                            <Icon name="ArrowRight" className="text-[#d4af37] shrink-0" size={24} />
-                                            <CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} allDecks={availableDecks} />
-                                            <Icon name="ArrowRight" className="text-[#d4af37] shrink-0" size={24} />
-                                            <CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} allDecks={availableDecks} />
-                                            <Icon name="ArrowRight" className="text-[#d4af37] shrink-0 opacity-40" size={24} />
-                                            <CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} allDecks={availableDecks} />
-                                        </div>
-                                    </div>
-                                    <div className="absolute -top-24 left-20 text-xs text-[#d4af37] uppercase tracking-widest font-bold bg-[#111] px-3 py-1 rounded border border-[#d4af37]/30 shadow-lg">Camí del Desig 2</div>
-                                    <div className="absolute -top-24 right-20 text-xs text-[#d4af37] uppercase tracking-widest font-bold bg-[#111] px-3 py-1 rounded border border-[#d4af37]/30 shadow-lg">Camí del Desig 1</div>
-                                </div>
-                            </div>
-                        ) : currentMode === 'CIRCLE' ? (
-                            <div className="relative w-full max-w-4xl h-[650px] flex items-center justify-center">
-                                <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20 animate-[spin_60s_linear_infinite]"><circle cx="50%" cy="50%" r="35%" stroke="#d4af37" strokeWidth="2" fill="none" strokeDasharray="10,5" /></svg>
-                                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10">
-                                    <CardSlot card={hand[0]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} allDecks={availableDecks} />
-                                    <Icon name="MoveRight" className="absolute -right-16 top-1/2 text-[#d4af37] rotate-[30deg]" size={40} />
-                                </div>
-                                <div className="absolute top-[20%] right-0 md:right-20 z-10"><CardSlot card={hand[1]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} allDecks={availableDecks} /></div>
-                                <div className="absolute bottom-[20%] right-0 md:right-20 z-10">
-                                    <CardSlot card={hand[2]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} allDecks={availableDecks} />
-                                    <Icon name="MoveDownLeft" className="absolute -left-16 bottom-0 text-[#d4af37] rotate-12" size={40} />
-                                </div>
-                                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10">
-                                    <CardSlot card={hand[3]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={true} onSwapType={swapCardCategory} allDecks={availableDecks} />
-                                    <Icon name="MoveUpLeft" className="absolute -left-16 top-1/2 text-[#d4af37] rotate-12" size={40} />
-                                </div>
-                                <div className="absolute bottom-[20%] left-0 md:left-20 z-20"><CardSlot card={hand[4]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} allDecks={availableDecks} /></div>
-                                <div className="absolute top-[20%] left-0 md:left-20 z-10">
-                                    <CardSlot card={hand[5]} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} allDecks={availableDecks} />
-                                    <Icon name="MoveUpRight" className="absolute -right-16 top-0 text-[#d4af37] rotate-12" size={40} />
-                                </div>
-                            </div>
-                        ) : (
-                            hand.length > 0 && (
-                                <div className="flex flex-wrap justify-center gap-12 items-center">
-                                    {hand.map((card, i) => (
-                                        <Fragment key={`${card.uid}-${i}`}>
-                                            {i > 0 && currentMode === 'SEED' && <Icon name="ArrowRight" className="text-[#d4af37]/30 hidden md:block" />}
-                                            <CardSlot card={card} activeAspects={activeAspects} toggleAspect={toggleAspect} changeCard={changeCard} rotateCard={rotateCard} canSwapType={['agent','anchor'].includes(card.category)} onSwapType={swapCardCategory} allDecks={availableDecks} />
-                                        </Fragment>
-                                    ))}
-                                </div>
-                            )
-                        )}
-                    </main>
-
-                    <footer className="w-full bg-[#111] border-t border-gray-800 py-4 px-6 flex justify-between items-center text-xs text-gray-500 mt-auto">
-                        <div>Una adaptació de Xavier Ribes - Gamelab de la UAB</div>
-                        <div className="flex items-center gap-2">
-                            <Icon name="Database" size={14}/> 
-                            {Object.values(cardPool.agent || {}).length * 4} possibilitats carregades
-                        </div>
-                    </footer>
-                </div>
-            );
+            
+            const parts = symStr.split('/');
+            const icons = parts.map(p => iconMap[p.trim()] || '').join('');
+            return icons ? ' ' + icons : '';
         }
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<StoryEngineApp />);
+        async function fetchDataAndParse() {
+            try {
+                const response = await fetch('https://xaviuab.github.io/story_cards/lore/lore_deck.csv');
+                if (!response.ok) throw new Error('Error en obtenir el fitxer CSV.');
+                
+                const csvText = await response.text();
+                const lines = csvText.trim().split('\n');
+                
+                lines.forEach((line, i) => {
+                    if(i === 0 && line.startsWith('Carta;')) return; 
+                    const parts = line.split(';');
+                    if (parts.length >= 9) {
+                        const getSafePart = (arr, idx) => arr[idx] ? arr[idx].trim() : '';
+                        
+                        const c1 = { text: getSafePart(parts, 2), sym: getSafePart(parts, 3) };
+                        const c2 = { text: getSafePart(parts, 4), sym: getSafePart(parts, 5) };
+                        const c3 = { text: getSafePart(parts, 6), sym: getSafePart(parts, 7) };
+                        const c4 = { text: getSafePart(parts, 8), sym: getSafePart(parts, 9) };
+                        
+                        const rawCat = getSafePart(parts, 1);
+                        const mappedCat = config.categoryMap[rawCat] || rawCat;
+
+                        state.cards.push({
+                            id: parts[0],
+                            category: mappedCat,
+                            cues: [c1, c2, c3, c4]
+                        });
+                    }
+                });
+
+                const btnNou = document.getElementById('btn-nou-cluster');
+                if (btnNou) btnNou.disabled = false;
+                
+                const btnNeteja = document.getElementById('btn-neteja');
+                if (btnNeteja) btnNeteja.disabled = false;
+                
+                const btnDesa = document.getElementById('btn-desa');
+                if (btnDesa) btnDesa.disabled = false;
+
+                const btnCarrega = document.getElementById('btn-carrega');
+                if (btnCarrega) btnCarrega.disabled = false;
+                
+                const btnAleatori = document.getElementById('btn-lore-aleatori');
+                if (btnAleatori) btnAleatori.disabled = false;
+                
+                ui.setStatusReady();
+
+            } catch (error) {
+                console.error("Error obtenint les cartes:", error);
+                const statusDiv = document.getElementById('status-message');
+                if (statusDiv) {
+                    statusDiv.classList.replace('bg-white/80', 'bg-red-50');
+                    statusDiv.classList.replace('border-gray-300', 'border-red-300');
+                    
+                    const titleEl = document.getElementById('status-title');
+                    if (titleEl) {
+                        titleEl.textContent = "Error de connexió";
+                        titleEl.className = "text-2xl mb-4 text-red-800 font-title";
+                    }
+                    
+                    const textEl = document.getElementById('status-text');
+                    if (textEl) {
+                        textEl.textContent = "No s'han pogut carregar les cartes. Comproveu la vostra connexió a internet o recarregueu la pàgina.";
+                        textEl.className = "text-red-600";
+                    }
+                }
+            }
+        }
+
+        const logic = {
+            getRandomCard(category, isSecondary = false) {
+                let filtered = state.cards.filter(c => c.category === category);
+                
+                if (category !== 'Modificadors') {
+                    if (isSecondary) {
+                        filtered = filtered.filter(c => {
+                            const idNum = parseInt(c.id);
+                            return idNum >= 37 && idNum <= 72;
+                        });
+                    } else {
+                        filtered = filtered.filter(c => {
+                            const idNum = parseInt(c.id);
+                            return idNum >= 1 && idNum <= 36;
+                        });
+                    }
+                }
+                
+                if (filtered.length === 0) return null;
+                const idx = Math.floor(Math.random() * filtered.length);
+                return filtered[idx];
+            },
+
+            startCluster() {
+                const select = document.getElementById('category-select');
+                if (!select) return;
+                const cat = select.value;
+                const card = this.getRandomCard(cat, false);
+                
+                if (!card) {
+                    alert("No s'ha pogut trobar la carta principal d'aquesta categoria.");
+                    return;
+                }
+                
+                const newId = 'cluster-' + Date.now();
+                
+                const board = document.getElementById('board');
+                const centerX = (board.clientWidth / 2 - camera.x) / camera.scale;
+                const centerY = (board.clientHeight / 2 - camera.y) / camera.scale;
+
+                const isInitialNode = Object.keys(state.clusters).length === 0;
+
+                const newPos = isInitialNode 
+                    ? { x: 4000, y: 4000 } 
+                    : this.findFreePosition(centerX, centerY, 400);
+
+                state.clusters[newId] = {
+                    id: newId,
+                    primary: card,
+                    activeCueIndex: 0, 
+                    currentRotation: 0,
+                    notes: '',
+                    isInitial: isInitialNode,
+                    tucked: { 
+                        top: { modifier: null, secondary: null }, 
+                        right: { modifier: null, secondary: null }, 
+                        bottom: { modifier: null, secondary: null }, 
+                        left: { modifier: null, secondary: null } 
+                    },
+                    x: newPos.x, 
+                    y: newPos.y  
+                };
+                
+                ui.hideStartModal();
+                
+                const sm = document.getElementById('status-message');
+                if (sm) sm.style.display = 'none';
+                
+                const ca = document.getElementById('canvas-area');
+                if (ca) ca.style.display = 'block';
+
+                if (Object.keys(state.clusters).length === 1) {
+                    camera.x = board.clientWidth / 2 - 4000 * camera.scale;
+                    camera.y = board.clientHeight / 2 - 4000 * camera.scale;
+                    ui.updateCanvasTransform();
+                }
+
+                ui.renderBoard();
+                this.panTo(newPos.x, newPos.y);
+            },
+
+            generateRandomLore() {
+                ui.clearBoard(); 
+                
+                const sm = document.getElementById('status-message');
+                if (sm) sm.style.display = 'none';
+                
+                const ca = document.getElementById('canvas-area');
+                if (ca) ca.style.display = 'block';
+
+                const categories = ["Faccions", "Figura", "Esdeveniment", "Ubicació", "Objecte", "Material", "Criatura"];
+                let clustersCreated = 0;
+                let availableSymbols = [];
+                let lastClusterId = null;
+
+                while (clustersCreated < 6) {
+                    let cat;
+                    let sourceSymbol = null;
+
+                    if (clustersCreated === 0) {
+                        cat = categories[Math.floor(Math.random() * categories.length)];
+                    } else {
+                        if (availableSymbols.length > 0) {
+                            const symIndex = Math.floor(Math.random() * availableSymbols.length);
+                            sourceSymbol = availableSymbols.splice(symIndex, 1)[0];
+                            cat = sourceSymbol.normCat;
+                        } else {
+                            cat = categories[Math.floor(Math.random() * categories.length)];
+                        }
+                    }
+
+                    const card = this.getRandomCard(cat, false);
+                    if (!card) break; 
+
+                    const newId = 'cluster-' + Date.now() + '-' + clustersCreated;
+                    
+                    let newPos;
+                    if (clustersCreated === 0) {
+                        newPos = { x: 4000, y: 4000 };
+                        camera.x = 0; 
+                        camera.y = 0;
+                    } else {
+                        const sourceX = sourceSymbol ? state.clusters[sourceSymbol.sourceClusterId].x : state.clusters[lastClusterId].x;
+                        const sourceY = sourceSymbol ? state.clusters[sourceSymbol.sourceClusterId].y : state.clusters[lastClusterId].y;
+                        newPos = this.findFreePosition(sourceX, sourceY, 400);
+                    }
+
+                    state.clusters[newId] = {
+                        id: newId,
+                        primary: card,
+                        activeCueIndex: 0,
+                        currentRotation: 0,
+                        notes: '',
+                        isInitial: clustersCreated === 0,
+                        tucked: { 
+                            top: { modifier: null, secondary: null }, 
+                            right: { modifier: null, secondary: null }, 
+                            bottom: { modifier: null, secondary: null }, 
+                            left: { modifier: null, secondary: null } 
+                        },
+                        x: newPos.x,
+                        y: newPos.y
+                    };
+
+                    if (sourceSymbol) {
+                        const sourceNodeId = `symbol-${sourceSymbol.sourceClusterId}-tucked-${sourceSymbol.slotName}-secondary-${sourceSymbol.symbolIdx}`;
+                        state.lines.push({
+                            id: 'line-' + Date.now() + '-' + Math.random(),
+                            sourceNodeId: sourceNodeId,
+                            targetClusterId: newId
+                        });
+                    }
+
+                    const slots = ['top', 'right', 'bottom', 'left'];
+                    slots.forEach(slot => {
+                        const secCard = this.getRandomCard(cat, true);
+                        if (secCard) {
+                            let chosenCueIdx = Math.floor(Math.random() * 4);
+                            let bestCueIdx = -1;
+                            for(let i=0; i<4; i++){
+                                if(secCard.cues[i].sym && secCard.cues[i].sym.trim() !== '0' && secCard.cues[i].sym.trim() !== '') {
+                                    bestCueIdx = i;
+                                    break;
+                                }
+                            }
+                            if (bestCueIdx !== -1 && Math.random() > 0.3) {
+                                chosenCueIdx = bestCueIdx; 
+                            }
+
+                            state.clusters[newId].tucked[slot].secondary = {
+                                card: secCard,
+                                cueIndex: chosenCueIdx,
+                                type: 'secondary'
+                            };
+
+                            const cueData = secCard.cues[chosenCueIdx];
+                            if (cueData.sym && cueData.sym.trim() !== '0' && cueData.sym.trim() !== '') {
+                                const cats = cueData.sym.split('/');
+                                cats.forEach((catRaw, idx) => {
+                                    const normCat = config.categoryMap[catRaw.trim()];
+                                    if (normCat) {
+                                        availableSymbols.push({
+                                            sourceClusterId: newId,
+                                            slotName: slot,
+                                            categoryRaw: catRaw.trim(),
+                                            normCat: normCat,
+                                            symbolIdx: idx
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                    lastClusterId = newId;
+                    clustersCreated++;
+                }
+
+                const board = document.getElementById('board');
+                camera.x = board.clientWidth / 2 - 4000 * camera.scale;
+                camera.y = board.clientHeight / 2 - 4000 * camera.scale;
+                ui.updateCanvasTransform();
+                
+                ui.renderBoard();
+                this.panTo(4000, 4000);
+            },
+
+            saveLore() {
+                const saveData = {
+                    clusters: state.clusters,
+                    lines: state.lines,
+                    camera: camera
+                };
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(saveData));
+                const downloadAnchorNode = document.createElement('a');
+                downloadAnchorNode.setAttribute("href", dataStr);
+                downloadAnchorNode.setAttribute("download", "lore_deck_xarxa.json");
+                document.body.appendChild(downloadAnchorNode); 
+                downloadAnchorNode.click();
+                downloadAnchorNode.remove();
+            },
+
+            loadLore(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const loadedData = JSON.parse(e.target.result);
+                        if (loadedData && loadedData.clusters && loadedData.lines && loadedData.camera) {
+                            state.clusters = loadedData.clusters;
+                            state.lines = loadedData.lines;
+                            camera.x = loadedData.camera.x;
+                            camera.y = loadedData.camera.y;
+                            camera.scale = loadedData.camera.scale;
+
+                            Object.values(state.clusters).forEach(c => {
+                                if (c.notes === undefined) c.notes = '';
+                            });
+
+                            const hasData = Object.keys(state.clusters).length > 0;
+                            document.getElementById('canvas-area').style.display = hasData ? 'block' : 'none';
+                            document.getElementById('status-message').style.display = hasData ? 'none' : 'block';
+
+                            ui.updateCanvasTransform();
+                            ui.renderBoard();
+                        } else {
+                            alert("El fitxer no té un format vàlid per al Lore Master's Deck.");
+                        }
+                    } catch (err) {
+                        alert("S'ha produït un error en llegir el fitxer.");
+                        console.error(err);
+                    }
+                    event.target.value = ''; 
+                };
+                reader.readAsText(file);
+            },
+
+            panTo(localX, localY) {
+                const board = document.getElementById('board');
+                if (!board) return;
+                
+                const targetX = board.clientWidth / 2 - localX * camera.scale;
+                const targetY = board.clientHeight / 2 - localY * camera.scale;
+                
+                const sx = camera.x;
+                const sy = camera.y;
+                const startTime = performance.now();
+                const duration = 400; 
+
+                function animate(time) {
+                    const elapsed = time - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const ease = 1 - Math.pow(1 - progress, 3);
+                    
+                    camera.x = sx + (targetX - sx) * ease;
+                    camera.y = sy + (targetY - sy) * ease;
+                    ui.updateCanvasTransform();
+
+                    if (progress < 1) requestAnimationFrame(animate);
+                }
+                requestAnimationFrame(animate);
+            },
+
+            findFreePosition(startX, startY, initialRadius = 750) {
+                let radius = initialRadius; 
+                let angle = 0;
+                let angleStep = Math.PI / 6; 
+
+                for (let i = 0; i < 200; i++) {
+                    const x = startX + radius * Math.cos(angle);
+                    const y = startY + radius * Math.sin(angle);
+                    
+                    let collision = false;
+                    for (const cluster of Object.values(state.clusters)) {
+                        const dx = cluster.x - x;
+                        const dy = cluster.y - y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 750) { 
+                            collision = true;
+                            break;
+                        }
+                    }
+                    
+                    if (!collision) return { x, y };
+                    
+                    angle += angleStep;
+                    if (angle >= Math.PI * 2) {
+                        angle = 0;
+                        radius += 250;
+                        angleStep = Math.PI / (6 + radius/100);
+                    }
+                }
+                return { x: startX + 800, y: startY }; 
+            },
+
+            deleteCluster(event, clusterId) {
+                if (hasDragged) return;
+                if (event) event.stopPropagation();
+                
+                delete state.clusters[clusterId];
+                
+                state.lines = state.lines.filter(line => 
+                    line.targetClusterId !== clusterId && 
+                    !line.sourceNodeId.startsWith(`symbol-${clusterId}-`)
+                );
+                
+                ui.renderBoard();
+                
+                if (Object.keys(state.clusters).length === 0) {
+                    const ca = document.getElementById('canvas-area');
+                    if (ca) ca.style.display = 'none';
+                    
+                    const sm = document.getElementById('status-message');
+                    if (sm) sm.style.display = 'block';
+                    
+                    camera.scale = 1;
+                }
+            },
+
+            handleSymbolClick(event, categoryRaw, sourceClusterId, symbolNodeId) {
+                if (hasDragged) return;
+                if (event) event.stopPropagation();
+                
+                const targetCategory = config.categoryMap[categoryRaw];
+                if (!targetCategory) return;
+
+                const existingClusters = Object.values(state.clusters).filter(c => c.primary.category === targetCategory && c.id !== sourceClusterId);
+                
+                if (existingClusters.length > 0) {
+                    state.pendingLink = { targetCategory, sourceClusterId, symbolNodeId, existingClusters };
+                    ui.showLinkModal();
+                } else {
+                    this.spawnNewCluster(targetCategory, sourceClusterId, symbolNodeId);
+                }
+            },
+
+            spawnFromPending() {
+                if (!state.pendingLink) return;
+                const { targetCategory, sourceClusterId, symbolNodeId } = state.pendingLink;
+                ui.hideLinkModal();
+                this.spawnNewCluster(targetCategory, sourceClusterId, symbolNodeId);
+            },
+
+            linkToExisting(targetClusterId) {
+                if (!state.pendingLink) return;
+                const { symbolNodeId } = state.pendingLink;
+                ui.hideLinkModal();
+                
+                const exists = state.lines.find(l => l.sourceNodeId === symbolNodeId && l.targetClusterId === targetClusterId);
+                if (!exists) {
+                    state.lines.push({
+                        id: 'line-' + Date.now() + Math.random(),
+                        sourceNodeId: symbolNodeId,
+                        targetClusterId: targetClusterId
+                    });
+                    ui.drawLines();
+                }
+            },
+
+            deleteLineById(lineId) {
+                state.lines = state.lines.filter(l => l.id !== lineId);
+                ui.drawLines();
+            },
+
+            spawnNewCluster(category, sourceClusterId, symbolNodeId) {
+                const card = this.getRandomCard(category, false); 
+                if (!card) {
+                    alert("No s'ha pogut trobar una carta d'aquesta categoria.");
+                    return;
+                }
+
+                const newId = 'cluster-' + Date.now();
+                const sourceCluster = state.clusters[sourceClusterId];
+                const newPos = this.findFreePosition(sourceCluster.x, sourceCluster.y);
+
+                state.clusters[newId] = {
+                    id: newId,
+                    primary: card,
+                    activeCueIndex: 0,
+                    currentRotation: 0,
+                    notes: '',
+                    tucked: { 
+                        top: { modifier: null, secondary: null }, 
+                        right: { modifier: null, secondary: null }, 
+                        bottom: { modifier: null, secondary: null }, 
+                        left: { modifier: null, secondary: null } 
+                    },
+                    x: newPos.x,
+                    y: newPos.y
+                };
+
+                state.lines.push({
+                    id: 'line-' + Date.now() + Math.random(),
+                    sourceNodeId: symbolNodeId,
+                    targetClusterId: newId
+                });
+
+                ui.renderBoard();
+                this.panTo(newPos.x, newPos.y);
+            },
+
+            initClusterDrag(event, clusterId) {
+                if (!event.target.closest('.primary-card')) return;
+                if (event.target.closest('.card-center-icon') || event.target.closest('.symbol-icon') || event.target.closest('.delete-cluster-btn') || event.target.closest('.notes-cluster-btn')) return;
+                
+                isDraggingCluster = true;
+                draggedClusterId = clusterId;
+                startX = event.clientX;
+                startY = event.clientY;
+                initialClustX = state.clusters[clusterId].x;
+                initialClustY = state.clusters[clusterId].y;
+                hasDragged = false;
+                event.stopPropagation();
+            },
+
+            rotateCard(event, clusterId) {
+                if (hasDragged) return;
+                if (event.target.closest('.card-center-icon') || event.target.closest('.symbol-icon') || event.target.closest('.notes-cluster-btn')) return;
+                
+                const cluster = state.clusters[clusterId];
+                this.setActiveCue(clusterId, (cluster.activeCueIndex + 3) % 4);
+            },
+
+            rerollPrimaryCard(event, clusterId) {
+                if (hasDragged) return;
+                if (event) event.stopPropagation();
+                
+                const cluster = state.clusters[clusterId];
+                const cat = cluster.primary.category;
+                let newCard;
+                
+                do {
+                    newCard = this.getRandomCard(cat, false);
+                } while (newCard && newCard.id === cluster.primary.id && state.cards.filter(c => c.category === cat && parseInt(c.id) <= 36).length > 1);
+
+                if(newCard) {
+                    cluster.primary = newCard;
+                    ui.renderBoard();
+                } else {
+                    alert("No hi ha més cartes disponibles d'aquesta categoria principal.");
+                }
+            },
+
+            promptAction(clusterId, slotName, event) {
+                if (hasDragged) return;
+                if (event) event.stopPropagation();
+                state.pendingAction = { clusterId, slotName };
+                
+                const slotData = state.clusters[clusterId].tucked[slotName];
+                
+                const btnSec = document.getElementById('btn-add-secondary');
+                if (btnSec) btnSec.style.display = slotData.secondary ? 'none' : 'flex';
+                
+                const btnMod = document.getElementById('btn-add-modifier');
+                if (btnMod) btnMod.style.display = slotData.modifier ? 'none' : 'flex';
+                
+                ui.showActionModal();
+            },
+
+            promptEdit(clusterId, slotName, cardType, event) {
+                if (hasDragged) return;
+                if (event) event.stopPropagation();
+                state.pendingAction = { clusterId, slotName, cardType };
+                ui.showEditModal();
+            },
+            
+            promptNotes(clusterId, event) {
+                if (hasDragged) return;
+                if (event) event.stopPropagation();
+                
+                state.pendingAction = { clusterId };
+                const cluster = state.clusters[clusterId];
+                
+                const textarea = document.getElementById('cluster-notes-input');
+                if (textarea) {
+                    textarea.value = cluster.notes || '';
+                }
+                
+                ui.showNotesModal();
+            },
+            
+            saveNotes() {
+                if (!state.pendingAction) return;
+                const clusterId = state.pendingAction.clusterId;
+                const textarea = document.getElementById('cluster-notes-input');
+                
+                if (textarea && state.clusters[clusterId]) {
+                    state.clusters[clusterId].notes = textarea.value.trim();
+                }
+                
+                ui.hideNotesModal();
+                ui.renderBoard(); 
+            },
+
+            deleteCard() {
+                if (!state.pendingAction) return;
+                const { clusterId, slotName, cardType } = state.pendingAction;
+                state.clusters[clusterId].tucked[slotName][cardType] = null;
+                ui.hideEditModal();
+                ui.renderBoard();
+            },
+
+            replaceCard() {
+                ui.hideEditModal();
+                if (!state.pendingAction) return;
+                
+                const { clusterId, cardType } = state.pendingAction;
+                state.pendingType = cardType;
+                
+                if (cardType === 'modifier') {
+                    state.pendingDrawnCard = this.getRandomCard('Modificadors');
+                } else {
+                    const cat = state.clusters[clusterId].primary.category;
+                    state.pendingDrawnCard = this.getRandomCard(cat, true);
+                }
+                
+                ui.showCueModal(state.pendingDrawnCard);
+            },
+
+            promptDrawSecondary() {
+                ui.hideActionModal();
+                if (!state.pendingAction) return;
+                const cluster = state.clusters[state.pendingAction.clusterId];
+                const cat = cluster.primary.category;
+                state.pendingDrawnCard = this.getRandomCard(cat, true);
+                state.pendingType = 'secondary';
+                ui.showCueModal(state.pendingDrawnCard);
+            },
+
+            promptDrawModifier() {
+                ui.hideActionModal();
+                state.pendingDrawnCard = this.getRandomCard('Modificadors');
+                state.pendingType = 'modifier';
+                ui.showCueModal(state.pendingDrawnCard);
+            },
+
+            redrawPendingCard() {
+                if (state.pendingType === 'modifier') {
+                    state.pendingDrawnCard = this.getRandomCard('Modificadors');
+                } else {
+                    if (!state.pendingAction) return;
+                    const cluster = state.clusters[state.pendingAction.clusterId];
+                    const cat = cluster.primary.category;
+                    state.pendingDrawnCard = this.getRandomCard(cat, true);
+                }
+                ui.showCueModal(state.pendingDrawnCard);
+            },
+
+            confirmCueSelection(cueIndex) {
+                if (!state.pendingAction) return;
+                const cluster = state.clusters[state.pendingAction.clusterId];
+                
+                const newCard = {
+                    card: state.pendingDrawnCard,
+                    cueIndex: cueIndex,
+                    type: state.pendingType
+                };
+                
+                cluster.tucked[state.pendingAction.slotName][state.pendingType] = newCard;
+                
+                ui.hideCueModal();
+                ui.renderBoard();
+            },
+
+            setActiveCue(clusterId, index) {
+                const cluster = state.clusters[clusterId];
+                cluster.activeCueIndex = index;
+                
+                const targetAngle = [0, -90, -180, -270][index];
+                let diff = (targetAngle - cluster.currentRotation) % 360;
+                
+                if (diff > 180) diff -= 360;
+                if (diff < -180) diff += 360;
+                
+                cluster.currentRotation += diff;
+                
+                ui.updateRotationDOM(clusterId);
+            }
+        };
+
+        // Sistema d'Interfície d'Usuari
+        const ui = {
+            setStatusReady() {
+                const titleEl = document.getElementById('status-title');
+                if (titleEl) titleEl.textContent = "Lore: entorns per a històries";
+                
+                const textEl = document.getElementById('status-text');
+                if (textEl) textEl.textContent = "Comença revelant una carta principal per establir el nucli del teu primer clúster.";
+                
+                const btn = document.createElement('button');
+                btn.className = "bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-bold text-lg shadow-lg transform transition hover:scale-105 mt-4";
+                btn.textContent = "Revela la Carta Principal";
+                btn.onclick = () => ui.showStartModal();
+                
+                const sm = document.getElementById('status-message');
+                if (sm) sm.appendChild(btn);
+            },
+
+            updateCanvasTransform() {
+                const ca = document.getElementById('canvas-area');
+                if (ca) ca.style.transform = `translate(${camera.x}px, ${camera.y}px) scale(${camera.scale})`;
+            },
+
+            showInstructionsModal() { 
+                const el = document.getElementById('instructions-modal');
+                if (el) el.classList.remove('hidden'); 
+            },
+            hideInstructionsModal() { 
+                const el = document.getElementById('instructions-modal');
+                if (el) el.classList.add('hidden'); 
+            },
+
+            showStartModal() { 
+                const el = document.getElementById('start-modal');
+                if (el) el.classList.remove('hidden'); 
+            },
+            hideStartModal() { 
+                const el = document.getElementById('start-modal');
+                if (el) el.classList.add('hidden'); 
+            },
+            
+            showActionModal() { 
+                const el = document.getElementById('action-modal');
+                if (el) el.classList.remove('hidden'); 
+            },
+            hideActionModal() { 
+                const el = document.getElementById('action-modal');
+                if (el) el.classList.add('hidden'); 
+            },
+
+            showEditModal() { 
+                const el = document.getElementById('edit-modal');
+                if (el) el.classList.remove('hidden'); 
+            },
+            hideEditModal() { 
+                const el = document.getElementById('edit-modal');
+                if (el) el.classList.add('hidden'); 
+            },
+            
+            showNotesModal() { 
+                const el = document.getElementById('notes-modal');
+                if (el) el.classList.remove('hidden'); 
+            },
+            hideNotesModal() { 
+                const el = document.getElementById('notes-modal');
+                if (el) el.classList.add('hidden'); 
+            },
+
+            showLinkModal() {
+                const container = document.getElementById('link-options-container');
+                if (container && state.pendingLink && state.pendingLink.existingClusters) {
+                    container.innerHTML = '';
+                    
+                    state.pendingLink.existingClusters.forEach(cluster => {
+                        const btn = document.createElement('button');
+                        btn.className = 'p-3 bg-teal-50 text-teal-800 hover:bg-teal-100 rounded-lg font-bold transition flex items-center justify-between border border-teal-200';
+                        
+                        const topCueIndex = cluster.activeCueIndex;
+                        const cardName = cluster.primary.cues[topCueIndex].text || cluster.primary.category;
+                        
+                        btn.innerHTML = `<span>Enllaça a: ${cardName}</span> <span class="text-xs text-teal-600 bg-teal-100 px-2 py-1 rounded">#${cluster.primary.id}</span>`;
+                        btn.onclick = () => logic.linkToExisting(cluster.id);
+                        container.appendChild(btn);
+                    });
+                }
+                
+                const el = document.getElementById('link-modal');
+                if (el) el.classList.remove('hidden');
+            },
+            hideLinkModal() { 
+                const el = document.getElementById('link-modal');
+                if (el) el.classList.add('hidden'); 
+            },
+
+            generateContentHtml(cueData, clusterId, slotIdentifier, isMod = false) {
+                let text = cueData.text;
+                if (isMod) text = `<span class="modifier-arrows">${text}</span>`;
+                
+                if (!cueData.sym || cueData.sym.trim() === '0' || cueData.sym.trim() === '') {
+                    return text;
+                }
+
+                const cats = cueData.sym.split('/');
+                let iconsHtml = '';
+                
+                cats.forEach((cat, idx) => {
+                    const normCat = config.categoryMap[cat.trim()];
+                    if (normCat) {
+                        const icon = config.icons[normCat];
+                        const uniqueId = `symbol-${clusterId}-${slotIdentifier}-${idx}`;
+                        iconsHtml += `<span id="${uniqueId}" 
+                                            class="symbol-icon" 
+                                            title="${normCat}" 
+                                            onclick="logic.handleSymbolClick(event, '${normCat}', '${clusterId}', '${uniqueId}')">${icon}</span>`;
+                    }
+                });
+
+                return text + iconsHtml;
+            },
+
+            showCueModal(card) {
+                if(!card) {
+                    alert("S'han esgotat les cartes per aquesta categoria en aquest moment.");
+                    return;
+                }
+                
+                const typeEl = document.getElementById('drawn-card-type');
+                if (typeEl) typeEl.textContent = card.category;
+                
+                const idEl = document.getElementById('drawn-card-id');
+                if (idEl) idEl.textContent = `(#${card.id})`;
+                
+                const optionsContainer = document.getElementById('cue-options');
+                if (optionsContainer) {
+                    optionsContainer.innerHTML = '';
+                    
+                    card.cues.forEach((cue, index) => {
+                        const btn = document.createElement('button');
+                        btn.className = 'w-full text-left p-4 border border-gray-300 rounded hover:bg-indigo-50 hover:border-indigo-500 font-bold text-gray-800 transition shadow-sm';
+                        
+                        let displayHtml = cue.text;
+                        if (state.pendingType === 'modifier') displayHtml = `<span class="modifier-arrows">${displayHtml}</span>`;
+                        
+                        if (cue.sym && cue.sym.trim() !== '0' && cue.sym.trim() !== '') {
+                            const cats = cue.sym.split('/');
+                            cats.forEach(cat => {
+                                const normCat = config.categoryMap[cat.trim()];
+                                if (normCat) displayHtml += ` <span class="ml-1">${config.icons[normCat]}</span>`;
+                            });
+                        }
+
+                        btn.innerHTML = displayHtml;
+                        btn.onclick = () => logic.confirmCueSelection(index);
+                        optionsContainer.appendChild(btn);
+                    });
+                }
+
+                const modal = document.getElementById('cue-modal');
+                if (modal) modal.classList.remove('hidden');
+            },
+            
+            hideCueModal() { 
+                const modal = document.getElementById('cue-modal');
+                if (modal) modal.classList.add('hidden'); 
+            },
+
+            clearBoard() {
+                state.clusters = {};
+                state.lines = [];
+                
+                const ca = document.getElementById('canvas-area');
+                if (ca) ca.style.display = 'none';
+                
+                const sm = document.getElementById('status-message');
+                if (sm) sm.style.display = 'block';
+                
+                camera.scale = 1;
+                this.renderBoard();
+            },
+
+            updateRotationDOM(clusterId) {
+                const cluster = state.clusters[clusterId];
+                if(!cluster) return;
+
+                const card = document.querySelector(`#${clusterId} .primary-card`);
+                const icon = document.querySelector(`#${clusterId} .card-center-icon`);
+                
+                if(card && icon) {
+                    card.style.transform = `rotate(${cluster.currentRotation}deg)`;
+                    icon.style.transform = `rotate(${-cluster.currentRotation}deg)`;
+                    
+                    const cues = document.querySelectorAll(`#${clusterId} .cue-text`);
+                    cues.forEach((el, i) => {
+                        if (i === cluster.activeCueIndex) el.classList.add('cue-active');
+                        else el.classList.remove('cue-active');
+                    });
+                }
+
+                requestAnimationFrame(() => ui.drawLines());
+            },
+
+            drawLines() {
+                const svg = document.getElementById('connections-svg');
+                if (!svg) return;
+                svg.innerHTML = ''; 
+                
+                const btnContainer = document.getElementById('line-buttons-container');
+                if (btnContainer) btnContainer.innerHTML = '';
+
+                const canvasArea = document.getElementById('canvas-area');
+                if (!canvasArea) return;
+                
+                const canvasRect = canvasArea.getBoundingClientRect();
+                const currentScale = camera.scale;
+
+                state.lines.forEach(line => {
+                    const sourceEl = document.getElementById(line.sourceNodeId);
+                    const targetEl = document.getElementById(line.targetClusterId);
+                    
+                    if (sourceEl && targetEl) {
+                        const sourceRect = sourceEl.getBoundingClientRect();
+                        const x1 = (sourceRect.left + sourceRect.width / 2 - canvasRect.left) / currentScale;
+                        const y1 = (sourceRect.top + sourceRect.height / 2 - canvasRect.top) / currentScale;
+                        
+                        const targetCardEl = targetEl.querySelector('.primary-card') || targetEl;
+                        const tCardRect = targetCardEl.getBoundingClientRect();
+                        const x2 = (tCardRect.left + tCardRect.width / 2 - canvasRect.left) / currentScale;
+                        const y2 = (tCardRect.top + tCardRect.height / 2 - canvasRect.top) / currentScale;
+
+                        const targetCluster = state.clusters[line.targetClusterId];
+                        const targetCategory = targetCluster ? targetCluster.primary.category : 'Faccions';
+                        const strokeColor = config.hexColors[targetCategory] || '#6366f1';
+
+                        // Línia visual sòlida
+                        const lineEl = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                        lineEl.setAttribute('x1', x1);
+                        lineEl.setAttribute('y1', y1);
+                        lineEl.setAttribute('x2', x2);
+                        lineEl.setAttribute('y2', y2);
+                        lineEl.setAttribute('stroke', strokeColor); 
+                        lineEl.setAttribute('stroke-width', '4');
+                        lineEl.setAttribute('stroke-dasharray', '8 12');
+                        lineEl.setAttribute('stroke-linecap', 'round');
+                        lineEl.setAttribute('opacity', '0.7');
+                        lineEl.setAttribute('vector-effect', 'non-scaling-stroke');
+                        
+                        svg.appendChild(lineEl);
+
+                        // Botó HTML de tancar
+                        const midX = (x1 + x2) / 2;
+                        const midY = (y1 + y2) / 2;
+
+                        if (btnContainer) {
+                            const btnWrapper = document.createElement('div');
+                            btnWrapper.style.position = 'absolute';
+                            btnWrapper.style.left = `${midX}px`;
+                            btnWrapper.style.top = `${midY}px`;
+                            btnWrapper.style.transform = `translate(-50%, -50%) scale(${1 / currentScale})`;
+                            btnWrapper.style.transformOrigin = 'center center';
+                            btnWrapper.style.width = '28px';
+                            btnWrapper.style.height = '28px';
+                            btnWrapper.style.zIndex = '50';
+                            btnWrapper.style.pointerEvents = 'none'; 
+                    
+                            const btn = document.createElement('div');
+                            btn.className = 'delete-line-btn-html';
+                            btn.innerHTML = '×';
+                            btn.title = "Elimina l'enllaç";
+                            btn.style.pointerEvents = 'auto'; 
+                            btn.style.width = '100%';
+                            btn.style.height = '100%';
+                            
+                            btn.onmousedown = (e) => {
+                                e.stopPropagation(); 
+                            };
+                            btn.onclick = (e) => {
+                                e.stopPropagation();
+                                logic.deleteLineById(line.id);
+                            };
+                    
+                            btnWrapper.appendChild(btn);
+                            btnContainer.appendChild(btnWrapper);
+                        }
+                    }
+                });
+            },
+
+            renderBoard() {
+                const container = document.getElementById('clusters-container');
+                if (!container) return;
+                
+                container.innerHTML = '';
+
+                Object.values(state.clusters).forEach(cluster => {
+                    const primary = cluster.primary;
+                    const bgClass = config.colors[primary.category] || 'bg-gray-800';
+                    const icon = config.icons[primary.category] || '❓';
+                    const activeIdx = cluster.activeCueIndex;
+                    const rot = cluster.currentRotation;
+
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'cluster-wrapper';
+                    wrapper.id = cluster.id;
+                    wrapper.style.left = `${cluster.x}px`;
+                    wrapper.style.top = `${cluster.y}px`;
+
+                    let html = `<div class="lore-cluster">`;
+
+                    const notesClass = cluster.notes && cluster.notes.trim() !== '' ? 'has-notes' : '';
+                    const notesIcon = cluster.notes && cluster.notes.trim() !== '' ? '📝' : '✏️';
+                    
+                    const initialFlagHtml = cluster.isInitial ? `<div style="position: absolute; top: -15px; left: -15px; width: 44px; height: 44px; background: #22c55e; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; z-index: 30; box-shadow: 0 4px 6px rgba(0,0,0,0.15);" title="Clúster Inicial">🏁</div>` : '';
+
+                    html += `
+                        <div class="primary-card-wrapper">
+                            ${initialFlagHtml}
+                            <div class="primary-card ${bgClass}" style="transform: rotate(${rot}deg);" onclick="logic.rotateCard(event, '${cluster.id}')" onmousedown="logic.initClusterDrag(event, '${cluster.id}')" title="Clica per rotar la carta. Arrossega per moure.">
+                                <div class="card-center-icon text-3xl" style="transform: rotate(${-rot}deg);" onclick="logic.rerollPrimaryCard(event, '${cluster.id}')" title="Genera una nova carta principal d'aquesta categoria">
+                                    ${icon}
+                                    <span class="text-xs uppercase mt-1 tracking-widest">${primary.category}</span>
+                                </div>
+                                <div class="cue-text cue-top ${activeIdx === 0 ? 'cue-active' : ''}">${ui.generateContentHtml(primary.cues[0], cluster.id, 'p0')}</div>
+                                <div class="cue-text cue-right ${activeIdx === 1 ? 'cue-active' : ''}">${ui.generateContentHtml(primary.cues[1], cluster.id, 'p1')}</div>
+                                <div class="cue-text cue-bottom ${activeIdx === 2 ? 'cue-active' : ''}">${ui.generateContentHtml(primary.cues[2], cluster.id, 'p2')}</div>
+                                <div class="cue-text cue-left ${activeIdx === 3 ? 'cue-active' : ''}">${ui.generateContentHtml(primary.cues[3], cluster.id, 'p3')}</div>
+                            </div>
+                            <div class="delete-cluster-btn" onclick="logic.deleteCluster(event, '${cluster.id}')" title="Elimina l'estructura">🗑️</div>
+                            <div class="notes-cluster-btn ${notesClass}" onclick="logic.promptNotes('${cluster.id}', event)" title="Anotacions">
+                                ${notesIcon}
+                            </div>
+                        </div>
+                    `;
+
+                    const renderSlot = (slotName) => {
+                        const slotData = cluster.tucked[slotName]; 
+                        let slotHtml = `<div class="slot-container slot-${slotName}">`;
+                        
+                        const renderSingleCard = (data, type) => {
+                            if (!data) return '';
+                            const isMod = type === 'modifier';
+                            const textColorClass = isMod ? 'text-gray-500' : (config.textColors[data.card.category] || 'text-gray-800');
+                            const cueData = data.card.cues[data.cueIndex];
+                            
+                            const identifier = `tucked-${slotName}-${type}`;
+                            const displayHtml = ui.generateContentHtml(cueData, cluster.id, identifier, isMod);
+                            
+                            return `
+                                <div class="tucked-card" onclick="logic.promptEdit('${cluster.id}', '${slotName}', '${type}', event)" title="Clica per editar o eliminar">
+                                    <div class="tucked-content ${textColorClass}">
+                                        ${displayHtml}
+                                    </div>
+                                </div>
+                            `;
+                        };
+
+                        // Sempre Secundària a dalt i Modificador a baix
+                        slotHtml += slotData.secondary ? renderSingleCard(slotData.secondary, 'secondary') : `<div class="tucked-add-btn" onclick="logic.promptAction('${cluster.id}', '${slotName}', event)" title="Afegeix carta secundària">+</div>`;
+                        slotHtml += slotData.modifier ? renderSingleCard(slotData.modifier, 'modifier') : `<div class="tucked-add-btn" onclick="logic.promptAction('${cluster.id}', '${slotName}', event)" title="Afegeix carta modificadora">+</div>`;
+
+                        if (!slotData.modifier && !slotData.secondary) {
+                            slotHtml = `<div class="slot-container slot-${slotName}">
+                                            <div class="tucked-add-btn tucked-add-btn-large" onclick="logic.promptAction('${cluster.id}', '${slotName}', event)" title="Afegeix una carta solapada">+</div>
+                                        </div>`;
+                        } else {
+                            slotHtml += `</div>`;
+                        }
+
+                        return slotHtml;
+                    };
+
+                    html += renderSlot('top');
+                    html += renderSlot('right');
+                    html += renderSlot('bottom');
+                    html += renderSlot('left');
+
+                    html += `</div>`;
+                    wrapper.innerHTML = html;
+                    container.appendChild(wrapper);
+                });
+
+                requestAnimationFrame(() => ui.drawLines());
+            }
+        };
+
+        // Lògica de moviment del llenç per arrossegament
+        let isDraggingBoard = false;
+        const boardNode = document.getElementById('board');
+
+        if (boardNode) {
+            boardNode.addEventListener('mousedown', (e) => {
+                if (e.target.closest('.modal-overlay')) return;
+                
+                // Bloqueja el "pan" si hem clicat a elements interactius rellevants
+                if (e.target.closest('.primary-card') || 
+                    e.target.closest('.delete-cluster-btn') || 
+                    e.target.closest('.notes-cluster-btn') || 
+                    e.target.closest('.tucked-add-btn') || 
+                    e.target.closest('.tucked-card-empty') || 
+                    e.target.closest('.delete-line-btn-html')) {
+                    return;
+                }
+                
+                isPanning = true;
+                isDraggingBoard = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                initialCamX = camera.x;
+                initialCamY = camera.y;
+                boardNode.style.cursor = 'grabbing';
+                hasDragged = false;
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (isPanning) {
+                    const dx = e.clientX - startX;
+                    const dy = e.clientY - startY;
+                    camera.x = initialCamX + dx;
+                    camera.y = initialCamY + dy;
+                    ui.updateCanvasTransform();
+                    if (Math.abs(dx) > 5 || Math.abs(dy) > 5) hasDragged = true;
+                } else if (isDraggingCluster) {
+                    const dx = (e.clientX - startX) / camera.scale;
+                    const dy = (e.clientY - startY) / camera.scale;
+                    
+                    if (Math.abs(dx) > 2 || Math.abs(dy) > 2) hasDragged = true;
+
+                    const cluster = state.clusters[draggedClusterId];
+                    if(cluster) {
+                        cluster.x = initialClustX + dx;
+                        cluster.y = initialClustY + dy;
+                        
+                        const el = document.getElementById(draggedClusterId);
+                        if (el) {
+                            el.style.left = `${cluster.x}px`;
+                            el.style.top = `${cluster.y}px`;
+                        }
+                        ui.drawLines();
+                    }
+                }
+            });
+
+            window.addEventListener('mouseup', () => {
+                if (isPanning) {
+                    isPanning = false;
+                    boardNode.style.cursor = 'grab';
+                    setTimeout(() => { hasDragged = false; }, 50);
+                }
+                if (isDraggingCluster) {
+                    isDraggingCluster = false;
+                    setTimeout(() => { hasDragged = false; }, 50);
+                }
+            });
+
+            // Zoom natiu amb la rodeta del ratolí
+            boardNode.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const zoomSensitivity = 0.0015;
+                const delta = -e.deltaY * zoomSensitivity;
+                let newScale = camera.scale * Math.exp(delta);
+                newScale = Math.min(Math.max(newScale, 0.15), 3); 
+
+                const boardRect = boardNode.getBoundingClientRect();
+                const mouseX = e.clientX - boardRect.left;
+                const mouseY = e.clientY - boardRect.top;
+
+                camera.x = mouseX - (mouseX - camera.x) * (newScale / camera.scale);
+                camera.y = mouseY - (mouseY - camera.y) * (newScale / camera.scale);
+                camera.scale = newScale;
+
+                ui.updateCanvasTransform();
+                ui.drawLines(); 
+            }, { passive: false });
+        }
+
+        window.addEventListener('resize', () => requestAnimationFrame(() => ui.drawLines()));
+        window.onload = fetchDataAndParse;
     </script>
 </body>
 </html>
